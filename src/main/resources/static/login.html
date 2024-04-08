@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ProFlow 로그인</title>
+    <style>
+        html {
+            font-size: 16px;
+            letter-spacing: -1.5px;
+        }
+
+        *{
+            box-sizing:border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        #header{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 80vh;
+        }
+
+        #header #proFlow{
+            text-decoration: none;
+            margin-bottom: 5rem;
+        }
+
+        #header #proFlow{
+            font-size: 3rem;
+            color: black;
+        }
+
+        #header #login #userName{
+            font-size: 1.2rem;
+            color: black;
+            padding: 0.5rem;
+            margin-bottom: 0.5rem;
+            width: 20rem;
+        }
+
+        #header #login #password{
+            font-size: 1.2rem;
+            color: black;
+            padding: 0.5rem;
+            margin-bottom: 1.2rem;
+            width: 20rem;
+        }
+
+        #header #loginBtn{
+            font-size: 1.5rem;
+            color: white;
+            background: #2E75B6;
+            border: none;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            width: 20rem;
+            margin-bottom: 0.7rem;
+            cursor: pointer;
+        }
+
+        #header #signUp{
+            width: 20rem;
+            text-align: right;
+        }
+
+        #header #signUp a{
+            text-decoration: none;
+            color: #777777;
+        }
+
+    </style>
+</head>
+<body>
+    <div id = "header">
+        <a href="login.html" id="proFlow"><span style="color: #2E75B6;">P</span>ro<span style="color: #2E75B6;">F</span>low</a>
+        <div id = "login">
+            <input type="text" id="userName" name="userName" placeholder="User ID"><br>
+            <input type="password" id="password" name="password" placeholder="Password">
+        </div>
+        <a href="product.html"><button type="button" id="loginBtn">LOGIN</button></a>
+        <div id="signUp">
+            <a href="signUp.html">회원가입</a>
+        </div>
+    </div>
+</body>
+</html>

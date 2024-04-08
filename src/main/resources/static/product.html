@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ProFlow 제품</title>
+    <style>
+        html {
+            font-size: 16px;
+            letter-spacing: -1.5px;
+        }
+
+        *{
+            box-sizing:border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        #header{
+            padding: 2rem 0rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 80%;
+            margin: 0 auto;
+        }
+
+        #header #proFlow{
+            text-decoration: none;
+            font-size: 3rem;
+            color: black;
+        }
+
+        #header #menu{
+            margin-left: 5rem;
+        }
+
+        #header #menu a{
+            text-decoration: none;
+            color: #2E75B6;
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+
+        #header #menu:hover{
+
+        }
+
+        #header #user{
+            margin-left: auto;
+        }
+
+        #header #user span{
+            color: #707070;
+            margin-right: 1.2rem;
+        }
+
+        #header #user a{
+            text-decoration: none;
+            color: #707070;
+        }
+
+        #option{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 80%;
+            margin: 1rem auto;
+        }
+
+        #option select{
+            width: 7rem;
+            height: 2.5rem;
+            font-size: 1rem;
+            text-align: center;
+            border: #245f9f 1px solid;
+            border-radius: 0.3rem;
+        }
+
+        #option #search{
+            width: 20rem;
+            height: 2.5rem;
+            border: #245f9f 1px solid;
+            border-radius: 0.3rem;
+            padding: 1rem 1rem 1rem 3rem;
+            display: flex;
+            align-items: center;
+        }
+
+        #table{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #table table {
+            border-collapse: collapse; /* 테두리를 겹치지 않도록 설정 */
+            width: 80%;
+        }
+
+        #table th{
+            border: 1px solid #ddd;
+            padding: 8px; /* 셀 안의 여백 설정 */
+            text-align: center; /* 셀 안의 텍스트 정렬 설정 */
+        }
+
+        #table .name{
+            text-align: left;
+            padding-left: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        #table .name a{
+            text-decoration: none;
+            color: black;
+            font-weight: bold;
+        }
+
+        #table .name img{
+            width: 1.3rem;
+            cursor: pointer;
+        }
+
+        #table .code{
+            text-align: center;
+        }
+
+        #table .type{
+            text-align: center;
+        }
+
+        #table .unit{
+            text-align: center;
+        }
+
+        #table .weight{
+            text-align: right;
+        }
+
+        #table .remark{
+            text-align: left;
+        }
+
+        td {
+            border: 1px solid #ddd; /* 테두리 스타일 지정 */
+            padding: 8px; /* 셀 안의 여백 설정 */
+        }
+
+        /* 짝수 행 배경색 설정 */
+        tr:nth-child(even) {
+            background-color: #e7f0ff;
+        }
+    </style>
+    <script>
+
+    </script>
+</head>
+<body>
+<div id="header">
+    <a href="product.html" id="proFlow"><span style="color: #2E75B6;">P</span>ro<span style="color: #2E75B6;">F</span>low</a>
+    <div id="menu"><a href="#">기준정보 관리</a></div>
+    <div id="user">
+        <span>사용자: 양나은</span>
+        <a href="login.html">로그아웃</a>
+    </div>
+</div>
+<div id="option">
+    <select>
+        <option value="option1">제품명</option>
+        <option value="option1">제품코드</option>
+        <option value="option1">제품유형</option>
+    </select>
+    <div id="search">
+        제목을 검색하세요.
+    </div>
+</div>
+<div id="table">
+    <table>
+        <thead>
+        <tr>
+            <th style="width: 10rem;">제품명</th>
+            <th style="width: 13rem;">제품 코드</th>
+            <th style="width: 10rem;">제품 유형</th>
+            <th style="width: 10rem;">단위</th>
+            <th style="width: 10rem;">중량</th>
+            <th style="width: 20rem;">비고</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td class="name"><a href="#"><span>EF-120A</span></a><a href="#"><img src="image/update.png"/></a></td>
+            <td class="code">CT(P)-E000001</td>
+            <td class="type">A</td>
+            <td class="unit">CAN</td>
+            <td class="weight">20KG</td>
+            <td class="remark"></td>
+        </tr>
+        <tr>
+            <td class="name"><a href="#"><span>EF-120A</span></a><a href="#"><img src="image/update.png"/></a></td>
+            <td class="code">CT(P)-E000001</td>
+            <td class="type">A</td>
+            <td class="unit">CAN</td>
+            <td class="weight">20KG</td>
+            <td class="remark"></td>
+        </tr>
+        <tr>
+            <td class="name"><a href="#"><span>EF-120A</span></a><a href="#"><img src="image/update.png"/></a></td>
+            <td class="code">CT(P)-E000001</td>
+            <td class="type">A</td>
+            <td class="unit">CAN</td>
+            <td class="weight">20KG</td>
+            <td class="remark"></td>
+        </tr>
+        <tr>
+            <td class="name"><a href="#"><span>EF-120A</span></a><a href="#"><img src="image/update.png"/></a></td>
+            <td class="code">CT(P)-E000001</td>
+            <td class="type">A</td>
+            <td class="unit">CAN</td>
+            <td class="weight">20KG</td>
+            <td class="remark"></td>
+        </tr>
+        <tr>
+            <td class="name"><a href="#"><span>EF-120A</span></a><a href="#"><img src="image/update.png"/></a></td>
+            <td class="code">CT(P)-E000001</td>
+            <td class="type">A</td>
+            <td class="unit">CAN</td>
+            <td class="weight">20KG</td>
+            <td class="remark"></td>
+        </tr>
+        <tr>
+            <td class="name"><a href="#"><span>EF-120A</span></a><a href="#"><img src="image/update.png"/></a></td>
+            <td class="code">CT(P)-E000001</td>
+            <td class="type">A</td>
+            <td class="unit">CAN</td>
+            <td class="weight">20KG</td>
+            <td class="remark"></td>
+        </tr>
+        <tr>
+            <td class="name"><a href="#"><span>EF-120A</span></a><a href="#"><img src="image/update.png"/></a></td>
+            <td class="code">CT(P)-E000001</td>
+            <td class="type">A</td>
+            <td class="unit">CAN</td>
+            <td class="weight">20KG</td>
+            <td class="remark"></td>
+        </tr>
+        <tr>
+            <td class="name"><a href="#"><span>EF-120A</span></a><a href="#"><img src="image/update.png"/></a></td>
+            <td class="code">CT(P)-E000001</td>
+            <td class="type">A</td>
+            <td class="unit">CAN</td>
+            <td class="weight">20KG</td>
+            <td class="remark"></td>
+        </tr>
+        <tr>
+            <td class="name"><a href="#"><span>EF-120A</span></a><a href="#"><img src="image/update.png"/></a></td>
+            <td class="code">CT(P)-E000001</td>
+            <td class="type">A</td>
+            <td class="unit">CAN</td>
+            <td class="weight">20KG</td>
+            <td class="remark"></td>
+        </tr>
+        <tr>
+            <td class="name"><a href="#"><span>EF-120A</span></a><a href="#"><img src="image/update.png"/></a></td>
+            <td class="code">CT(P)-E000001</td>
+            <td class="type">A</td>
+            <td class="unit">CAN</td>
+            <td class="weight">20KG</td>
+            <td class="remark"></td>
+        </tr>
+        <tr>
+            <td class="name"><a href="#"><span>EF-120A</span></a><a href="#"><img src="image/update.png"/></a></td>
+            <td class="code">CT(P)-E000001</td>
+            <td class="type">A</td>
+            <td class="unit">CAN</td>
+            <td class="weight">20KG</td>
+            <td class="remark"></td>
+        </tr>
+        <tr>
+            <td class="name"><a href="#"><span>EF-120A</span></a><a href="#"><img src="image/update.png"/></a></td>
+            <td class="code">CT(P)-E000001</td>
+            <td class="type">A</td>
+            <td class="unit">CAN</td>
+            <td class="weight">20KG</td>
+            <td class="remark"></td>
+        </tr>
+        <tr>
+            <td class="name"><a href="#"><span>EF-120A</span></a><a href="#"><img src="image/update.png"/></a></td>
+            <td class="code">CT(P)-E000001</td>
+            <td class="type">A</td>
+            <td class="unit">CAN</td>
+            <td class="weight">20KG</td>
+            <td class="remark"></td>
+        </tr>
+        <tr>
+            <td class="name"><a href="#"><span>EF-120A</span></a><a href="#"><img src="image/update.png"/></a></td>
+            <td class="code">CT(P)-E000001</td>
+            <td class="type">A</td>
+            <td class="unit">CAN</td>
+            <td class="weight">20KG</td>
+            <td class="remark"></td>
+        </tr>
+        <tr>
+            <td class="name"><a href="#"><span>EF-120A</span></a><a href="#"><img src="image/update.png"/></a></td>
+            <td class="code">CT(P)-E000001</td>
+            <td class="type">A</td>
+            <td class="unit">CAN</td>
+            <td class="weight">20KG</td>
+            <td class="remark"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+
+</body>
+</html>
