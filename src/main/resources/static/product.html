@@ -3,10 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>ProFlow 제품</title>
+    <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
     <style>
         html {
-            font-size: 16px;
+            font-size: 15px;
             letter-spacing: -1.5px;
+            font-family: 'Spoqa Han Sans Neo', 'sans-serif';
         }
 
         *{
@@ -28,6 +30,7 @@
             text-decoration: none;
             font-size: 3rem;
             color: black;
+            font-family: "Segoe UI Black", 'sans-serif'
         }
 
         #header #menu{
@@ -37,12 +40,12 @@
         #header #menu a{
             text-decoration: none;
             color: #2E75B6;
-            font-weight: bold;
+            font-weight: 500;
             font-size: 1.5rem;
         }
 
-        #header #menu:hover{
-
+        #header #menu a:hover{
+            color: #707070;
         }
 
         #header #user{
@@ -63,44 +66,105 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            width: 80%;
+            width: 20%;
             margin: 1rem auto;
         }
 
         #option select{
-            width: 7rem;
+            width: 5.2rem;
             height: 2.5rem;
-            font-size: 1rem;
+            font-size: 0.9rem;
             text-align: center;
-            border: #245f9f 1px solid;
+            border: #a6a6a6 1px solid;
             border-radius: 0.3rem;
         }
 
         #option #search{
             width: 20rem;
             height: 2.5rem;
-            border: #245f9f 1px solid;
+            border: #a6a6a6 1px solid;
             border-radius: 0.3rem;
-            padding: 1rem 1rem 1rem 3rem;
             display: flex;
             align-items: center;
+            justify-content: space-between;
+            color: #a6a6a6;
+        }
+
+        #option #search #magnifier{
+            margin: 0rem 0.5rem;
+        }
+
+        #option #search input{
+            width: 15rem;
+            height: 2.4rem;
+            border: none;
+            outline: none;
+            font-size: 0.9rem;
+        }
+
+        #option #search #xbtn{
+            margin: 0rem 0.5rem;
+            width: 1.4rem;
+            cursor: pointer;
+        }
+
+        #cnt{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 80%;
+            margin: 0 auto;
+            font-size: 1rem;
+            letter-spacing: 0px;
+            padding: 0.3rem 0rem 0.5rem 0.7rem;
+        }
+
+        #cnt label{
+            margin-bottom: -1.2rem;
+        }
+
+        #cnt #insert_product{
+            width: 6.5rem;
+            height: 2.4rem;
+            background: #428BCA;
+            color: white;
+            border: none;
+            border-radius: 0.3rem;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
         }
 
         #table{
             display: flex;
             justify-content: center;
             align-items: center;
+            width: 80%;
+            margin: 0 auto;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
         }
 
         #table table {
             border-collapse: collapse; /* 테두리를 겹치지 않도록 설정 */
-            width: 80%;
+            width: 100%;
+        }
+
+        #table tbody{
+            letter-spacing: 0px;
+            font-family: "Calibri", 'sans-serif';
+            font-size: 1.2rem;
         }
 
         #table th{
             border: 1px solid #ddd;
-            padding: 8px; /* 셀 안의 여백 설정 */
+            padding: 1rem 0.5rem; /* 셀 안의 여백 설정 */
             text-align: center; /* 셀 안의 텍스트 정렬 설정 */
+            background: #428BCA;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: normal;
         }
 
         #table .name{
@@ -114,7 +178,7 @@
         #table .name a{
             text-decoration: none;
             color: black;
-            font-weight: bold;
+            font-weight: 550;
         }
 
         #table .name img{
@@ -143,14 +207,23 @@
         }
 
         td {
-            border: 1px solid #ddd; /* 테두리 스타일 지정 */
+            border: 1px solid #ffffff; /* 테두리 스타일 지정 */
             padding: 8px; /* 셀 안의 여백 설정 */
+        }
+
+        tr{
+            background: #F5F9FC;
         }
 
         /* 짝수 행 배경색 설정 */
         tr:nth-child(even) {
-            background-color: #e7f0ff;
+            background-color: #EBF3F9;
         }
+
+        tr:hover {
+            background-color: #D8E7F3;
+        }
+
     </style>
     <script>
 
@@ -161,18 +234,26 @@
     <a href="product.html" id="proFlow"><span style="color: #2E75B6;">P</span>ro<span style="color: #2E75B6;">F</span>low</a>
     <div id="menu"><a href="#">기준정보 관리</a></div>
     <div id="user">
-        <span>사용자: 양나은</span>
+        <span>USER :  양나은</span>
         <a href="login.html">로그아웃</a>
     </div>
 </div>
 <div id="option">
     <select>
-        <option value="option1">제품명</option>
-        <option value="option1">제품코드</option>
-        <option value="option1">제품유형</option>
+        <option value="name">제품명</option>
+        <option value="code">제품코드</option>
+        <option value="type">제품유형</option>
     </select>
     <div id="search">
-        제목을 검색하세요.
+        <img src="image/magnifier2.png" id="magnifier"/>
+        <input type="text" name="search" placeholder="제품을 검색하세요.">
+        <img src="image/xBtn.png" id="xbtn"/>
+    </div>
+</div>
+<div id="cnt">
+    <label>제품 현황 00건</label>
+    <div id="insert">
+        <a href="#"><button type="button" id="insert_product">제품 등록</button></a>
     </div>
 </div>
 <div id="table">
@@ -197,7 +278,7 @@
             <td class="remark"></td>
         </tr>
         <tr>
-            <td class="name"><a href="#"><span>EF-120A</span></a><a href="#"><img src="image/update.png"/></a></td>
+            <td class="name"><a href="#"><span>EF-120A</span></a></td>
             <td class="code">CT(P)-E000001</td>
             <td class="type">A</td>
             <td class="unit">CAN</td>
@@ -205,7 +286,7 @@
             <td class="remark"></td>
         </tr>
         <tr>
-            <td class="name"><a href="#"><span>EF-120A</span></a><a href="#"><img src="image/update.png"/></a></td>
+            <td class="name"><a href="#"><span>EF-120A</span></a></td>
             <td class="code">CT(P)-E000001</td>
             <td class="type">A</td>
             <td class="unit">CAN</td>
@@ -213,7 +294,7 @@
             <td class="remark"></td>
         </tr>
         <tr>
-            <td class="name"><a href="#"><span>EF-120A</span></a><a href="#"><img src="image/update.png"/></a></td>
+            <td class="name"><a href="#"><span>EF-120A</span></a></td>
             <td class="code">CT(P)-E000001</td>
             <td class="type">A</td>
             <td class="unit">CAN</td>
@@ -221,7 +302,7 @@
             <td class="remark"></td>
         </tr>
         <tr>
-            <td class="name"><a href="#"><span>EF-120A</span></a><a href="#"><img src="image/update.png"/></a></td>
+            <td class="name"><a href="#"><span>EF-120A</span></a></td>
             <td class="code">CT(P)-E000001</td>
             <td class="type">A</td>
             <td class="unit">CAN</td>
@@ -229,7 +310,7 @@
             <td class="remark"></td>
         </tr>
         <tr>
-            <td class="name"><a href="#"><span>EF-120A</span></a><a href="#"><img src="image/update.png"/></a></td>
+            <td class="name"><a href="#"><span>EF-120A</span></a></td>
             <td class="code">CT(P)-E000001</td>
             <td class="type">A</td>
             <td class="unit">CAN</td>
@@ -237,7 +318,7 @@
             <td class="remark"></td>
         </tr>
         <tr>
-            <td class="name"><a href="#"><span>EF-120A</span></a><a href="#"><img src="image/update.png"/></a></td>
+            <td class="name"><a href="#"><span>EF-120A</span></a></td>
             <td class="code">CT(P)-E000001</td>
             <td class="type">A</td>
             <td class="unit">CAN</td>
@@ -245,7 +326,7 @@
             <td class="remark"></td>
         </tr>
         <tr>
-            <td class="name"><a href="#"><span>EF-120A</span></a><a href="#"><img src="image/update.png"/></a></td>
+            <td class="name"><a href="#"><span>EF-120A</span></a></td>
             <td class="code">CT(P)-E000001</td>
             <td class="type">A</td>
             <td class="unit">CAN</td>
@@ -253,7 +334,7 @@
             <td class="remark"></td>
         </tr>
         <tr>
-            <td class="name"><a href="#"><span>EF-120A</span></a><a href="#"><img src="image/update.png"/></a></td>
+            <td class="name"><a href="#"><span>EF-120A</span></a></td>
             <td class="code">CT(P)-E000001</td>
             <td class="type">A</td>
             <td class="unit">CAN</td>
@@ -261,7 +342,7 @@
             <td class="remark"></td>
         </tr>
         <tr>
-            <td class="name"><a href="#"><span>EF-120A</span></a><a href="#"><img src="image/update.png"/></a></td>
+            <td class="name"><a href="#"><span>EF-120A</span></a></td>
             <td class="code">CT(P)-E000001</td>
             <td class="type">A</td>
             <td class="unit">CAN</td>
@@ -269,7 +350,7 @@
             <td class="remark"></td>
         </tr>
         <tr>
-            <td class="name"><a href="#"><span>EF-120A</span></a><a href="#"><img src="image/update.png"/></a></td>
+            <td class="name"><a href="#"><span>EF-120A</span></a></td>
             <td class="code">CT(P)-E000001</td>
             <td class="type">A</td>
             <td class="unit">CAN</td>
@@ -277,7 +358,7 @@
             <td class="remark"></td>
         </tr>
         <tr>
-            <td class="name"><a href="#"><span>EF-120A</span></a><a href="#"><img src="image/update.png"/></a></td>
+            <td class="name"><a href="#"><span>EF-120A</span></a></td>
             <td class="code">CT(P)-E000001</td>
             <td class="type">A</td>
             <td class="unit">CAN</td>
@@ -285,7 +366,7 @@
             <td class="remark"></td>
         </tr>
         <tr>
-            <td class="name"><a href="#"><span>EF-120A</span></a><a href="#"><img src="image/update.png"/></a></td>
+            <td class="name"><a href="#"><span>EF-120A</span></a></td>
             <td class="code">CT(P)-E000001</td>
             <td class="type">A</td>
             <td class="unit">CAN</td>
@@ -293,7 +374,7 @@
             <td class="remark"></td>
         </tr>
         <tr>
-            <td class="name"><a href="#"><span>EF-120A</span></a><a href="#"><img src="image/update.png"/></a></td>
+            <td class="name"><a href="#"><span>EF-120A</span></a></td>
             <td class="code">CT(P)-E000001</td>
             <td class="type">A</td>
             <td class="unit">CAN</td>
@@ -301,7 +382,7 @@
             <td class="remark"></td>
         </tr>
         <tr>
-            <td class="name"><a href="#"><span>EF-120A</span></a><a href="#"><img src="image/update.png"/></a></td>
+            <td class="name"><a href="#"><span>EF-120A</span></a></td>
             <td class="code">CT(P)-E000001</td>
             <td class="type">A</td>
             <td class="unit">CAN</td>

@@ -3,10 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>ProFlow 회원가입</title>
+    <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
     <style>
         html {
             font-size: 16px;
-            letter-spacing: -1.5px;
+            letter-spacing: -1px;
+            font-family: 'Spoqa Han Sans Neo', 'sans-serif'
         }
 
         *{
@@ -26,6 +28,8 @@
             text-decoration: none;
             font-size: 3rem;
             color: black;
+            font-family: "Segoe UI Black";
+            letter-spacing: -1.5px;
         }
 
         #signUp{
@@ -123,7 +127,7 @@
     <div id="container">
         <div style="font-weight: bold; font-size: 2rem; margin-bottom: 3rem;">Sign up</div>
         <div id="id">
-            <label style="margin-right: 1.3rem; padding-left: 6.7rem;">User ID</label>
+            <label style="margin-right: 1.8rem; padding-left: 6.7rem;">User ID</label>
             <input type="text" id="userName" name="userName" placeholder="아이디를 입력하세요"/>
             <button type="button" onclick="showAlert()">중복확인</button>
         </div>
@@ -142,17 +146,17 @@
         <div id="checkPwd_msg">비밀번호가 일치하지 않습니다.</div>
 
         <div id="nam" style="margin-bottom: 3rem;">
-            <label style="margin-right: 1.8rem;">&nbsp;&nbsp;Name</label>
+            <label style="margin-right: 2.5rem;">&nbsp;&nbsp;Name</label>
             <input type="text" id="name" name="name" placeholder="이름을 입력하세요"/>
         </div>
 
         <div id="num" style="margin-bottom: 3rem;">
-            <label style="margin-right: 1.7rem;">&nbsp;&nbsp;Phone</label>
+            <label style="margin-right: 2.3rem;">&nbsp;&nbsp;Phone</label>
             <input type="text" id="tel" name="tel" placeholder="전화번호를 입력하세요"/>
         </div>
 
         <div id="mail" style="margin-bottom: 3rem;">
-            <label style="margin-right: 1.9rem;">&nbsp;&nbsp;E-mail</label>
+            <label style="margin-right: 2.3rem;">&nbsp;&nbsp;E-mail</label>
             <input type="text" id="email" name="mail" placeholder="이메일을 입력하세요"/>
         </div>
         <a href="#"><button type="submit" id="join" style="width: 6rem; height: 2.5rem; font-size: 1.1rem;">가입하기</button></a>
