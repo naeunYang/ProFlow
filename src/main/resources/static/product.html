@@ -9,6 +9,7 @@
             font-size: 15px;
             letter-spacing: -1.5px;
             font-family: 'Spoqa Han Sans Neo', 'sans-serif';
+            margin-bottom: 3rem;
         }
 
         *{
@@ -57,31 +58,45 @@
             margin-right: 1.2rem;
         }
 
-        #header #user a{
+        #header #user a {
             text-decoration: none;
             color: #707070;
         }
 
-        #option{
+        #cnt{
             display: flex;
             justify-content: space-between;
             align-items: center;
-            width: 20%;
-            margin: 1rem auto;
+            width: 80%;
+            margin: 0rem auto 0rem auto;
+            font-size: 1rem;
+            letter-spacing: 0px;
+            padding: 0.3rem 0rem 0.5rem 0rem;
         }
 
-        #option select{
-            width: 5.2rem;
+        #cnt label{
+            margin-bottom: -1.7rem;
+        }
+
+        #cnt #option{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: -2.5rem;
+        }
+
+        #cnt #option select{
+            width: 5.5rem;
             height: 2.5rem;
             font-size: 0.9rem;
             text-align: center;
             border: #a6a6a6 1px solid;
             border-radius: 0.3rem;
+            margin-right: 0.8em;
         }
 
-        #option #search{
+        #cnt #option #search{
             width: 20rem;
-            height: 2.5rem;
             border: #a6a6a6 1px solid;
             border-radius: 0.3rem;
             display: flex;
@@ -90,37 +105,22 @@
             color: #a6a6a6;
         }
 
-        #option #search #magnifier{
+        #cnt #option #search #magnifier{
             margin: 0rem 0.5rem;
         }
 
-        #option #search input{
+        #cnt #option #search input{
             width: 15rem;
-            height: 2.4rem;
-            border: none;
+            height: 2.5rem;
+            border: transparent;
             outline: none;
             font-size: 0.9rem;
         }
 
-        #option #search #xbtn{
+        #cnt #option #search #xbtn{
             margin: 0rem 0.5rem;
             width: 1.4rem;
             cursor: pointer;
-        }
-
-        #cnt{
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: 80%;
-            margin: 0 auto;
-            font-size: 1rem;
-            letter-spacing: 0px;
-            padding: 0.3rem 0rem 0.5rem 0.7rem;
-        }
-
-        #cnt label{
-            margin-bottom: -1.2rem;
         }
 
         #cnt #insert_product{
@@ -135,15 +135,48 @@
             font-weight: 600;
         }
 
-        #table{
+        #label{
             display: flex;
-            justify-content: center;
+            justify-content: flex-end;
             align-items: center;
+            width: 80%;
+            margin: 0rem auto;
+            font-size: 1rem;
+            letter-spacing: 0px;
+        }
+
+        #table_header{
+            display: flex;
+            justify-content: space-between;
             width: 80%;
             margin: 0 auto;
             border-radius: 0.5rem;
             overflow: hidden;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            border-collapse: collapse;
+        }
+
+        #table_header th{
+            padding: 0.7rem 0.5rem; /* 셀 안의 여백 설정 */
+            text-align: center; /* 셀 안의 텍스트 정렬 설정 */
+            background: #428BCA;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: normal;
+            position: sticky;
+            top: 0;
+        }
+
+        #table{
+            display: flex;
+            justify-content: center;
+            width: 80%;
+            height: 50rem;
+            margin: 0 auto;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            overflow-y: auto;
         }
 
         #table table {
@@ -157,14 +190,22 @@
             font-size: 1.2rem;
         }
 
-        #table th{
-            border: 1px solid #ddd;
-            padding: 1rem 0.5rem; /* 셀 안의 여백 설정 */
-            text-align: center; /* 셀 안의 텍스트 정렬 설정 */
-            background: #428BCA;
-            color: white;
-            font-size: 1.1rem;
-            font-weight: normal;
+        #table td {
+            border: 1px solid #ffffff; /* 테두리 스타일 지정 */
+            padding: 0.3rem 0.5rem;
+        }
+
+        #table tr{
+            background: #F5F9FC;
+        }
+
+        /* 짝수 행 배경색 설정 */
+        #table tr:nth-child(even) {
+            background-color: #EBF3F9;
+        }
+
+        #table tr:hover {
+            background-color: #D8E7F3;
         }
 
         #table .name{
@@ -173,6 +214,8 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            white-space: nowrap;
+            overflow: hidden;
         }
 
         #table .name a{
@@ -188,40 +231,47 @@
 
         #table .code{
             text-align: center;
+            width: 16rem;
         }
 
         #table .type{
             text-align: center;
+            width: 15rem;
         }
 
         #table .unit{
             text-align: center;
+            width: 15rem;
         }
 
         #table .weight{
             text-align: right;
+            width: 13rem;
         }
 
         #table .remark{
             text-align: left;
+            width: 30rem;
         }
 
-        td {
-            border: 1px solid #ffffff; /* 테두리 스타일 지정 */
-            padding: 8px; /* 셀 안의 여백 설정 */
+        ::-webkit-scrollbar {
+            width: 0.5rem;
         }
 
-        tr{
-            background: #F5F9FC;
+        /* 스크롤바의 track(트랙)에 스타일을 적용합니다. */
+        ::-webkit-scrollbar-track {
+            background-color: #f1f1f1; /* 트랙의 배경색을 지정합니다. */
         }
 
-        /* 짝수 행 배경색 설정 */
-        tr:nth-child(even) {
-            background-color: #EBF3F9;
+        /* 스크롤바의 thumb(썸)에 스타일을 적용합니다. */
+        ::-webkit-scrollbar-thumb {
+            background-color: #888; /* 썸의 배경색을 지정합니다. */
+            border-radius: 0.5rem;
         }
 
-        tr:hover {
-            background-color: #D8E7F3;
+        /* 스크롤바의 thumb(썸)에 마우스 오버시 스타일을 적용합니다. */
+        ::-webkit-scrollbar-thumb:hover {
+            background-color: #555; /* 마우스 오버시 썸의 배경색을 지정합니다. */
         }
 
     </style>
@@ -238,39 +288,139 @@
         <a href="login.html">로그아웃</a>
     </div>
 </div>
-<div id="option">
-    <select>
-        <option value="name">제품명</option>
-        <option value="code">제품코드</option>
-        <option value="type">제품유형</option>
-    </select>
-    <div id="search">
-        <img src="image/magnifier2.png" id="magnifier"/>
-        <input type="text" name="search" placeholder="제품을 검색하세요.">
-        <img src="image/xBtn.png" id="xbtn"/>
-    </div>
-</div>
 <div id="cnt">
-    <label>제품 현황 00건</label>
+    <div id="option">
+        <select>
+            <option value="name">제품명</option>
+            <option value="code">제품코드</option>
+            <option value="type">제품유형</option>
+        </select>
+        <div id="search">
+            <img src="image/magnifier2.png" id="magnifier"/>
+            <input type="text" name="search" placeholder="제품을 검색하세요.">
+            <img src="image/xBtn.png" id="xbtn"/>
+        </div>
+    </div>
     <div id="insert">
         <a href="#"><button type="button" id="insert_product">제품 등록</button></a>
     </div>
 </div>
+<div id="label">
+    <label>제품 현황 00건</label>
+</div>
+<div id="table_header">
+    <table>
+        <tr>
+            <th style="width: 12.3rem; border-top-left-radius: 0.5rem">제품명</th>
+            <th style="width: 15.9rem;">제품 코드</th>
+            <th style="width: 14.9rem;">제품 유형</th>
+            <th style="width: 14.9rem;">단위</th>
+            <th style="width: 12.8rem;">중량</th>
+            <th style="width: 30rem; border-top-right-radius: 0.5rem">비고</th>
+        </tr>
+    </table>
+</div>
 <div id="table">
     <table>
-        <thead>
-        <tr>
-            <th style="width: 10rem;">제품명</th>
-            <th style="width: 13rem;">제품 코드</th>
-            <th style="width: 10rem;">제품 유형</th>
-            <th style="width: 10rem;">단위</th>
-            <th style="width: 10rem;">중량</th>
-            <th style="width: 20rem;">비고</th>
-        </tr>
-        </thead>
         <tbody>
         <tr>
             <td class="name"><a href="#"><span>EF-120A</span></a><a href="#"><img src="image/update.png"/></a></td>
+            <td class="code">CT(P)-E000001</td>
+            <td class="type">A</td>
+            <td class="unit">CAN</td>
+            <td class="weight">20KG</td>
+            <td class="remark"></td>
+        </tr>
+        <tr>
+            <td class="name"><a href="#"><span>EF-120A</span></a></td>
+            <td class="code">CT(P)-E000001</td>
+            <td class="type">A</td>
+            <td class="unit">CAN</td>
+            <td class="weight">20KG</td>
+            <td class="remark"></td>
+        </tr>
+        <tr>
+            <td class="name"><a href="#"><span>EF-120A</span></a></td>
+            <td class="code">CT(P)-E000001</td>
+            <td class="type">A</td>
+            <td class="unit">CAN</td>
+            <td class="weight">20KG</td>
+            <td class="remark"></td>
+        </tr>
+        <tr>
+            <td class="name"><a href="#"><span>EF-120A</span></a></td>
+            <td class="code">CT(P)-E000001</td>
+            <td class="type">A</td>
+            <td class="unit">CAN</td>
+            <td class="weight">20KG</td>
+            <td class="remark"></td>
+        </tr>
+        <tr>
+            <td class="name"><a href="#"><span>EF-120A</span></a></td>
+            <td class="code">CT(P)-E000001</td>
+            <td class="type">A</td>
+            <td class="unit">CAN</td>
+            <td class="weight">20KG</td>
+            <td class="remark"></td>
+        </tr>
+        <tr>
+            <td class="name"><a href="#"><span>EF-120A</span></a></td>
+            <td class="code">CT(P)-E000001</td>
+            <td class="type">A</td>
+            <td class="unit">CAN</td>
+            <td class="weight">20KG</td>
+            <td class="remark"></td>
+        </tr>
+        <tr>
+            <td class="name"><a href="#"><span>EF-120A</span></a></td>
+            <td class="code">CT(P)-E000001</td>
+            <td class="type">A</td>
+            <td class="unit">CAN</td>
+            <td class="weight">20KG</td>
+            <td class="remark"></td>
+        </tr>
+        <tr>
+            <td class="name"><a href="#"><span>EF-120A</span></a></td>
+            <td class="code">CT(P)-E000001</td>
+            <td class="type">A</td>
+            <td class="unit">CAN</td>
+            <td class="weight">20KG</td>
+            <td class="remark"></td>
+        </tr>
+        <tr>
+            <td class="name"><a href="#"><span>EF-120A</span></a></td>
+            <td class="code">CT(P)-E000001</td>
+            <td class="type">A</td>
+            <td class="unit">CAN</td>
+            <td class="weight">20KG</td>
+            <td class="remark"></td>
+        </tr>
+        <tr>
+            <td class="name"><a href="#"><span>EF-120A</span></a></td>
+            <td class="code">CT(P)-E000001</td>
+            <td class="type">A</td>
+            <td class="unit">CAN</td>
+            <td class="weight">20KG</td>
+            <td class="remark"></td>
+        </tr>
+        <tr>
+            <td class="name"><a href="#"><span>EF-120A</span></a></td>
+            <td class="code">CT(P)-E000001</td>
+            <td class="type">A</td>
+            <td class="unit">CAN</td>
+            <td class="weight">20KG</td>
+            <td class="remark"></td>
+        </tr>
+        <tr>
+            <td class="name"><a href="#"><span>EF-120A</span></a></td>
+            <td class="code">CT(P)-E000001</td>
+            <td class="type">A</td>
+            <td class="unit">CAN</td>
+            <td class="weight">20KG</td>
+            <td class="remark"></td>
+        </tr>
+        <tr>
+            <td class="name"><a href="#"><span>EF-120A</span></a></td>
             <td class="code">CT(P)-E000001</td>
             <td class="type">A</td>
             <td class="unit">CAN</td>
