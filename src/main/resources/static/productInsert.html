@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ProFlow 제품등록</title>
+    <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+    <style>
+        html {
+            font-size: 15px;
+            letter-spacing: -1.5px;
+            font-family: 'Spoqa Han Sans Neo', 'sans-serif';
+            margin-bottom: 3rem;
+        }
+
+        *{
+            box-sizing:border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        #header{
+            padding: 2rem 0rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 80%;
+            margin: 0 auto;
+        }
+
+        #header #proFlow{
+            text-decoration: none;
+            font-size: 3rem;
+            color: black;
+            font-family: "Segoe UI Black", 'sans-serif'
+        }
+
+        #header #menu{
+            margin-left: 5rem;
+            position: relative;
+        }
+
+        #submenu {
+            display: none;
+            position: absolute;
+            background-color: transparent;
+            z-index: 1;
+            width: 32rem;
+        }
+
+        #submenu a {
+            padding: 0.5rem 1rem;
+            text-decoration: none;
+            display: block;
+            width: 10rem;
+            font-size: 1rem;
+            color: #1f4b76;
+        }
+
+        #submenu a:hover{
+            color: #707070;
+        }
+
+        #header #menu:hover #submenu {
+            display: flex; /* flex를 사용하여 가로로 나열 */
+            flex-direction: row; /* 항목들이 가로로 나열되도록 설정 */
+        }
+
+        #header #menu #main_menu{
+            text-decoration: none;
+            color: #2E75B6;
+            font-weight: 500;
+            font-size: 1.5rem;
+        }
+
+        #header #user{
+            margin-left: auto;
+            width: 10.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        #header #user div{
+            color: #707070;
+            width: 7rem;
+            height: 1.5rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        #header #user a {
+            text-decoration: none;
+            color: #707070;
+        }
+
+        #cnt{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 80%;
+            margin: 2.15rem auto 0rem auto;
+            font-size: 1rem;
+            letter-spacing: 0px;
+            padding: 0.3rem 0rem 0.5rem 0rem;
+        }
+
+        #cnt #option{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        #cnt #option select{
+            width: 5.5rem;
+            height: 2.5rem;
+            font-size: 0.9rem;
+            text-align: center;
+            border: #a6a6a6 1px solid;
+            border-radius: 0.3rem;
+            margin-right: 0.8em;
+        }
+
+        #cnt #option #search{
+            width: 20rem;
+            border: #a6a6a6 1px solid;
+            border-radius: 0.3rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: #a6a6a6;
+        }
+
+        #cnt #option #search #magnifier{
+            margin: 0rem 0.5rem;
+        }
+
+        #cnt #option #search input{
+            width: 15rem;
+            height: 2.5rem;
+            border: transparent;
+            outline: none;
+            font-size: 0.9rem;
+        }
+
+        #cnt #option #search #xbtn{
+            margin: 0rem 0.5rem;
+            width: 1.4rem;
+            cursor: pointer;
+        }
+
+        #cnt #insert_product{
+            width: 6.5rem;
+            height: 2.4rem;
+            background: #428BCA;
+            color: white;
+            border: none;
+            border-radius: 0.3rem;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        ::-webkit-scrollbar {
+            width: 0.5rem;
+        }
+
+        /* 스크롤바의 track(트랙)에 스타일을 적용합니다. */
+        ::-webkit-scrollbar-track {
+            background-color: #f1f1f1; /* 트랙의 배경색을 지정합니다. */
+        }
+
+        /* 스크롤바의 thumb(썸)에 스타일을 적용합니다. */
+        ::-webkit-scrollbar-thumb {
+            background-color: #888; /* 썸의 배경색을 지정합니다. */
+            border-radius: 0.5rem;
+        }
+
+        /* 스크롤바의 thumb(썸)에 마우스 오버시 스타일을 적용합니다. */
+        ::-webkit-scrollbar-thumb:hover {
+            background-color: #555; /* 마우스 오버시 썸의 배경색을 지정합니다. */
+        }
+
+        #input{
+            width: 80%;
+            height: 50rem;
+            margin: 0.5rem auto;
+            border-radius: 0.5rem;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            border: 1px #2E75B6 solid;
+        }
+
+        #input #title{
+            width: 100%;
+            height: 3rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            position: relative;
+        }
+
+        #input #title span{
+            color: #000000;
+            font-weight: 500;
+            font-size: 1.5rem;
+        }
+
+        #input #info{
+            width: 100%;
+            height: 45rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        #input #title img {
+            position: absolute;
+            right: 0;
+            top: 0.3rem;
+            width: 3rem;
+            cursor: pointer;
+        }
+
+        #input #info #add_info{
+            border: 2px solid black;
+            width: 50%;
+            height: 45rem;
+        }
+
+        #input #info #add_table{
+            border: 2px solid black;
+            width: 50%;
+            height: 45rem;
+        }
+
+
+    </style>
+    <script>
+
+    </script>
+</head>
+<body>
+<div id="header">
+    <a href="product.html" id="proFlow"><span style="color: #2E75B6;">P</span>ro<span style="color: #2E75B6;">F</span>low</a>
+    <div id="menu">
+        <a href="#" id="main_menu">기준정보 관리</a>
+        <div id="submenu">
+            <a href="#">제품 관리</a>
+            <a href="#">거래처 관리</a>
+            <a href="#">자재 관리</a>
+            <a href="#">BOM 관리</a>
+            <a href="#">단위 관리</a>
+        </div>
+    </div>
+    <div id="user">
+        <div>USER :  양나은</div>
+        <a href="login.html">로그아웃</a>
+    </div>
+</div>
+<div id="cnt">
+    <div id="option">
+        <select>
+            <option value="name">제품명</option>
+            <option value="code">제품코드</option>
+            <option value="type">제품유형</option>
+        </select>
+        <div id="search">
+            <img src="image/magnifier2.png" id="magnifier"/>
+            <input type="text" name="search" placeholder="제품을 검색하세요.">
+            <img src="image/xBtn.png" id="xbtn"/>
+        </div>
+    </div>
+    <div id="insert">
+        <a href="#"><button type="button" id="insert_product">제품 등록</button></a>
+    </div>
+</div>
+<div id="input">
+    <div id="title">
+        <span>제품 정보 입력</span>
+        <img src="image/xBtn.png"/>
+    </div>
+    <div id="info">
+        <div id="add_info">
+
+        </div>
+        <div id="add_table">
+
+        </div>
+    </div>
+</div>
+</body>
+</html>
