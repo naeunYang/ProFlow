@@ -132,7 +132,7 @@
         }
 
         #cnt #option #search #magnifier{
-            margin: 0rem 0.5rem;
+            margin: 0rem 0.5rem 0.1rem 0.5rem;
         }
 
         #cnt #option #search input{
@@ -203,15 +203,7 @@
         #input #title span{
             color: #000000;
             font-weight: 500;
-            font-size: 1.5rem;
-        }
-
-        #input #info{
-            width: 100%;
-            height: 45rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            font-size: 1.3rem;
         }
 
         #input #title img {
@@ -222,10 +214,145 @@
             cursor: pointer;
         }
 
+        #input #info{
+            width: 100%;
+            height: 45rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.3rem;
+        }
+
         #input #info #add_info{
-            border: 2px solid black;
             width: 50%;
             height: 45rem;
+            padding-left: 5rem;
+        }
+
+        #input #info #add_info #name{
+            width: 40rem;
+            height: 5rem;
+            margin: 0.5rem 0.5rem 1rem 0.5rem;
+        }
+
+        #input #info #add_info #name #label_name{
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        #input #info #add_info #name #input_name{
+            outline: none;
+            width: 25rem;
+            height: 2rem;
+            font-size: 1.1rem;
+        }
+
+        #input #info #add_info #type{
+            width: 30rem;
+            height: 5rem;
+            margin: 0.5rem 0.5rem 1rem 0.5rem;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+        }
+
+        #input #info #add_info #type #item_type{
+            width: 50%;
+            height: 5rem;
+        }
+
+        #input #info #add_info #type #item_type select{
+            width: 7rem;
+            height: 2rem;
+            font-size: 1rem;
+            text-align: center;
+            border: #a6a6a6 1px solid;
+            border-radius: 0.3rem;
+            margin-right: 0.8em;
+            display: block;
+            margin-top: 0.5rem;
+        }
+
+        #input #info #add_info #type #item_unit{
+            width: 50%;
+            height: 5rem;
+        }
+
+        #input #info #add_info #type #item_unit select{
+            width: 7rem;
+            height: 2rem;
+            font-size: 1rem;
+            text-align: center;
+            border: #a6a6a6 1px solid;
+            border-radius: 0.3rem;
+            margin-right: 0.8em;
+            display: block;
+            margin-top: 0.5rem;
+        }
+
+        #input #info #add_info #weight{
+            width: 40rem;
+            height: 5rem;
+            margin: 0.5rem 0.5rem 1rem 0.5rem;
+            display: block;
+        }
+
+        #input #info #add_info #weight #input_weight{
+            outline: none;
+            width: 15rem;
+            height: 2rem;
+            font-size: 1.1rem;
+        }
+
+        #input #info #add_info #weight select{
+            width: 7rem;
+            height: 2rem;
+            font-size: 1rem;
+            text-align: center;
+            border: #a6a6a6 1px solid;
+            border-radius: 0.3rem;
+            margin-right: 0.8em;
+            margin-top: 0.5rem;
+        }
+
+        #input #info #add_info #remark{
+            width: 40rem;
+            height: 13rem;
+            margin: 0.5rem 0.5rem 1rem 0.5rem;
+            display: block;
+        }
+
+        #input #info #add_info #remark label{
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        #input #info #add_info #remark #remark_content{
+            resize: none;
+            width: 100%;
+            height: 10rem;
+            outline: none;
+            font-size: 1.1rem;
+            font-family: 'Spoqa Han Sans Neo', 'sans-serif';
+        }
+
+        #input #info #add_info #addBtn{
+            width: 40rem;
+            height: auto;
+            margin: 0.5rem 0.5rem 1rem 0.5rem;
+            text-align: center;
+        }
+
+        #input #info #add_info #addBtn #add_btn{
+            width: 6.5rem;
+            height: 2.4rem;
+            background: #428BCA;
+            color: white;
+            border: none;
+            border-radius: 0.3rem;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
         }
 
         #input #info #add_table{
@@ -244,9 +371,9 @@
 <div id="header">
     <a href="product.html" id="proFlow"><span style="color: #2E75B6;">P</span>ro<span style="color: #2E75B6;">F</span>low</a>
     <div id="menu">
-        <a href="#" id="main_menu">기준정보 관리</a>
+        <a href="product.html" id="main_menu">기준정보 관리</a>
         <div id="submenu">
-            <a href="#">제품 관리</a>
+            <a href="product.html">제품 관리</a>
             <a href="#">거래처 관리</a>
             <a href="#">자재 관리</a>
             <a href="#">BOM 관리</a>
@@ -272,17 +399,56 @@
         </div>
     </div>
     <div id="insert">
-        <a href="#"><button type="button" id="insert_product">제품 등록</button></a>
+        <a href="productInsert.html"><button type="button" id="insert_product">제품 등록</button></a>
     </div>
 </div>
 <div id="input">
     <div id="title">
         <span>제품 정보 입력</span>
-        <img src="image/xBtn.png"/>
+        <a href="product.html"><img src="image/xBtn.png"/></a>
     </div>
     <div id="info">
         <div id="add_info">
-
+            <div id="name">
+                <label id="label_name">제품명</label>
+                <input type="text" id="input_name"/>
+            </div>
+            <div id="type">
+                <div id="item_type">
+                    <label>제품유형</label>
+                    <select>
+                        <option value="value1">전체</option>
+                        <option value="value2">내수</option>
+                        <option value="value3">수출</option>
+                    </select>
+                </div>
+                <div id="item_unit">
+                    <label>단위</label>
+                    <select>
+                        <option value="value1">CAN</option>
+                        <option value="value2">%</option>
+                        <option value="value3">CM</option>
+                    </select>
+                </div>
+            </div>
+            <div id="weight">
+                <label>중량</label>
+                <div>
+                    <input type="text" id="input_weight"/>
+                    <select>
+                        <option value="value1">KG</option>
+                        <option value="value2">G</option>
+                        <option value="value3">CM</option>
+                    </select>
+                </div>
+            </div>
+            <div id="remark">
+                <label>비고</label>
+                <textarea id="remark_content"></textarea>
+            </div>
+            <div id="addBtn">
+                <button type="button" id="add_btn">추가</button>
+            </div>
         </div>
         <div id="add_table">
 
