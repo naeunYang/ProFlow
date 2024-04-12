@@ -98,7 +98,7 @@
             justify-content: space-between;
             align-items: center;
             width: 80%;
-            margin: 2.15rem auto 0rem auto;
+            margin: 1rem auto 0rem auto;
             font-size: 1rem;
             letter-spacing: 0px;
             padding: 0.3rem 0rem 0.5rem 0rem;
@@ -108,6 +108,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            margin-bottom: -2.5rem;
         }
 
         #cnt #option select{
@@ -158,6 +159,16 @@
             cursor: pointer;
             font-size: 0.9rem;
             font-weight: 600;
+        }
+
+        #label{
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            width: 80%;
+            margin: 0rem auto;
+            font-size: 1rem;
+            letter-spacing: 0px;
         }
 
         ::-webkit-scrollbar {
@@ -215,7 +226,7 @@
 
         #input #info{
             width: 100%;
-            height: 39rem;
+            height: 42rem;
             display: flex;
             justify-content: space-between;
             font-size: 1.3rem;
@@ -260,7 +271,7 @@
         }
 
         #input #info #add_info #type #item_type select{
-            width: 7rem;
+            width: 8rem;
             height: 2rem;
             font-size: 1rem;
             text-align: center;
@@ -274,11 +285,11 @@
         #input #info #add_info #type #item_unit{
             width: 50%;
             height: 5rem;
-            margin-left: 0.5rem;
+            margin-right: 1.3rem;
         }
 
         #input #info #add_info #type #item_unit select{
-            width: 7rem;
+            width: 8rem;
             height: 2rem;
             font-size: 1rem;
             text-align: center;
@@ -310,6 +321,7 @@
             text-align: center;
             border: #a6a6a6 1px solid;
             border-radius: 0.3rem;
+            margin-left: 0.2rem;
             margin-right: 0.8em;
             margin-top: 0.5rem;
         }
@@ -521,7 +533,9 @@
 
     </style>
     <script>
-
+        function saveComplete(){
+            alert("저장이 완료되었습니다.");
+        }
     </script>
 </head>
 <body>
@@ -551,13 +565,16 @@
         </select>
         <div id="search">
             <img src="image/magnifier2.png" id="magnifier"/>
-            <input type="text" name="search" placeholder="제품을 검색하세요.">
+            <input type="text" name="search" placeholder="제품을 검색하세요." autocomplete="off">
             <img src="image/xBtn.png" id="xbtn"/>
         </div>
     </div>
     <div id="insert">
         <a href="productInsert.html"><button type="button" id="insert_product">제품 등록</button></a>
     </div>
+</div>
+<div id="label">
+    <label>제품 현황 00건</label>
 </div>
 <div id="input">
     <div id="title">
@@ -786,22 +803,11 @@
                             <img src="image/xBtn.png" class="remove"/>
                         </td>
                     </tr>
-                    <tr>
-                        <td class="name"><div>EF-120Asddddddddddddddddddddddddddddddd</div></td>
-                        <td class="code"><div>CT(P)-E000001</div></td>
-                        <td class="type">A</td>
-                        <td class="unit">CAN</td>
-                        <td class="weight"><div>20KG</div></td>
-                        <td class="remark">
-                            <div>ddddddddddddddddddddggggggggggggggggggdddddddd</div>
-                            <img src="image/xBtn.png" class="remove"/>
-                        </td>
-                    </tr>
                     </tbody>
                 </table>
             </div>
             <div id="save_btn">
-                <button type="button">저장</button>
+                <a href="product.html"><button type="button" onclick="saveComplete()">저장</button></a>
             </div>
         </div>
     </div>

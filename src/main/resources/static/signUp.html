@@ -115,6 +115,10 @@
         function showAlert(){
             alert("사용 가능한 아이디입니다.");
         }
+
+        function signUpAlert(){
+            alert("가입이 완료되었습니다.");
+        }
     </script>
 </head>
 <body>
@@ -128,38 +132,38 @@
         <div style="font-weight: bold; font-size: 2rem; margin-bottom: 3rem;">Sign up</div>
         <div id="id">
             <label style="margin-right: 1.8rem; padding-left: 6.7rem;">User ID</label>
-            <input type="text" id="userName" name="userName" placeholder="아이디를 입력하세요"/>
+            <input type="text" id="userName" name="userName" placeholder="아이디를 입력하세요" autocomplete="off"/>
             <button type="button" onclick="showAlert()">중복확인</button>
         </div>
         <div id="id_msg">중복확인이 필요합니다.</div>
 
         <div id="pwd">
             <label style="margin-right: 1.1rem;">Password</label>
-            <input type="password" id="password" name="password" placeholder="비밀번호를 입력하세요"/>
+            <input type="password" id="password" name="password" placeholder="비밀번호를 입력하세요" autocomplete="off"/>
         </div>
         <div id="pwd_msg" >20자 이내의 비밀번호를 입력해주세요.</div>
 
         <div id="checkPwd">
             <label style="margin-right: 1.1rem;">&nbsp;&nbsp;Verify<br>Password</label>
-            <input type="password" id="checkpassword" name="checkpassword" placeholder="비밀번호를 한번 더 입력하세요"/>
+            <input type="password" id="checkpassword" name="checkpassword" placeholder="비밀번호를 한번 더 입력하세요" autocomplete="off"/>
         </div>
         <div id="checkPwd_msg">비밀번호가 일치하지 않습니다.</div>
 
         <div id="nam" style="margin-bottom: 3rem;">
             <label style="margin-right: 2.5rem;">&nbsp;&nbsp;Name</label>
-            <input type="text" id="name" name="name" placeholder="이름을 입력하세요"/>
+            <input type="text" id="name" name="name" placeholder="이름을 입력하세요" autocomplete="off"/>
         </div>
 
         <div id="num" style="margin-bottom: 3rem;">
             <label style="margin-right: 2.3rem;">&nbsp;&nbsp;Phone</label>
-            <input type="text" id="tel" name="tel" placeholder="전화번호를 입력하세요"/>
+            <input type="text" id="tel" name="tel" placeholder="전화번호를 입력하세요" autocomplete="off"/>
         </div>
 
         <div id="mail" style="margin-bottom: 3rem;">
             <label style="margin-right: 2.3rem;">&nbsp;&nbsp;E-mail</label>
-            <input type="text" id="email" name="mail" placeholder="이메일을 입력하세요"/>
+            <input type="text" id="email" name="mail" placeholder="이메일을 입력하세요" autocomplete="off"/>
         </div>
-        <a href="#"><button type="submit" id="join" style="width: 6rem; height: 2.5rem; font-size: 1.1rem;">가입하기</button></a>
+        <a href="product.html"><button type="submit" id="join" onclick="signUpAlert()" style="width: 6rem; height: 2.5rem; font-size: 1.1rem;">가입하기</button></a>
     </div>
 </div>
 

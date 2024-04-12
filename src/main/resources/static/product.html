@@ -172,28 +172,6 @@
             letter-spacing: 0px;
         }
 
-        #table_header{
-            display: flex;
-            justify-content: space-between;
-            width: 80%;
-            margin: 0 auto;
-            border-radius: 0.5rem;
-            overflow: hidden;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-            border-collapse: collapse;
-        }
-
-        #table_header th{
-            padding: 0.7rem 0.5rem; /* 셀 안의 여백 설정 */
-            text-align: center; /* 셀 안의 텍스트 정렬 설정 */
-            background: #428BCA;
-            color: white;
-            font-size: 1.1rem;
-            font-weight: normal;
-            position: sticky;
-            top: 0;
-        }
-
         #table{
             display: flex;
             justify-content: center;
@@ -209,6 +187,22 @@
         #table table {
             border-collapse: collapse; /* 테두리를 겹치지 않도록 설정 */
             width: 100%;
+            table-layout: fixed;
+        }
+
+        #table thead{
+            text-align: center; /* 셀 안의 텍스트 정렬 설정 */
+            background: #428BCA;
+            position: sticky;
+            top: 0;
+        }
+
+        #table thead tr th{
+            color: white;
+            font-size: 1.1rem;
+            font-weight: normal;
+            padding: 0.7rem 0.5rem; /* 셀 안의 여백 설정 */
+            border: 1px solid white;
         }
 
         #table tbody{
@@ -217,25 +211,25 @@
             font-size: 1.2rem;
         }
 
-        #table td {
+        #table tbody td {
             border: 1px solid #ffffff; /* 테두리 스타일 지정 */
             padding: 0.3rem;
         }
 
-        #table tr{
+        #table tbody tr{
             background: #F5F9FC;
         }
 
         /* 짝수 행 배경색 설정 */
-        #table tr:nth-child(even) {
+        #table tbody tr:nth-child(even) {
             background-color: #EBF3F9;
         }
 
-        #table tr:hover {
+        #table tbody tr:hover {
             background-color: #D8E7F3;
         }
 
-        #table .name{
+        #table tbody .name{
             text-align: left;
             padding-left: 1rem;
             display: flex;
@@ -246,7 +240,7 @@
             width: 13.9rem;
         }
 
-        #table .name a{
+        #table tbody .name a{
             text-decoration: none;
             color: black;
             font-weight: 550;
@@ -255,17 +249,18 @@
             max-width: 10.5rem;
         }
 
-        #table .name img{
+        #table tbody .name img{
             width: 1.3rem;
             cursor: pointer;
             display: none;
+            z-index: 1000;
         }
 
-        #table tr:hover img {
+        #table tbody tr:hover img {
             display: inline-block;
         }
 
-        #table .code{
+        #table tbody .code{
             text-align: center;
             width: 16rem;
             overflow: hidden;
@@ -273,49 +268,49 @@
             white-space: nowrap;
         }
 
-        #table .code div{
+        #table tbody .code div{
             width: 15rem;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
         }
 
-        #table .type{
+        #table tbody .type{
             text-align: center;
             width: 14.8rem;
             overflow: hidden;
             text-overflow: ellipsis;
         }
 
-        #table .unit{
+        #table tbody .unit{
             text-align: center;
             width: 15rem;
             overflow: hidden;
             text-overflow: ellipsis;
         }
 
-        #table .weight{
+        #table tbody .weight{
             text-align: right;
             width: 5rem;
             overflow: hidden;
             text-overflow: ellipsis;
         }
 
-        #table .weight div{
+        #table tbody .weight div{
             width: 12rem;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
         }
 
-        #table .remark{
+        #table tbody .remark{
             text-align: left;
             width: 30rem;
             overflow: hidden;
             text-overflow: ellipsis;
         }
 
-        #table .remark div{
+        #table tbody .remark div{
             width: 29rem;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -342,12 +337,160 @@
             background-color: #555; /* 마우스 오버시 썸의 배경색을 지정합니다. */
         }
 
+        .context-menu {
+            display: none;
+            position: absolute;
+            z-index: 1000;
+            width: 6rem;
+            height: 2rem;
+            background-color: #f9f9f9;
+            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+            border-radius: 4px;
+            text-align: center;
+            padding-top: 0.2rem;
+        }
+
+        .context-menu ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            cursor: pointer;
+        }
+        .context-menu ul:hover {
+            background-color: #f1f1f1;
+        }
+
     </style>
     <script>
+        document.addEventListener('contextmenu', function(event) {
+            event.preventDefault(); // 기본 컨텍스트 메뉴 비활성화
+            var contextMenu = document.getElementById('customContextMenu');
+            contextMenu.style.display = 'block';
+            contextMenu.style.left = event.pageX + 'px';
+            contextMenu.style.top = event.pageY + 'px';
+        }, false);
 
+        // 다른 곳을 클릭하면 사용자 정의 컨텍스트 메뉴 숨기기
+        window.addEventListener('click', function() {
+            document.getElementById('customContextMenu').style.display = 'none';
+        });
+
+        function showAlert(){
+            var result = confirm("삭제하시겠습니까?");
+            if(result){
+                alert("삭제되었습니다.");
+            }
+        }
+
+        // 수정 이미지 클릭
+        function updateMode(button){
+            var row = button.parentNode.parentNode;
+
+            var nameCell = row.querySelector('.name');
+            var nameInput = document.createElement("input");
+            nameInput.type = "text";
+            nameInput.value = nameCell.textContent;
+            nameInput.style.width= "100%";
+            nameInput.style.height= "2rem";
+            nameInput.style.fontSize= "1rem";
+            nameInput.style.border= "2px solid black";
+            nameInput.style.borderRadius= "0.3rem";
+            nameInput.style.paddingLeft= "0.5rem";
+            nameCell.innerHTML = '';
+            nameCell.appendChild(nameInput);
+            nameInput.focus();
+
+            var codeCell =row.querySelector('.code');
+            var codeInput = document.createElement("input");
+            codeInput.type = "text";
+            codeInput.value = codeCell.textContent;
+            codeInput.style.width= "100%";
+            codeInput.style.height= "2rem";
+            codeInput.style.fontSize= "1rem";
+            codeInput.style.border= "2px solid black";
+            codeInput.style.borderRadius= "0.3rem";
+            codeInput.style.paddingLeft= "0.5rem";
+            codeCell.innerHTML = '';
+            codeCell.appendChild(codeInput);
+
+            var typeCell =row.querySelector('.type');
+            var typeInput = document.createElement("select");
+            // 옵션 생성 및 추가
+            var option1 = new Option("유형A", "A");
+            var option2 = new Option("유형B", "B");
+            var option3 = new Option("유형C", "C");
+
+            typeInput.appendChild(option1);
+            typeInput.appendChild(option2);
+            typeInput.appendChild(option3);
+
+            typeInput.value = typeCell.textContent;
+            typeInput.style.width="50%";
+            typeInput.style.height="2rem";
+            typeInput.style.fontSize="0.9rem";
+            typeInput.style.textAlign="center";
+            typeInput.style.border="#a6a6a6 1px solid";
+            typeInput.style.borderRadius="0.3rem";
+            typeInput.style.marginRight="0.8rem";
+            typeCell.innerHTML = '';
+            typeCell.appendChild(typeInput);
+
+            var unitCell =row.querySelector('.unit');
+            var unitInput = document.createElement("select");
+            // 옵션 생성 및 추가
+            var optionU1 = new Option("CAN", "CAN");
+            var optionU2 = new Option("%", "%");
+            var optionU3 = new Option("개", "개");
+
+            unitInput.appendChild(optionU1);
+            unitInput.appendChild(optionU2);
+            unitInput.appendChild(optionU3);
+
+            unitInput.value = unitCell.textContent;
+            unitInput.style.width="50%";
+            unitInput.style.height="2rem";
+            unitInput.style.fontSize="0.9rem";
+            unitInput.style.textAlign="center";
+            unitInput.style.border="#a6a6a6 1px solid";
+            unitInput.style.borderRadius="0.3rem";
+            unitInput.style.marginRight="0.8rem";
+            unitCell.innerHTML = '';
+            unitCell.appendChild(unitInput);
+
+            var weightCell =row.querySelector('.weight');
+            var weightInput = document.createElement("input");
+            weightInput.type = "text";
+            weightInput.value = weightCell.textContent;
+            weightInput.style.width= "60%";
+            weightInput.style.height= "2rem";
+            weightInput.style.fontSize= "1rem";
+            weightInput.style.border= "2px solid black";
+            weightInput.style.borderRadius= "0.3rem";
+            weightInput.style.paddingLeft= "0.5rem";
+            weightCell.innerHTML = '';
+            weightCell.appendChild(weightInput);
+
+            var remarkCell =row.querySelector('.remark');
+            var remarkInput = document.createElement("input");
+            remarkInput.type = "text";
+            remarkInput.value = remarkCell.textContent;
+            remarkInput.style.width= "100%";
+            remarkInput.style.height= "2rem";
+            remarkInput.style.fontSize= "1rem";
+            remarkInput.style.border= "2px solid black";
+            remarkInput.style.borderRadius= "0.3rem";
+            remarkInput.style.paddingLeft= "0.5rem";
+            remarkCell.innerHTML = '';
+            remarkCell.appendChild(remarkInput);
+        }
     </script>
 </head>
 <body>
+<div id="customContextMenu" class="context-menu">
+    <ul>
+        <li onclick="showAlert()">삭제</li>
+    </ul>
+</div>
 <div id="header">
     <a href="product.html" id="proFlow"><span style="color: #2E75B6;">P</span>ro<span style="color: #2E75B6;">F</span>low</a>
     <div id="menu">
@@ -374,7 +517,7 @@
         </select>
         <div id="search">
             <img src="image/magnifier2.png" id="magnifier"/>
-            <input type="text" name="search" placeholder="제품을 검색하세요.">
+            <input type="text" name="search" placeholder="제품을 검색하세요." autocomplete="off">
             <img src="image/xBtn.png" id="xbtn"/>
         </div>
     </div>
@@ -385,207 +528,21 @@
 <div id="label">
     <label>제품 현황 00건</label>
 </div>
-<div id="table_header">
-    <table>
-        <tr>
-            <th style="width: 13.95rem; border-top-left-radius: 0.5rem">제품명</th>
-            <th style="width: 16.1rem;">제품 코드</th>
-            <th style="width: 14.9rem;">제품 유형</th>
-            <th style="width: 15.1rem;">단위</th>
-            <th style="width: 12.8rem;">중량</th>
-            <th style="width: 30.3rem; border-top-right-radius: 0.5rem">비고</th>
-        </tr>
-    </table>
-</div>
 <div id="table">
     <table>
+        <thead>
+            <tr>
+                <th style="width: 13.8rem; border-top-left-radius: 0.5rem">제품명</th>
+                <th style="width: 16rem;">제품 코드</th>
+                <th style="width: 14.2rem;">제품 유형</th>
+                <th style="width: 14.6rem;">단위</th>
+                <th style="width: 12.6rem;">중량</th>
+                <th style="width: 30.3rem; border-top-right-radius: 0.5rem">비고</th>
+            </tr>
+        </thead>
         <tbody>
         <tr>
-            <td class="name"><a href="#"><span>EF-120A</span></a><img src="image/update.png"/></td>
-            <td class="code"><div>CT(P)-E000001</div></td>
-            <td class="type">A</td>
-            <td class="unit">CAN</td>
-            <td class="weight"><div>20KG</div></td>
-            <td class="remark"><div></div></td>
-        </tr>
-        <tr>
-            <td class="name"><a href="#"><span>EF-120A</span></a><img src="image/update.png"/></td>
-            <td class="code"><div>CT(P)-E000001</div></td>
-            <td class="type">A</td>
-            <td class="unit">CAN</td>
-            <td class="weight"><div>20KG</div></td>
-            <td class="remark"><div></div></td>
-        </tr>
-        <tr>
-            <td class="name"><a href="#"><span>EF-120A</span></a><img src="image/update.png"/></td>
-            <td class="code"><div>CT(P)-E000001</div></td>
-            <td class="type">A</td>
-            <td class="unit">CAN</td>
-            <td class="weight"><div>20KG</div></td>
-            <td class="remark"><div></div></td>
-        </tr>
-        <tr>
-            <td class="name"><a href="#"><span>EF-120A</span></a><img src="image/update.png"/></td>
-            <td class="code"><div>CT(P)-E000001</div></td>
-            <td class="type">A</td>
-            <td class="unit">CAN</td>
-            <td class="weight"><div>20KG</div></td>
-            <td class="remark"><div></div></td>
-        </tr>
-        <tr>
-            <td class="name"><a href="#"><span>EF-120A</span></a><img src="image/update.png"/></td>
-            <td class="code"><div>CT(P)-E000001</div></td>
-            <td class="type">A</td>
-            <td class="unit">CAN</td>
-            <td class="weight"><div>20KG</div></td>
-            <td class="remark"><div></div></td>
-        </tr>
-        <tr>
-            <td class="name"><a href="#"><span>EF-120A</span></a><img src="image/update.png"/></td>
-            <td class="code"><div>CT(P)-E000001</div></td>
-            <td class="type">A</td>
-            <td class="unit">CAN</td>
-            <td class="weight"><div>20KG</div></td>
-            <td class="remark"><div></div></td>
-        </tr>
-        <tr>
-            <td class="name"><a href="#"><span>EF-120A</span></a><img src="image/update.png"/></td>
-            <td class="code"><div>CT(P)-E000001</div></td>
-            <td class="type">A</td>
-            <td class="unit">CAN</td>
-            <td class="weight"><div>20KG</div></td>
-            <td class="remark"><div></div></td>
-        </tr>
-        <tr>
-            <td class="name"><a href="#"><span>EF-120A</span></a><img src="image/update.png"/></td>
-            <td class="code"><div>CT(P)-E000001</div></td>
-            <td class="type">A</td>
-            <td class="unit">CAN</td>
-            <td class="weight"><div>20KG</div></td>
-            <td class="remark"><div></div></td>
-        </tr>
-        <tr>
-            <td class="name"><a href="#"><span>EF-120A</span></a><img src="image/update.png"/></td>
-            <td class="code"><div>CT(P)-E000001</div></td>
-            <td class="type">A</td>
-            <td class="unit">CAN</td>
-            <td class="weight"><div>20KG</div></td>
-            <td class="remark"><div></div></td>
-        </tr>
-        <tr>
-            <td class="name"><a href="#"><span>EF-120A</span></a><img src="image/update.png"/></td>
-            <td class="code"><div>CT(P)-E000001</div></td>
-            <td class="type">A</td>
-            <td class="unit">CAN</td>
-            <td class="weight"><div>20KG</div></td>
-            <td class="remark"><div></div></td>
-        </tr>
-        <tr>
-            <td class="name"><a href="#"><span>EF-120A</span></a><img src="image/update.png"/></td>
-            <td class="code"><div>CT(P)-E000001</div></td>
-            <td class="type">A</td>
-            <td class="unit">CAN</td>
-            <td class="weight"><div>20KG</div></td>
-            <td class="remark"><div></div></td>
-        </tr>
-        <tr>
-            <td class="name"><a href="#"><span>EF-120A</span></a><img src="image/update.png"/></td>
-            <td class="code"><div>CT(P)-E000001</div></td>
-            <td class="type">A</td>
-            <td class="unit">CAN</td>
-            <td class="weight"><div>20KG</div></td>
-            <td class="remark"><div></div></td>
-        </tr>
-        <tr>
-            <td class="name"><a href="#"><span>EF-120A</span></a><img src="image/update.png"/></td>
-            <td class="code"><div>CT(P)-E000001</div></td>
-            <td class="type">A</td>
-            <td class="unit">CAN</td>
-            <td class="weight"><div>20KG</div></td>
-            <td class="remark"><div></div></td>
-        </tr>
-        <tr>
-            <td class="name"><a href="#"><span>EF-120A</span></a><img src="image/update.png"/></td>
-            <td class="code"><div>CT(P)-E000001</div></td>
-            <td class="type">A</td>
-            <td class="unit">CAN</td>
-            <td class="weight"><div>20KG</div></td>
-            <td class="remark"><div></div></td>
-        </tr>
-        <tr>
-            <td class="name"><a href="#"><span>EF-120A</span></a><img src="image/update.png"/></td>
-            <td class="code"><div>CT(P)-E000001</div></td>
-            <td class="type">A</td>
-            <td class="unit">CAN</td>
-            <td class="weight"><div>20KG</div></td>
-            <td class="remark"><div></div></td>
-        </tr>
-        <tr>
-            <td class="name"><a href="#"><span>EF-120A</span></a><img src="image/update.png"/></td>
-            <td class="code"><div>CT(P)-E000001</div></td>
-            <td class="type">A</td>
-            <td class="unit">CAN</td>
-            <td class="weight"><div>20KG</div></td>
-            <td class="remark"><div></div></td>
-        </tr>
-        <tr>
-            <td class="name"><a href="#"><span>EF-120A</span></a><img src="image/update.png"/></td>
-            <td class="code"><div>CT(P)-E000001</div></td>
-            <td class="type">A</td>
-            <td class="unit">CAN</td>
-            <td class="weight"><div>20KG</div></td>
-            <td class="remark"><div></div></td>
-        </tr>
-        <tr>
-            <td class="name"><a href="#"><span>EF-120A</span></a><img src="image/update.png"/></td>
-            <td class="code"><div>CT(P)-E000001</div></td>
-            <td class="type">A</td>
-            <td class="unit">CAN</td>
-            <td class="weight"><div>20KG</div></td>
-            <td class="remark"><div></div></td>
-        </tr>
-        <tr>
-            <td class="name"><a href="#"><span>EF-120A</span></a><img src="image/update.png"/></td>
-            <td class="code"><div>CT(P)-E000001</div></td>
-            <td class="type">A</td>
-            <td class="unit">CAN</td>
-            <td class="weight"><div>20KG</div></td>
-            <td class="remark"><div></div></td>
-        </tr>
-        <tr>
-            <td class="name"><a href="#"><span>EF-120A</span></a><img src="image/update.png"/></td>
-            <td class="code"><div>CT(P)-E000001</div></td>
-            <td class="type">A</td>
-            <td class="unit">CAN</td>
-            <td class="weight"><div>20KG</div></td>
-            <td class="remark"><div></div></td>
-        </tr>
-        <tr>
-            <td class="name"><a href="#"><span>EF-120A</span></a><img src="image/update.png"/></td>
-            <td class="code"><div>CT(P)-E000001</div></td>
-            <td class="type">A</td>
-            <td class="unit">CAN</td>
-            <td class="weight"><div>20KG</div></td>
-            <td class="remark"><div></div></td>
-        </tr>
-        <tr>
-            <td class="name"><a href="#"><span>EF-120A</span></a><img src="image/update.png"/></td>
-            <td class="code"><div>CT(P)-E000001</div></td>
-            <td class="type">A</td>
-            <td class="unit">CAN</td>
-            <td class="weight"><div>20KG</div></td>
-            <td class="remark"><div></div></td>
-        </tr>
-        <tr>
-            <td class="name"><a href="#"><span>EF-120A</span></a><img src="image/update.png"/></td>
-            <td class="code"><div>CT(P)-E000001</div></td>
-            <td class="type">A</td>
-            <td class="unit">CAN</td>
-            <td class="weight"><div>20KG</div></td>
-            <td class="remark"><div></div></td>
-        </tr>
-        <tr>
-            <td class="name"><a href="#"><span>EF-120A</span></a><img src="image/update.png"/></td>
+            <td class="name"><a href="#"><span>EF-120A</span></a><img src="image/update.png" onclick="updateMode(this)"/></td>
             <td class="code"><div>CT(P)-E000001</div></td>
             <td class="type">A</td>
             <td class="unit">CAN</td>
