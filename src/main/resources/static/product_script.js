@@ -124,13 +124,13 @@ function updateMode(button){
         }
     });
 
-    var codeCell =row.querySelector('.code div');
+    var codeCell = row.querySelector('.code div');
     var codeInput = document.createElement("input");
     codeInput.type = "text";
     codeInput.value = codeCell.textContent.trim();
-    codeInput.style.width= "100%";
-    codeInput.style.height= "1.5rem";
-    codeInput.style.borderRadius= "0.3rem";
+    codeInput.style.width = "100%";
+    codeInput.style.height = "1.5rem";
+    codeInput.style.borderRadius = "0.3rem";
 
     codeCell.innerHTML = '';
     codeCell.appendChild(codeInput);

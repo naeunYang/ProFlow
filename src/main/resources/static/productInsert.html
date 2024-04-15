@@ -312,6 +312,7 @@
             width: 15rem;
             height: 2rem;
             font-size: 1.1rem;
+            text-align: right;
         }
 
         #input #info #add_info #weight select{
@@ -364,6 +365,19 @@
             cursor: pointer;
             font-size: 0.9rem;
             font-weight: 600;
+            margin-right: 1rem;
+        }
+
+        #input #info #add_info #addBtn #reset_btn{
+            width: 5.5rem;
+            height: 2rem;
+            background: #afafaf;
+            color: white;
+            border: none;
+            border-radius: 0.3rem;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
         }
 
         #input #info #add_table{
@@ -381,19 +395,20 @@
             overflow-y: auto;
         }
 
-        #input #info #add_table #table table {
+        #input #info #add_table #table #data_table {
             border-collapse: collapse; /* 테두리를 겹치지 않도록 설정 */
             width: 100%;
+            table-layout: fixed;
         }
 
-        #input #info #add_table #table thead{
+        #input #info #add_table #table #data_table thead{
             text-align: center; /* 셀 안의 텍스트 정렬 설정 */
             background: #428BCA;
             position: sticky;
             top: 0;
         }
 
-        #input #info #add_table #table thead tr th{
+        #input #info #add_table #table #data_table thead tr th{
             color: white;
             font-size: 1.1rem;
             font-weight: normal;
@@ -401,32 +416,32 @@
             border: 1px solid white;
         }
 
-        #input #info #add_table #table tbody{
+        #input #info #add_table #table #data_table tbody{
             letter-spacing: 0px;
             font-family: "Calibri", 'sans-serif';
             font-size: 1.2rem;
         }
 
-        #input #info #add_table #table tbody td {
+        #input #info #add_table #table #data_table tbody td {
             border: 1px solid #ffffff; /* 테두리 스타일 지정 */
             padding: 0.3rem;
         }
 
-        #input #info #add_table #table tbody tr{
+        #input #info #add_table #table #data_table tbody tr{
             background: #F5F9FC;
         }
 
         /* 짝수 행 배경색 설정 */
-        #input #info #add_table #table tbody tr:nth-child(even) {
+        #input #info #add_table #table #data_table tbody tr:nth-child(even) {
             background-color: #EBF3F9;
         }
 
-        #input #info #add_table #table tbody tr:hover {
+        #input #info #add_table #table #data_table tbody tr:hover {
             background-color: #D8E7F3;
             cursor: pointer;
         }
 
-        #input #info #add_table #table tbody .name{
+        #input #info #add_table #table #data_table tbody .name{
             text-align: left;
             padding-left: 1rem;
             white-space: nowrap;
@@ -434,7 +449,7 @@
             width: 9.8rem;
         }
 
-        #input #info #add_table #table tbody .name div{
+        #input #info #add_table #table #data_table tbody .name div{
             color: black;
             font-weight: 550;
             overflow: hidden;
@@ -442,7 +457,7 @@
             max-width: 8rem;
         }
 
-        #input #info #add_table #table tbody .code{
+        #input #info #add_table #table #data_table tbody .code{
             text-align: center;
             width: 9rem;
             overflow: hidden;
@@ -450,64 +465,68 @@
             white-space: nowrap;
         }
 
-        #input #info #add_table #table tbody .code div{
+        #input #info #add_table #table #data_table tbody .code div{
             max-width: 9rem;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
         }
 
-        #input #info #add_table #table tbody .type{
+        #input #info #add_table #table #data_table tbody .type{
             text-align: center;
             width: 8.2rem;
             overflow: hidden;
             text-overflow: ellipsis;
         }
 
-        #input #info #add_table #table tbody .unit{
+        #input #info #add_table #table #data_table tbody .unit{
             text-align: center;
             width: 8.2rem;
             overflow: hidden;
             text-overflow: ellipsis;
         }
 
-        #input #info #add_table #table tbody .weight{
+        #input #info #add_table #table #data_table tbody .weight{
             text-align: right;
             width: 9.9rem;
             overflow: hidden;
             text-overflow: ellipsis;
         }
 
-        #input #info #add_table #table tbody .weight div{
+        #input #info #add_table #table #data_table tbody .weight div{
             max-width: 9rem;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
         }
 
-        #input #info #add_table #table tbody .remark{
+        #input #info #add_table #table #data_table tbody .remark{
             text-align: left;
             width: 8.8rem;
             overflow: hidden;
             text-overflow: ellipsis;
+            position: relative;
         }
 
-        #input #info #add_table #table tbody .remark div{
+        #input #info #add_table #table #data_table tbody .remark div{
             width: 6rem;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
-            display: inline-block;
         }
 
-        #input #info #add_table #table tbody .remark .remove{
+        #input #info #add_table #table #data_table tbody .remark .remove{
             width: 1.5rem;
             cursor: pointer;
             display: none;
-            z-index: 1;
+            z-index: 10000;
+            position: absolute;
+            right: 0;
+            top: 0.3rem;
+            margin-right: 0.3rem;
         }
 
-        #input #info #add_table #table tbody tr:hover .remove{
+        #input #info #add_table #table #data_table tbody tr:hover .remove{
             display: inline-block;
         }
 
@@ -531,18 +550,20 @@
             font-weight: 600;
         }
 
-    </style>
-    <script>
-        function saveComplete(){
-            alert("저장이 완료되었습니다.");
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
         }
-    </script>
+
+    </style>
+    <script src="productInsert_script.js"></script>
 </head>
 <body>
 <div id="header">
-    <a href="product.html" id="proFlow"><span style="color: #2E75B6;">P</span>ro<span style="color: #2E75B6;">F</span>low</a>
+    <a href="product.html" id="proFlow" tabindex="-1"><span style="color: #2E75B6;">P</span>ro<span style="color: #2E75B6;">F</span>low</a>
     <div id="menu">
-        <a href="product.html" id="main_menu">기준정보 관리</a>
+        <a href="product.html" id="main_menu" tabindex="-1">기준정보 관리</a>
         <div id="submenu">
             <a href="product.html">제품 관리</a>
             <a href="#">거래처 관리</a>
@@ -558,7 +579,7 @@
 </div>
 <div id="cnt">
     <div id="option">
-        <select>
+        <select onchange="optionChange(this)">
             <option value="name">제품명</option>
             <option value="code">제품코드</option>
             <option value="type">제품유형</option>
@@ -582,51 +603,54 @@
         <a href="product.html"><img src="image/xBtn.png"/></a>
     </div>
     <div id="info">
-        <div id="add_info">
-            <div id="name">
-                <label id="label_name">제품명</label>
-                <input type="text" id="input_name"/>
-            </div>
-            <div id="type">
-                <div id="item_type">
-                    <label>제품유형</label>
-                    <select>
-                        <option value="value1">전체</option>
-                        <option value="value2">내수</option>
-                        <option value="value3">수출</option>
-                    </select>
+        <form id="myForm">
+            <div id="add_info">
+                <div id="name">
+                    <label id="label_name">제품명</label>
+                    <input type="text" id="input_name" tabindex="1"/>
                 </div>
-                <div id="item_unit">
-                    <label>단위</label>
-                    <select>
-                        <option value="value1">CAN</option>
-                        <option value="value2">%</option>
-                        <option value="value3">CM</option>
-                    </select>
+                <div id="type">
+                    <div id="item_type">
+                        <label>제품유형</label>
+                        <select id="select_type" tabindex="2">
+                            <option value="A">유형A</option>
+                            <option value="B">유형B</option>
+                            <option value="C">유형C</option>
+                        </select>
+                    </div>
+                    <div id="item_unit">
+                        <label>단위</label>
+                        <select id="select_unit" tabindex="3">
+                            <option value="CAN">CAN</option>
+                            <option value="%">%</option>
+                            <option value="CM">CM</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="weight">
+                    <label>중량</label>
+                    <div>
+                        <input type="text" id="input_weight" value="0" tabindex="4" oninput="numFormat(this)" onfocus="removeDefault(this)"/>
+                        <select id="select_weight_unit" tabindex="5">
+                            <option value="KG">KG</option>
+                            <option value="G">G</option>
+                            <option value="CM">CM</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="remark">
+                    <label>비고</label>
+                    <textarea id="remark_content" tabindex="6"></textarea>
+                </div>
+                <div id="addBtn">
+                    <button type="button" id="add_btn" tabindex="7" onclick="addData()">추가</button>
+                    <button type="reset" id="reset_btn" tabindex="8" >초기화</button>
                 </div>
             </div>
-            <div id="weight">
-                <label>중량</label>
-                <div>
-                    <input type="text" id="input_weight"/>
-                    <select>
-                        <option value="value1">KG</option>
-                        <option value="value2">G</option>
-                        <option value="value3">CM</option>
-                    </select>
-                </div>
-            </div>
-            <div id="remark">
-                <label>비고</label>
-                <textarea id="remark_content"></textarea>
-            </div>
-            <div id="addBtn">
-                <button type="button" id="add_btn">추가</button>
-            </div>
-        </div>
+        </form>
         <div id="add_table">
             <div id="table">
-                <table>
+                <table id="data_table">
                     <thead>
                         <tr>
                             <th>제품명</th>
@@ -638,171 +662,48 @@
                         </tr>
                     </thead>
                     <tbody>
-                    <tr>
+                    <tr style = "height: 2rem;">
+                        <td class="name"></td>
+                        <td class="code"></td>
+                        <td class="type"></td>
+                        <td class="unit"></td>
+                        <td class="weight"></td>
+                        <td class="remark"></td>
+                    </tr>
+
+<!--                    <tr onclick="rowClick(this)">
                         <td class="name"><div>EF-120A</div></td>
                         <td class="code"><div>CT(P)-E000001</div></td>
                         <td class="type">A</td>
                         <td class="unit">CAN</td>
-                        <td class="weight"><div>20KG</div></td>
+                        <td class="weight"><div>20 KG</div></td>
                         <td class="remark">
                             <div></div>
-                            <img src="image/xBtn.png" class="remove"/>
+                            <img src="image/xBtn.png" class="remove" onclick="deleteRow(event, this)"/>
                         </td>
                     </tr>
-                    <tr>
-                        <td class="name"><div>EF-120A</div></td>
-                        <td class="code"><div>CT(P)-E000001</div></td>
-                        <td class="type">A</td>
+                    <tr onclick="rowClick(this)">
+                        <td class="name"><div>EF-120B</div></td>
+                        <td class="code"><div>CT(P)-E000002</div></td>
+                        <td class="type">B</td>
                         <td class="unit">CAN</td>
-                        <td class="weight"><div>20KG</div></td>
+                        <td class="weight"><div>200 KG</div></td>
                         <td class="remark">
                             <div></div>
-                            <img src="image/xBtn.png" class="remove"/>
+                            <img src="image/xBtn.png" class="remove" onclick="deleteRow(event, this)"/>
                         </td>
                     </tr>
-                    <tr>
-                        <td class="name"><div>EF-120A</div></td>
-                        <td class="code"><div>CT(P)-E000001</div></td>
-                        <td class="type">A</td>
+                    <tr onclick="rowClick(this)">
+                        <td class="name"><div>EF-120C</div></td>
+                        <td class="code"><div>CT(P)-E000003</div></td>
+                        <td class="type">C</td>
                         <td class="unit">CAN</td>
-                        <td class="weight"><div>20KG</div></td>
+                        <td class="weight"><div>2000 KG</div></td>
                         <td class="remark">
                             <div></div>
-                            <img src="image/xBtn.png" class="remove"/>
+                            <img src="image/xBtn.png" class="remove" onclick="deleteRow(event, this)"/>
                         </td>
-                    </tr>
-                    <tr>
-                        <td class="name"><div>EF-120A</div></td>
-                        <td class="code"><div>CT(P)-E000001</div></td>
-                        <td class="type">A</td>
-                        <td class="unit">CAN</td>
-                        <td class="weight"><div>20KG</div></td>
-                        <td class="remark">
-                            <div></div>
-                            <img src="image/xBtn.png" class="remove"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="name"><div>EF-120A</div></td>
-                        <td class="code"><div>CT(P)-E000001</div></td>
-                        <td class="type">A</td>
-                        <td class="unit">CAN</td>
-                        <td class="weight"><div>20KG</div></td>
-                        <td class="remark">
-                            <div></div>
-                            <img src="image/xBtn.png" class="remove"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="name"><div>EF-120A</div></td>
-                        <td class="code"><div>CT(P)-E000001</div></td>
-                        <td class="type">A</td>
-                        <td class="unit">CAN</td>
-                        <td class="weight"><div>20KG</div></td>
-                        <td class="remark">
-                            <div></div>
-                            <img src="image/xBtn.png" class="remove"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="name"><div>EF-120A</div></td>
-                        <td class="code"><div>CT(P)-E000001</div></td>
-                        <td class="type">A</td>
-                        <td class="unit">CAN</td>
-                        <td class="weight"><div>20KG</div></td>
-                        <td class="remark">
-                            <div></div>
-                            <img src="image/xBtn.png" class="remove"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="name"><div>EF-120A</div></td>
-                        <td class="code"><div>CT(P)-E000001</div></td>
-                        <td class="type">A</td>
-                        <td class="unit">CAN</td>
-                        <td class="weight"><div>20KG</div></td>
-                        <td class="remark">
-                            <div></div>
-                            <img src="image/xBtn.png" class="remove"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="name"><div>EF-120A</div></td>
-                        <td class="code"><div>CT(P)-E000001</div></td>
-                        <td class="type">A</td>
-                        <td class="unit">CAN</td>
-                        <td class="weight"><div>20KG</div></td>
-                        <td class="remark">
-                            <div></div>
-                            <img src="image/xBtn.png" class="remove"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="name"><div>EF-120A</div></td>
-                        <td class="code"><div>CT(P)-E000001</div></td>
-                        <td class="type">A</td>
-                        <td class="unit">CAN</td>
-                        <td class="weight"><div>20KG</div></td>
-                        <td class="remark">
-                            <div></div>
-                            <img src="image/xBtn.png" class="remove"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="name"><div>EF-120A</div></td>
-                        <td class="code"><div>CT(P)-E000001</div></td>
-                        <td class="type">A</td>
-                        <td class="unit">CAN</td>
-                        <td class="weight"><div>20KG</div></td>
-                        <td class="remark">
-                            <div></div>
-                            <img src="image/xBtn.png" class="remove"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="name"><div>EF-120A</div></td>
-                        <td class="code"><div>CT(P)-E000001</div></td>
-                        <td class="type">A</td>
-                        <td class="unit">CAN</td>
-                        <td class="weight"><div>20KG</div></td>
-                        <td class="remark">
-                            <div></div>
-                            <img src="image/xBtn.png" class="remove"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="name"><div>EF-120A</div></td>
-                        <td class="code"><div>CT(P)-E000001</div></td>
-                        <td class="type">A</td>
-                        <td class="unit">CAN</td>
-                        <td class="weight"><div>20KG</div></td>
-                        <td class="remark">
-                            <div></div>
-                            <img src="image/xBtn.png" class="remove"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="name"><div>EF-120A</div></td>
-                        <td class="code"><div>CT(P)-E000001</div></td>
-                        <td class="type">A</td>
-                        <td class="unit">CAN</td>
-                        <td class="weight"><div>20KG</div></td>
-                        <td class="remark">
-                            <div></div>
-                            <img src="image/xBtn.png" class="remove"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="name"><div>EF-120A</div></td>
-                        <td class="code"><div>CT(P)-E000001</div></td>
-                        <td class="type">A</td>
-                        <td class="unit">CAN</td>
-                        <td class="weight"><div>20KG</div></td>
-                        <td class="remark">
-                            <div></div>
-                            <img src="image/xBtn.png" class="remove"/>
-                        </td>
-                    </tr>
+                    </tr>-->
                     </tbody>
                 </table>
             </div>
