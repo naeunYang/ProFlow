@@ -204,16 +204,16 @@ function updateMode(UpdateBtn){
     remarkCell.appendChild(remarkInput);
 
     nameInput.onkeyup = function(event){
-        enterEvent(event, nameInput, nameCell, codeInput, codeCell, typeCombo, typeCell,unitCombo, unitCell, weightInput, weightCell, weightCombo, remarkInput, remarkCell, imgCell, checkCell);
+        enterEvent(event, nameInput, nameCell, codeInput, codeCell, typeCombo, typeCell,unitCombo, unitCell, weightInput, weightCell, weightCombo, remarkInput, remarkCell);
     };
     codeInput.onkeyup = function(event){
-        enterEvent(event, nameInput, nameCell, codeInput, codeCell, typeCombo, typeCell,unitCombo, unitCell, weightInput, weightCell, weightCombo, remarkInput, remarkCell, imgCell, checkCell);
+        enterEvent(event, nameInput, nameCell, codeInput, codeCell, typeCombo, typeCell,unitCombo, unitCell, weightInput, weightCell, weightCombo, remarkInput, remarkCell);
     };
     weightInput.onkeyup = function(event){
-        enterEvent(event, nameInput, nameCell, codeInput, codeCell, typeCombo, typeCell,unitCombo, unitCell, weightInput, weightCell, weightCombo, remarkInput, remarkCell, imgCell, checkCell);
+        enterEvent(event, nameInput, nameCell, codeInput, codeCell, typeCombo, typeCell,unitCombo, unitCell, weightInput, weightCell, weightCombo, remarkInput, remarkCell);
     };
     remarkInput.onkeyup = function(event){
-        enterEvent(event, nameInput, nameCell, codeInput, codeCell, typeCombo, typeCell,unitCombo, unitCell, weightInput, weightCell, weightCombo, remarkInput, remarkCell, imgCell, checkCell);
+        enterEvent(event, nameInput, nameCell, codeInput, codeCell, typeCombo, typeCell,unitCombo, unitCell, weightInput, weightCell, weightCombo, remarkInput, remarkCell);
     };
 
 }
@@ -273,7 +273,7 @@ function checkChangeHead(checkBox){
     }
 }
 
-function enterEvent(event, nameInput, nameCell, codeInput, codeCell, typeCombo, typeCell,unitCombo, unitCell, weightInput, weightCell, weightCombo, remarkInput, remarkCell, imgCell, checkCell) {
+function enterEvent(event, nameInput, nameCell, codeInput, codeCell, typeCombo, typeCell,unitCombo, unitCell, weightInput, weightCell, weightCombo, remarkInput, remarkCell) {
     // keyCode 13은 엔터 키를 의미합니다.
     if (event.keyCode === 13) {
 
@@ -294,10 +294,25 @@ function enterEvent(event, nameInput, nameCell, codeInput, codeCell, typeCombo, 
         var nameDiv = document.createElement('div');
         nameDiv.textContent = nameInput.value;
         nameCell.innerHTML = '';
-        nameCell.appendChild(nameDiv);
 
-        imgCell.style.display = '';
-        checkCell.style.display = '';
+        var img = document.createElement('img');
+        img.src="image/update.png";
+        img.onclick = function(){
+            updateMode(this);
+        };
+        img.className = "updateBtn";
+
+        var check = document.createElement('input');
+        check.type = "checkbox";
+        check.className = 'checkBtn';
+        check.onclick = function(){
+            checkChange(this);
+        };
+
+        nameCell.appendChild(nameDiv);
+        nameCell.appendChild(img);
+        nameCell.appendChild(check);
+
         // 입력 상자를 떠나기
         nameInput.blur();
 
