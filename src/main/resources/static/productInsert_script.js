@@ -1,40 +1,68 @@
-
-function saveComplete(){
-    var table = document.getElementById('data_table');
-    if(table.rows.length <= 1)
-        alert("저장할 내용이 없습니다.");
-    else
-        alert("저장이 완료되었습니다.");
+class TableRow{
+    constructor(name, code, type, unit, weight, weight_unit, remark) {
+        this.name = name;
+        this.code = code;
+        this.type = type;
+        this.unit = unit;
+        this.weight = weight;
+        this.weight_unit = weight_unit;
+        this.remark = remark;
+    }
 }
 
-var defaultContent = null;
-function optionChange(combo){
-    var selectedValue = combo.value;
-    var option = combo.parentNode;
-    var search = option.querySelector('#search');
+// 저장 버튼
+function saveComplete(saveBtn){
+    var tbody = document.getElementById('tbody');
 
+    // 행이 1개 남았을 때만 검사
+    if(tbody.rows.length <= 1){
+        var proName = tbody.rows[0].cells[0].textContent;
+        if(proName === ""){
+            alert("저장할 내용이 없습니다.");
+        }else{
+            alert("저장이 완료되었습니다.");
+            window.location.href = "product.html";
+        }
+    }
+    else{
+        alert("저장이 완료되었습니다.");
+        window.location.href = "product.html";
+    }
+}
+
+// 검색 옵션 변경 이벤트
+var defaultContent = null;
+function optionChange(select){
+    var selectValue = select.value;
+    var option = select.parentNode;
+    var search = option.querySelector('#search'); //검색어 입력하는 부분
+
+    // 설정한 default 없다면 검색어 입력 화면 적용
     if(defaultContent == null){
         defaultContent = search.innerHTML;
     }
 
-    if(selectedValue === "type"){
-        search.style.border = "none";
+    // 제품 유형 선택 시
+    if(selectValue === "type"){
+        search.style.border = "none"; //검색어 입력 영역 none
+
+        // 새로운 select 태그 생성
         var typeCombo = document.createElement("select");
         // 옵션 생성 및 추가
-        var option1 = new Option("유형A", "A");
-        var option2 = new Option("유형B", "B");
-        var option3 = new Option("유형C", "C");
-
-        typeCombo.appendChild(option1);
-        typeCombo.appendChild(option2);
-        typeCombo.appendChild(option3);
-
+        var typeOption1 = new Option("A", "A");
+        var typeOption2 = new Option("B", "B");
+        var typeOption3 = new Option("C", "C");
+        typeCombo.appendChild(typeOption1);
+        typeCombo.appendChild(typeOption2);
+        typeCombo.appendChild(typeOption3);
+        // 스타일 설정
         typeCombo.style.width="40%";
         typeCombo.style.height="2.3rem";
         typeCombo.style.textAlign="center";
         typeCombo.style.borderRadius="0.3rem";
         typeCombo.style.marginRight="0.8rem";
 
+        // search 영역 비우고 typeCombo 추가
         search.innerHTML = '';
         search.appendChild(typeCombo);
     }else{
@@ -44,10 +72,10 @@ function optionChange(combo){
     }
 }
 
+// 중량 input의 oninput이벤트(사용자가 입력 필드에 값을 입력할 때마다 발생)
 function numFormat(input){
     input.value = comma(uncomma(input.value));
 }
-
 function comma(str) {
     // 소수점 이하를 분리하여 처리
     var parts = str.split('.');
@@ -56,13 +84,14 @@ function comma(str) {
     // 정수 부분과 소수점 이하를 다시 합침
     return parts.join('.');
 }
-
 function uncomma(str) {
     // 숫자와 소수점만 남김 (소수점 포함)
     return str.replace(/[^\d.]+/g, '');
 }
 
+// 중량 input의 onfocus이벤트(포커스를 받았을 때 발생)
 function removeDefault(input){
+    // 디폴트 값인 0으로 설정되어 있을 시 공백으로 보여주기
     if(input.value === "0"){
         input.value = "";
     }
@@ -77,41 +106,39 @@ function addData(){
     var weight = document.getElementById('input_weight').value; //중량
     var weight_unit = document.getElementById('select_weight_unit').value; //중량 단위
     var remark = document.getElementById('remark_content').value; //비고
-
     var table = document.getElementById('data_table'); //테이블
+    var receiveRow = new TableRow(name, code, type, unit, weight, weight_unit, remark);
 
-    // 필수 입력 검사
+    // 1. 필수 입력 검사
     var checkCells = [
-        {label: "제품명", value: name},
-        {label: "중량", value: weight}
+        {label: "제품명", value: receiveRow.name},
+        {label: "중량", value: receiveRow.weight}
     ];
     if(!checkField(checkCells)) return;
 
-    // 중복 데이터 검사
-/*    if(!checkDuplication(name, table)) return;*/
+    // 2. 중복 데이터 검사
+    if(!checkDuplication(name, table)) return;
 
     var newRow = table.insertRow(-1); // insertRow : 테이블에 새로운 행 삽입(삽입될 행의 인덱스 번호 -> 0:첫번째, -1: 마지막 행)
-
-    // 첫번째 행의 제품명이 공백이면 해당 행 삭제(데이터를 추가할 때)
-    if(table.rows.length <= 3){
-        var firstRow = table.rows[1];
-        var firstRowName = firstRow.cells[0].textContent;
-        console.log("첫번째 행 정보 : " + firstRowName);
-        if(firstRowName === ""){
-            table.deleteRow(1);
-        }
-    }
-
     // 로우 클릭 이벤트
     newRow.onclick = function() {
         rowClick(this);
     };
 
-    var cell0 = newRow.insertCell(0); // -> 0인텍스에 셀 추가, 이 셀에 대한 참조를 cell1에 저장
+    // 4. 첫번째 행의 제품명이 공백이면 해당 행 삭제
+    if(table.rows.length <= 3){
+        var firstRowName =  table.rows[1].cells[0].textContent;
+
+        if(firstRowName === ""){
+            table.deleteRow(1);
+        }
+    }
+
+    var cell0 = newRow.insertCell(0); // -> 0인덱스에 셀 추가, 이 셀에 대한 참조를 cell1에 저장
     cell0.className = "name"; // 클래스 적용
     cell0.innerHTML = `<div>${name}</div>`;
 
-    var cell1 = newRow.insertCell(-1); // -> 0인텍스에 셀 추가, 이 셀에 대한 참조를 cell1에 저장
+    var cell1 = newRow.insertCell(-1);
     cell1.className = "code";
     cell1.innerHTML = code;
 
@@ -150,15 +177,17 @@ function addData(){
     document.getElementById("input_weight").value = "0";
     document.getElementById("select_weight_unit").selectedIndex = 0;
     document.getElementById("remark_content").value = "";
+
+    isUpdate = false;
 }
 
 // 행 삭제 버튼 이벤트(x)
-function deleteRow(event, btn){
+function deleteRow(event, removeBtn){
     // img에 대한 이벤트만 실행가능하도록 이벤트 버블링 막음
     // 이벤트 버블링:  한 요소에 이벤트가 발생되면, 그 요소의 부모 요소의 이벤트도 같이 발생되는 이벤트 전파
     event.stopPropagation();
 
-    var row = btn.parentNode.parentNode; //tr
+    var row = removeBtn.parentNode.parentNode; //tr
     var table = row.parentNode; //tbody
     var rowIndex = row.rowIndex - 1; //이벤트 발생한 행 인덱스
 
@@ -175,7 +204,10 @@ function deleteRow(event, btn){
 }
 
 // 행 클릭 이벤트
+var isUpdate = false;
 function rowClick(row){
+    isUpdate = true;
+
     var name = row.cells[0].textContent;
     var type = row.cells[2].textContent;
     var unit = row.cells[3].textContent;
@@ -209,7 +241,6 @@ function rowClick(row){
 
     });
 
-
     // 테이블 바깥부분 클릭 씨 활성화 해제
     document.addEventListener('click', function(event) {
         var target = event.target; //이벤트가 발생한 요소 저장
@@ -238,7 +269,7 @@ function checkField(cells){
     return true;
 }
 
-/*
+
 // 중복 검사
 function checkDuplication(name, table){
     var rows = table.querySelectorAll('tr');
@@ -249,4 +280,4 @@ function checkDuplication(name, table){
         }
     }
     return true;
-}*/
+}

@@ -206,6 +206,17 @@
             border: 1px solid white;
         }
 
+        #table thead #checkBtnHead{
+            display: none;
+            position: absolute;
+            left: 0.5rem;
+            top: 1rem;
+        }
+
+        #table thead tr:hover #checkBtnHead{
+            display: inline-block;
+        }
+
         #table tbody{
             letter-spacing: 0px;
             font-family: "Calibri", 'sans-serif';
@@ -214,7 +225,6 @@
 
         #table tbody td {
             border: 1px solid #ffffff; /* 테두리 스타일 지정 */
-            padding: 0.3rem;
             height: 2rem;
         }
 
@@ -233,11 +243,22 @@
 
         #table tbody .name{
             text-align: left;
-            padding-left: 1rem;
+            padding-left: 1.7rem;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
             position: relative;
+        }
+
+        #table tbody .name .checkBtn{
+            display: none;
+            position: absolute;
+            left: 0.3rem;
+            top: 0.6rem;
+        }
+
+        #table tbody tr:hover .checkBtn{
+            display: inline-block;
         }
 
         #table tbody .name div{
@@ -246,6 +267,7 @@
             overflow: hidden;
             text-overflow: ellipsis;
             max-width: 10.5rem;
+            padding: 0.3rem;
         }
 
         #table tbody .name img{
@@ -268,11 +290,10 @@
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
-            padding-left: 1rem;
         }
 
         #table tbody .code div{
-            width: 15rem;
+            width: 100%;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
@@ -282,38 +303,34 @@
             text-align: center;
             overflow: hidden;
             text-overflow: ellipsis;
-            padding-left: 1rem;
         }
 
         #table tbody .unit{
             text-align: center;
             overflow: hidden;
             text-overflow: ellipsis;
-            padding-left: 1rem;
         }
 
         #table tbody .weight{
-            text-align: right;
             overflow: hidden;
             text-overflow: ellipsis;
+            position: relative;
         }
 
         #table tbody .weight div{
-            width: 12rem;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
+            text-align: right;
         }
 
         #table tbody .remark{
             text-align: left;
             overflow: hidden;
             text-overflow: ellipsis;
-            padding-left: 1rem;
         }
 
         #table tbody .remark div{
-            width: 29rem;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
@@ -368,7 +385,7 @@
 <body>
 <div id="customContextMenu" class="context-menu">
     <ul>
-        <li onclick="showAlert()">삭제</li>
+        <li onclick="deleteBtn()">삭제</li>
     </ul>
 </div>
 <div id="header">
@@ -409,10 +426,10 @@
     <label>제품 현황 00건</label>
 </div>
 <div id="table">
-    <table>
+    <table id="data_table">
         <thead>
             <tr>
-                <th style="width: 13.8rem; border-top-left-radius: 0.5rem">제품명</th>
+                <th style="width: 13.8rem; border-top-left-radius: 0.5rem"><input type="checkbox" id="checkBtnHead" onchange="checkChangeHead(this)"/>제품명</th>
                 <th style="width: 16rem;">제품 코드</th>
                 <th style="width: 14.2rem;">제품 유형</th>
                 <th style="width: 14.6rem;">단위</th>
@@ -420,61 +437,65 @@
                 <th style="width: 30.3rem; border-top-right-radius: 0.5rem">비고</th>
             </tr>
         </thead>
-        <tbody id="tbody" onclick="checkActiveRow(this)">
+        <tbody id="tbody">
         <tr>
-            <td class="name"><div>EF-120A</div><img src="image/update.png" onclick="updateMode(this)"/></td>
+            <td class="name">
+                <input type="checkbox" class="checkBtn" onchange="checkChange(this)"/>
+                <div>EF-120A</div>
+                <img src="image/update.png" onclick="updateMode(this)"/>
+            </td>
             <td class="code"><div>CT(P)-E000001</div></td>
-            <td class="type">A</td>
-            <td class="unit">CAN</td>
-            <td class="weight"><div>20KG</div></td>
+            <td class="type">B</td>
+            <td class="unit">%</td>
+            <td class="weight"><div>20 KG</div></td>
             <td class="remark"><div></div></td>
         </tr>
         <tr>
-            <td class="name"><div>EF-120A</div><img src="image/update.png" onclick="updateMode(this)"/></td>
+            <td class="name">
+                <input type="checkbox" class="checkBtn" onchange="checkChange(this)"/>
+                <div>EF-120A</div>
+                <img src="image/update.png" onclick="updateMode(this)"/>
+            </td>
             <td class="code"><div>CT(P)-E000001</div></td>
             <td class="type">A</td>
             <td class="unit">CAN</td>
-            <td class="weight"><div>20KG</div></td>
+            <td class="weight"><div>20 KG</div></td>
             <td class="remark"><div></div></td>
         </tr>
         <tr>
-            <td class="name"><div>EF-120A</div><img src="image/update.png" onclick="updateMode(this)"/></td>
+            <td class="name">
+                <input type="checkbox" class="checkBtn" onchange="checkChange(this)"/>
+                <div>EF-120A</div>
+                <img src="image/update.png" onclick="updateMode(this)"/>
+            </td>
             <td class="code"><div>CT(P)-E000001</div></td>
             <td class="type">A</td>
             <td class="unit">CAN</td>
-            <td class="weight"><div>20KG</div></td>
+            <td class="weight"><div>20 KG</div></td>
             <td class="remark"><div></div></td>
         </tr>
         <tr>
-            <td class="name"><div>EF-120A</div><img src="image/update.png" onclick="updateMode(this)"/></td>
+            <td class="name">
+                <input type="checkbox" class="checkBtn" onchange="checkChange(this)"/>
+                <div>EF-120A</div>
+                <img src="image/update.png" onclick="updateMode(this)"/>
+            </td>
             <td class="code"><div>CT(P)-E000001</div></td>
             <td class="type">A</td>
             <td class="unit">CAN</td>
-            <td class="weight"><div>20KG</div></td>
+            <td class="weight"><div>20 KG</div></td>
             <td class="remark"><div></div></td>
         </tr>
         <tr>
-            <td class="name"><div>EF-120A</div><img src="image/update.png" onclick="updateMode(this)"/></td>
+            <td class="name">
+                <input type="checkbox" class="checkBtn" onchange="checkChange(this)"/>
+                <div>EF-120A</div>
+                <img src="image/update.png" onclick="updateMode(this)"/>
+            </td>
             <td class="code"><div>CT(P)-E000001</div></td>
             <td class="type">A</td>
             <td class="unit">CAN</td>
-            <td class="weight"><div>20KG</div></td>
-            <td class="remark"><div></div></td>
-        </tr>
-        <tr>
-            <td class="name"><div>EF-120A</div><img src="image/update.png" onclick="updateMode(this)"/></td>
-            <td class="code"><div>CT(P)-E000001</div></td>
-            <td class="type">A</td>
-            <td class="unit">CAN</td>
-            <td class="weight"><div>20KG</div></td>
-            <td class="remark"><div></div></td>
-        </tr>
-        <tr>
-            <td class="name"><div>EF-120A</div><img src="image/update.png" onclick="updateMode(this)"/></td>
-            <td class="code"><div>CT(P)-E000001</div></td>
-            <td class="type">A</td>
-            <td class="unit">CAN</td>
-            <td class="weight"><div>20KG</div></td>
+            <td class="weight"><div>20 KG</div></td>
             <td class="remark"><div></div></td>
         </tr>
         </tbody>

@@ -11,49 +11,18 @@ window.addEventListener('click', function() {
     document.getElementById('customContextMenu').style.display = 'none';
 });
 
-function showAlert(){
+// 삭제 버튼
+function deleteBtn(){
     var result = confirm("삭제하시겠습니까?");
+
     if(result){
         alert("삭제되었습니다.");
+        var checkBoxHead = document.getElementById('checkBtnHead');
+        checkBoxHead.checked = false;
+        checkBoxHead.onchange(function(){
+            checkChangeHead(this);
+        });
     }
-}
-
-function checkActiveRow(activeRows){
-    // 행 한개씩 클릭
-    var rows = activeRows.querySelectorAll('tr');
-    var previousRow = null;
-    var isDrag = false;
-
-    rows.forEach(function(row) {
-
-        row.addEventListener('click', function(){
-            // 이 경우, 단순 클릭입니다.
-            if(previousRow != null){
-                previousRow.style.backgroundColor = "";
-            }
-            row.style.backgroundColor = "#becbd4";
-            previousRow = row;
-
-            console.log('단순 클릭이 발생했습니다.');
-        })
-
-    });
-
-    console.log("활성화 된 행 : " + previousRow);
-
-    // 테이블 바깥부분 클릭 씨 활성화 해제
-    document.addEventListener('click', function(event) {
-        var target = event.target; //이벤트가 발생한 요소 저장
-
-        // 테이블 요소 이외의 요소를 클릭한 경우
-        if (!target.closest('tbody')) {
-            if (previousRow != null) {
-                previousRow.style.backgroundColor = "";
-                previousRow = null;
-            }
-        }
-    });
-
 }
 
 var defaultContent = null;
@@ -94,128 +63,293 @@ function optionChange(combo){
 }
 
 // 수정 이미지 클릭
-function updateMode(button){
-    var row = button.parentNode.parentNode;
-    var imgCell = row.querySelector('.name img');
-    imgCell.style.display = "none";
+function updateMode(UpdateBtn){
+    var row = UpdateBtn.parentNode.parentNode;
 
-    var nameCell = row.querySelector('.name div');
+    // 수정 버튼, 체크 박스 숨기기
+    var imgCell = row.querySelector('.name img');
+    var checkCell = row.querySelector('.name .checkBtn');
+    imgCell.style.display = "none";
+    checkCell.style.display = "none";
+
+    // 제품명 셀
+    var nameCell = row.querySelector('.name');
     var nameInput = document.createElement("input");
     nameInput.type = "text";
     nameInput.value = nameCell.textContent.trim();
-    nameInput.style.width= "100%";
-    nameInput.style.height= "1.5rem";
-    nameInput.style.borderRadius= "0.3rem";
+    nameInput.style.width= "13.9rem";
+    nameInput.style.height= "2rem";
+    nameInput.style.outline = "none";
+    nameInput.style.border = "1px solid #c1c1c1";
 
     nameCell.innerHTML = '';
     nameCell.appendChild(nameInput);
     nameInput.focus();
 
-    nameInput.addEventListener("keyup", function(event) {
-        // keyCode 13은 엔터 키를 의미합니다.
-        if (event.keyCode === 13) {
-            var newLink = document.createElement('div');
-            newLink.textContent = nameInput.value; // input 값으로 설정
-            nameCell.innerHTML = '';
-            nameCell.appendChild(newLink);
-            imgCell.style.display = "";
-            // 입력 상자를 떠나기
-            nameInput.blur();
-        }
-    });
-
-    var codeCell = row.querySelector('.code div');
+    // 제품코드 셀
+    var codeCell = row.querySelector('.code');
     var codeInput = document.createElement("input");
     codeInput.type = "text";
     codeInput.value = codeCell.textContent.trim();
-    codeInput.style.width = "100%";
-    codeInput.style.height = "1.5rem";
-    codeInput.style.borderRadius = "0.3rem";
+    codeInput.style.width= "100%";
+    codeInput.style.height= "2rem";
+    codeInput.style.outline = "none";
+    codeInput.style.border = "1px solid #c1c1c1";
+    codeInput.style.color = "#b9b9b9";
+    codeInput.readOnly = true;
 
     codeCell.innerHTML = '';
     codeCell.appendChild(codeInput);
 
+    // 제품유형 셀
     var typeCell =row.querySelector('.type');
-    var typeInput = document.createElement("select");
+    var typeCombo = document.createElement("select");
     // 옵션 생성 및 추가
-    var option1 = new Option("A", "A");
-    var option2 = new Option("B", "B");
-    var option3 = new Option("C", "C");
+    var typeOption1 = new Option("A", "A");
+    var typeOption2 = new Option("B", "B");
+    var typeOption3 = new Option("C", "C");
 
-    typeInput.appendChild(option1);
-    typeInput.appendChild(option2);
-    typeInput.appendChild(option3);
+    typeCombo.appendChild(typeOption1);
+    typeCombo.appendChild(typeOption2);
+    typeCombo.appendChild(typeOption3);
 
-    typeInput.value = typeCell.textContent;
-    typeInput.style.width="50%";
-    typeInput.style.height="1.8rem";
-    typeInput.style.textAlign="center";
-    typeInput.style.borderRadius="0.3rem";
-    typeInput.style.marginRight="0.8rem";
+    typeCombo.value = typeCell.textContent;
+    typeCombo.style.width="100%";
+    typeCombo.style.height="2rem";
+    typeCombo.style.textAlign="center";
+    typeCombo.style.outline = "none";
+    typeCombo.style.border = "1px solid #c1c1c1";
+
     typeCell.innerHTML = '';
-    typeCell.appendChild(typeInput);
+    typeCell.appendChild(typeCombo);
 
+    // 단위 셀
     var unitCell =row.querySelector('.unit');
-    var unitInput = document.createElement("select");
+    var unitCombo = document.createElement("select");
     // 옵션 생성 및 추가
-    var optionU1 = new Option("CAN", "CAN");
-    var optionU2 = new Option("%", "%");
-    var optionU3 = new Option("개", "개");
+    var unitOption1 = new Option("CAN", "CAN");
+    var unitOption2 = new Option("%", "%");
+    var unitOption3 = new Option("개", "개");
 
-    unitInput.appendChild(optionU1);
-    unitInput.appendChild(optionU2);
-    unitInput.appendChild(optionU3);
+    unitCombo.appendChild(unitOption1);
+    unitCombo.appendChild(unitOption2);
+    unitCombo.appendChild(unitOption3);
 
-    unitInput.value = unitCell.textContent;
-    unitInput.style.width="50%";
-    unitInput.style.height="1.8rem";
-    unitInput.style.textAlign="center";
-    unitInput.style.borderRadius="0.3rem";
-    unitInput.style.marginRight="0.8rem";
+    unitCombo.value = unitCell.textContent;
+    unitCombo.style.width="100%";
+    unitCombo.style.height="2rem";
+    unitCombo.style.textAlign="center";
+    unitCombo.style.outline = "none";
+    unitCombo.style.border = "1px solid #c1c1c1";
+
     unitCell.innerHTML = '';
-    unitCell.appendChild(unitInput);
+    unitCell.appendChild(unitCombo);
 
+    // 중량 셀
     var weightCell =row.querySelector('.weight');
     var weightInput = document.createElement("input");
     weightInput.type = "text";
-    var numericValue = parseFloat(weightCell.textContent.match(/\d+(\.\d+)?/)[0]);
-    weightInput.value = numericValue;
-    weightInput.style.width= "5rem";
-    weightInput.style.height= "1.8rem";
-    weightInput.style.borderRadius= "0.3rem";
-    weightInput.style.paddingLeft= "0.5rem";
-    weightInput.style.marginRight="0.2rem";
-    weightInput.style.display= "inline";
+    var word = weightCell.textContent.split(' ');
+    weightInput.value = word[0]; //숫자 추출
+    weightInput.style.width= "49%";
+    weightInput.style.height= "2rem";
+    weightInput.style.outline = "none";
+    weightInput.style.border = "1px solid #c1c1c1";
+    weightInput.style.position = "absolute";
+    weightInput.style.top = "0";
+    weightInput.style.left = "0";
+    weightInput.style.marginRight = "0.2rem";
+    weightInput.oninput = function() {
+        numFormat(this);
+    };
+    weightInput.onfocus = function() {
+        removeDefault(this);
+    };
 
     var weightCombo = document.createElement("select");
     // 옵션 생성 및 추가
-    var optionW1 = new Option("KG", "KG");
-    var optionW2 = new Option("G", "G");
-    var optionW3 = new Option("CM", "CM");
+    var weightOption1 = new Option("KG", "KG");
+    var weightOption2 = new Option("G", "G");
+    var weightOption3 = new Option("CM", "CM");
 
-    weightCombo.appendChild(optionW1);
-    weightCombo.appendChild(optionW2);
-    weightCombo.appendChild(optionW3);
+    weightCombo.appendChild(weightOption1);
+    weightCombo.appendChild(weightOption2);
+    weightCombo.appendChild(weightOption3);
 
-    weightCombo.value = weightCell.textContent;
-    weightCombo.style.width="5rem";
-    weightCombo.style.height="1.8rem";
+    weightCombo.value = word[1];
+    weightCombo.style.width="49%";
+    weightCombo.style.height="2rem";
     weightCombo.style.textAlign="center";
-    weightCombo.style.borderRadius="0.3rem";
-    weightCombo.style.marginRight="0.8rem";
-    weightCombo.style.display="inline";
+    weightCombo.style.outline = "none";
+    weightCombo.style.border = "1px solid #c1c1c1";
+    weightCombo.style.position = "absolute";
+    weightCombo.style.top = "0";
+    weightCombo.style.right = "0";
+
     weightCell.innerHTML = '';
     weightCell.appendChild(weightInput);
     weightCell.appendChild(weightCombo);
 
-    var remarkCell =row.querySelector('.remark div');
+    // 비고 셀
+    var remarkCell =row.querySelector('.remark');
     var remarkInput = document.createElement("input");
     remarkInput.type = "text";
     remarkInput.value = remarkCell.textContent;
     remarkInput.style.width= "100%";
-    remarkInput.style.height= "1.5rem";
-    remarkInput.style.borderRadius= "0.3rem";
-    remarkInput.style.paddingLeft= "0.5rem";
+    remarkInput.style.height= "2rem";
+    remarkInput.style.outline = "none";
+    remarkInput.style.border = "1px solid #c1c1c1";
+
     remarkCell.innerHTML = '';
     remarkCell.appendChild(remarkInput);
+
+    nameInput.onkeyup = function(event){
+        enterEvent(event, nameInput, nameCell, codeInput, codeCell, typeCombo, typeCell,unitCombo, unitCell, weightInput, weightCell, weightCombo, remarkInput, remarkCell, imgCell, checkCell);
+    };
+    codeInput.onkeyup = function(event){
+        enterEvent(event, nameInput, nameCell, codeInput, codeCell, typeCombo, typeCell,unitCombo, unitCell, weightInput, weightCell, weightCombo, remarkInput, remarkCell, imgCell, checkCell);
+    };
+    weightInput.onkeyup = function(event){
+        enterEvent(event, nameInput, nameCell, codeInput, codeCell, typeCombo, typeCell,unitCombo, unitCell, weightInput, weightCell, weightCombo, remarkInput, remarkCell, imgCell, checkCell);
+    };
+    remarkInput.onkeyup = function(event){
+        enterEvent(event, nameInput, nameCell, codeInput, codeCell, typeCombo, typeCell,unitCombo, unitCell, weightInput, weightCell, weightCombo, remarkInput, remarkCell, imgCell, checkCell);
+    };
+
+}
+
+// 중량 input의 oninput이벤트(사용자가 입력 필드에 값을 입력할 때마다 발생)
+function numFormat(input){
+    input.value = comma(uncomma(input.value));
+}
+function comma(str) {
+    // 소수점 이하를 분리하여 처리
+    var parts = str.split('.');
+    // 정수 부분에만 콤마 추가
+    parts[0] = parts[0].replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+    // 정수 부분과 소수점 이하를 다시 합침
+    return parts.join('.');
+}
+function uncomma(str) {
+    // 숫자와 소수점만 남김 (소수점 포함)
+    return str.replace(/[^\d.]+/g, '');
+}
+
+// 중량 input의 onfocus이벤트(포커스를 받았을 때 발생)
+function removeDefault(input){
+    // 디폴트 값인 0으로 설정되어 있을 시 공백으로 보여주기
+    if(input.value === "0"){
+        input.value = "";
+    }
+}
+
+// 체크박스 체크 시 화면에 보이게 설정
+function checkChange(checkBox){
+    if(checkBox.checked){
+        checkBox.style.display = "inline-block";
+    }else{
+        checkBox.style.display = '';
+    }
+}
+
+// 헤더 체크박스(전체 선택 및 해제)
+function checkChangeHead(checkBox){
+    var checkboxes = document.querySelectorAll('.checkBtn');
+
+    if(checkBox.checked){
+        checkBox.style.display = "inline-block";
+
+        checkboxes.forEach(function(checkbox){
+            checkbox.checked = true;
+            checkbox.style.display = 'inline-block';
+        });
+    }else{
+        checkBox.style.display = '';
+
+        checkboxes.forEach(function(checkbox){
+            checkbox.checked = false;
+            checkbox.style.display = '';
+        });
+    }
+}
+
+function enterEvent(event, nameInput, nameCell, codeInput, codeCell, typeCombo, typeCell,unitCombo, unitCell, weightInput, weightCell, weightCombo, remarkInput, remarkCell, imgCell, checkCell) {
+    // keyCode 13은 엔터 키를 의미합니다.
+    if (event.keyCode === 13) {
+
+        // 1. 필수 입력 검사
+        var checkCells = [
+            {label: "제품명", value: nameInput.value},
+            {label: "중량", value: weightInput.value}
+        ];
+        if(!checkField(checkCells)) return;
+
+        // 2. 제품명 중복 검사
+        var proName = nameInput.value;
+        var table = document.getElementById('table');
+        if(!checkDuplication(proName, table)) {
+            return;
+        }
+
+        var nameDiv = document.createElement('div');
+        nameDiv.textContent = nameInput.value;
+        nameCell.innerHTML = '';
+        nameCell.appendChild(nameDiv);
+
+        imgCell.style.display = '';
+        checkCell.style.display = '';
+        // 입력 상자를 떠나기
+        nameInput.blur();
+
+        var codeDiv = document.createElement('div');
+        codeDiv.textContent = codeInput.value;
+        codeCell.innerHTML = '';
+        codeCell.appendChild(codeDiv);
+
+        var typeSpan = document.createElement('span');
+        typeSpan.textContent = typeCombo.value;
+        typeCell.innerHTML = '';
+        typeCell.appendChild(typeSpan);
+
+        var unitSpan = document.createElement('span');
+        unitSpan.textContent = unitCombo.value;
+        unitCell.innerHTML = '';
+        unitCell.appendChild(unitSpan);
+
+        var weightDiv = document.createElement('div');
+        weightDiv.textContent = weightInput.value + " " + weightCombo.value;
+        weightCell.innerHTML = '';
+        weightCell.appendChild(weightDiv);
+
+        var remarkDiv = document.createElement('div');
+        remarkDiv.textContent = remarkInput.value;
+        remarkCell.innerHTML = '';
+        remarkCell.appendChild(remarkDiv);
+    }
+}
+
+// 중복 검사
+function checkDuplication(name, table){
+    var rows = table.querySelectorAll('tr');
+
+    for(var i = 1; i < rows.length; i++){
+        if(rows[i].cells[0].textContent.trim() === name){
+            alert("중복된 제품명입니다.");
+            return false;
+        }
+    }
+    return true;
+}
+
+// 필수 입력 검사
+function checkField(cells){
+    for(var i = 0; i < cells.length; i++){
+        var cell = cells[i];
+
+        if(cell.value === "" || cell.value === "0"){
+            alert(cell.label + "을(를) 입력하세요"); // 객체의 'label' 속성을 사용합니다.
+            return false;
+        }
+    }
+    return true;
 }

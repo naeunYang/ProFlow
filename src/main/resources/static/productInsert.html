@@ -661,17 +661,17 @@
                             <th>비고</th>
                         </tr>
                     </thead>
-                    <tbody>
-                    <tr style = "height: 2rem;">
+                    <tbody id="tbody">
+<!--                    <tr style = "height: 2rem;">
                         <td class="name"></td>
                         <td class="code"></td>
                         <td class="type"></td>
                         <td class="unit"></td>
                         <td class="weight"></td>
                         <td class="remark"></td>
-                    </tr>
+                    </tr>-->
 
-<!--                    <tr onclick="rowClick(this)">
+                    <tr onclick="rowClick(this)">
                         <td class="name"><div>EF-120A</div></td>
                         <td class="code"><div>CT(P)-E000001</div></td>
                         <td class="type">A</td>
@@ -703,12 +703,12 @@
                             <div></div>
                             <img src="image/xBtn.png" class="remove" onclick="deleteRow(event, this)"/>
                         </td>
-                    </tr>-->
+                    </tr>
                     </tbody>
                 </table>
             </div>
             <div id="save_btn">
-                <a href="product.html"><button type="button" onclick="saveComplete()">저장</button></a>
+                <button type="button" onclick="saveComplete(this)">저장</button>
             </div>
         </div>
     </div>
