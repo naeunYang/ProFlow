@@ -285,7 +285,7 @@ function enterEvent(event, nameInput, nameCell, codeInput, codeCell, typeCombo, 
         if(!checkField(checkCells)) return;
 
         // 2. 제품명 중복 검사
-        var proName = nameInput.value;
+        var proName = nameInput.value.trim();
         var table = document.getElementById('table');
         if(!checkDuplication(proName, table)) {
             return;
