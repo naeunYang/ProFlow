@@ -355,7 +355,7 @@
             text-align: center;
         }
 
-        #input #info #add_info #addBtn #add_btn{
+        #input #info #add_info #addBtn .addBtn{
             width: 5.5rem;
             height: 2rem;
             background: #428BCA;
@@ -491,6 +491,7 @@
             width: 9.9rem;
             overflow: hidden;
             text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
         #input #info #add_table #table #data_table tbody .weight div{
@@ -643,8 +644,8 @@
                     <textarea id="remark_content" tabindex="6"></textarea>
                 </div>
                 <div id="addBtn">
-                    <button type="button" id="add_btn" tabindex="7" onclick="addData()">추가</button>
-                    <button type="reset" id="reset_btn" tabindex="8" >초기화</button>
+                    <button type="button" id="add_btn" class="addBtn" tabindex="7" onclick="addData()">추가</button>
+                    <button type="reset" id="reset_btn" tabindex="8" onclick="clickReset()">초기화</button>
                 </div>
             </div>
         </form>
@@ -695,7 +696,7 @@
                     </tr>
                     <tr onclick="rowClick(this)">
                         <td class="name"><div>EF-120C</div></td>
-                        <td class="code"><div>CT(P)-E000003</div></td>
+                        <td class="code"><div>CT(P)-E00000Up</div></td>
                         <td class="type">C</td>
                         <td class="unit">CAN</td>
                         <td class="weight"><div>2000 KG</div></td>

@@ -178,7 +178,6 @@ function addData(){
     document.getElementById("select_weight_unit").selectedIndex = 0;
     document.getElementById("remark_content").value = "";
 
-    isUpdate = false;
 }
 
 // 행 삭제 버튼 이벤트(x)
@@ -204,10 +203,7 @@ function deleteRow(event, removeBtn){
 }
 
 // 행 클릭 이벤트
-var isUpdate = false;
 function rowClick(row){
-    isUpdate = true;
-
     var name = row.cells[0].textContent;
     var type = row.cells[2].textContent;
     var unit = row.cells[3].textContent;
@@ -220,7 +216,7 @@ function rowClick(row){
     document.getElementById('select_unit').value = unit;
     document.getElementById('input_weight').value = word[0];
     document.getElementById('select_weight_unit').value = word[1];
-    document.getElementById('remark_content').value = remark;
+    document.getElementById('remark_content').value = remark.trim();
 
     var tbody = row.parentNode;
     // 행 한개씩 클릭
@@ -254,6 +250,7 @@ function rowClick(row){
         }
     });
 
+    updateBtn();
 }
 
 // 필수 입력 검사
@@ -269,15 +266,112 @@ function checkField(cells){
     return true;
 }
 
-
 // 중복 검사
 function checkDuplication(name, table){
     var rows = table.querySelectorAll('tr');
     for(var i = 0; i < rows.length; i++){
         if(rows[i].cells[0].textContent === name){
-            alert("중복된 제품입니다.");
+            alert("중복된 제품명입니다.");
             return false;
         }
     }
     return true;
+}
+
+// 수정 버튼 <-> 추가 버튼
+var updateBtnExists = false;
+function updateBtn(){
+    var addBtn = document.getElementById('add_btn');
+    if (!updateBtnExists) {
+        var updateBtn = document.createElement('button');
+        updateBtn.type = "button";
+        updateBtn.className = 'upBtn';
+        updateBtn.style.width = "5.5rem";
+        updateBtn.style.height = "2rem";
+        updateBtn.style.background = "#428BCA";
+        updateBtn.style.color = "white";
+        updateBtn.style.border = "none";
+        updateBtn.style.borderRadius = "0.3rem";
+        updateBtn.style.fontSize = "0.9rem";
+        updateBtn.style.fontWeight = "600";
+        updateBtn.style.marginRight = "1rem";
+        updateBtn.style.cursor = "pointer";
+        updateBtn.innerHTML = '수정';
+
+        // 수정 버튼 클릭 후 다시 추가 버튼으로 돌려놓기
+        updateBtn.onclick = function() {
+            clickUpBtn();
+        };
+
+        addBtn.parentNode.insertBefore(updateBtn, addBtn);
+        addBtn.style.display = "none";
+        updateBtnExists = true;
+    }
+}
+
+// 원상복구 함수
+function revertToOriginalState() {
+    var addBtn = document.getElementById('add_btn');
+    var updateBtn = document.querySelector('.upBtn'); // 'updateBtn' 찾기
+    if (updateBtn) {
+        updateBtn.remove(); // 'updateBtn' 제거
+        updateBtnExists = false; // 'updateBtn' 존재 여부 업데이트
+    }
+    addBtn.style.display = ""; // 'addBtn'을 다시 보이게 함
+}
+
+// 초기화 버튼 클릭 이벤트
+function clickReset(){
+    revertToOriginalState();
+}
+
+// 수정 버튼 클릭 이벤트
+function clickUpBtn(){
+    revertToOriginalState();
+
+    var name = document.getElementById('input_name').value; //제품명
+    var code = "CT(P)-E00000Up"; //코드
+    var type = document.getElementById('select_type').value; //제품유형
+    var unit = document.getElementById('select_unit').value; //단위
+    var weight = document.getElementById('input_weight').value; //중량
+    var weight_unit = document.getElementById('select_weight_unit').value; //중량 단위
+    var remark = document.getElementById('remark_content').value; //비고
+
+    var table = document.getElementById('data_table'); //테이블
+    var rows = table.getElementsByTagName('tr');
+
+    // 1. 필수 입력 검사
+    var checkCells = [
+        {label: "제품명", value: name},
+        {label: "중량", value: weight}
+    ];
+    if(!checkField(checkCells)) return;
+
+    var upRow = null;
+    for (var i = 1; i < rows.length; i++) {
+        var proCode = rows[i].cells[1].textContent;
+        if (proCode === code) {
+            upRow = rows[i];
+            // 로우 클릭 이벤트
+            upRow.onclick = function() {
+                rowClick(this);
+            };
+            break;
+        }
+    }
+
+    upRow.cells[0].style.fontWeight = "550";
+    upRow.cells[0].textContent = name; // 제품명
+    upRow.cells[1].textContent = code; // 코드
+    upRow.cells[2].textContent = type; // 제품유형
+    upRow.cells[3].textContent = unit; // 단위
+    upRow.cells[4].textContent = weight + " " + weight_unit; // 중량 및 중량 단위
+    upRow.cells[5].textContent = remark; // 비고
+
+    document.getElementById("input_name").value = "";
+    document.getElementById("select_type").selectedIndex = 0;
+    document.getElementById("select_unit").selectedIndex = 0;
+    document.getElementById("input_weight").value = "0";
+    document.getElementById("select_weight_unit").selectedIndex = 0;
+    document.getElementById("remark_content").value = "";
 }
