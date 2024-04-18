@@ -5,10 +5,9 @@ import java.util.Date;
 
 @Data
 public class BoardVO {
-    private int no;
-    private String title;
-    private String content;
-    private String writer;
-    private Date date;
-    private int cnt;
+    private String id;
+    private String pwd;
+    private String name;
+    private String tel;
+    private String email;
 }

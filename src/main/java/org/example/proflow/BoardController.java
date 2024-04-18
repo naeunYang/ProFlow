@@ -1,6 +1,8 @@
 package org.example.proflow;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -10,7 +12,7 @@ import java.util.List;
 
 @Controller
 public class BoardController {
-    @RequestMapping("/")
+/*    @RequestMapping("/board")
     @ResponseBody
     public BoardVO showmain(){
         BoardVO board = new BoardVO();
@@ -40,6 +42,14 @@ public class BoardController {
             board.add(board1);
         }
         return board;
+    }*/
+
+    @GetMapping("/login")
+    public String login(Model model){
+        model.addAttribute("userName", "홍길동");
+        model.addAttribute("userage", 22);
+
+        return "index";
     }
 
 }
