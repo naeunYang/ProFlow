@@ -380,7 +380,7 @@
         }
 
     </style>
-    <script src="../../static/js/product_script.js"></script>
+    <script src="/js/product_script.js"></script>
 </head>
 <body>
 <div id="customContextMenu" class="context-menu">
@@ -413,9 +413,9 @@
             <option value="type">제품유형</option>
         </select>
         <div id="search">
-            <img src="../../static/image/magnifier2.png" id="magnifier"/>
+            <img src="/image/magnifier2.png" id="magnifier"/>
             <input type="text" name="search" placeholder="제품을 검색하세요." autocomplete="off">
-            <img src="../../static/image/xBtn.png" id="xbtn"/>
+            <img src="/image/xBtn.png" id="xbtn"/>
         </div>
     </div>
     <div id="insert">
@@ -423,7 +423,7 @@
     </div>
 </div>
 <div id="label">
-    <label>제품 현황 00건</label>
+    <label>제품 현황&nbsp;&nbsp;<span th:text="${cnt}"></span>건</label>
 </div>
 <div id="table">
     <table id="data_table">
@@ -438,41 +438,17 @@
             </tr>
         </thead>
         <tbody id="tbody">
-        <tr>
+        <tr th:each="product : ${products}">
             <td class="name">
                 <input type="checkbox" class="checkBtn" onchange="checkChange(this)"/>
-                <div>EF-120A</div>
-                <img src="../../static/image/update.png" class="updateBtn" onclick="updateMode(this)"/>
+                <div th:text="${product.name}"></div>
+                <img src="/image/update.png" class="updateBtn" onclick="updateMode(this)"/>
             </td>
-            <td class="code"><div>CT(P)-E000001</div></td>
-            <td class="type">B</td>
-            <td class="unit">%</td>
-            <td class="weight"><div>20 KG</div></td>
-            <td class="remark"><div></div></td>
-        </tr>
-        <tr>
-            <td class="name">
-                <input type="checkbox" class="checkBtn" onchange="checkChange(this)"/>
-                <div>EF-120B</div>
-                <img src="../../static/image/update.png" class="updateBtn" onclick="updateMode(this)"/>
-            </td>
-            <td class="code"><div>CT(P)-E000002</div></td>
-            <td class="type">A</td>
-            <td class="unit">CAN</td>
-            <td class="weight"><div>30 KG</div></td>
-            <td class="remark"><div></div></td>
-        </tr>
-        <tr>
-            <td class="name">
-                <input type="checkbox" class="checkBtn" onchange="checkChange(this)"/>
-                <div>EF-120C</div>
-                <img src="../../static/image/update.png" class="updateBtn" onclick="updateMode(this)"/>
-            </td>
-            <td class="code"><div>CT(P)-E000003</div></td>
-            <td class="type">C</td>
-            <td class="unit">CAN</td>
-            <td class="weight"><div>50 KG</div></td>
-            <td class="remark"><div></div></td>
+            <td class="code"><div th:text="${product.code}"></div></td>
+            <td class="type" th:text="${product.type}"></td>
+            <td class="unit" th:text="${product.unit}"></td>
+            <td class="weight"><div th:text="${product.weight}"></div></td>
+            <td class="remark"><div th:text="${product.remark}"></div></td>
         </tr>
         </tbody>
     </table>
