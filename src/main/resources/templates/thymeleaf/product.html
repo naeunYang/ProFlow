@@ -322,6 +322,7 @@
             text-overflow: ellipsis;
             white-space: nowrap;
             text-align: right;
+            padding-right: 0.5rem;
         }
 
         #table tbody .remark{
@@ -334,6 +335,8 @@
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
+            padding-left: 0.5rem;
+            font-size: 1rem;
         }
 
         ::-webkit-scrollbar {
@@ -380,7 +383,7 @@
         }
 
     </style>
-    <script src="../../static/js/product_script.js"></script>
+    <script src="/js/product_script.js"></script>
 </head>
 <body>
 <div id="customContextMenu" class="context-menu">
@@ -389,7 +392,7 @@
     </ul>
 </div>
 <div id="header">
-    <a href="product.html" id="proFlow"><span style="color: #2E75B6;">P</span>ro<span style="color: #2E75B6;">F</span>low</a>
+    <a th:href="@{/product}" id="proFlow"><span style="color: #2E75B6;">P</span>ro<span style="color: #2E75B6;">F</span>low</a>
     <div id="menu">
         <a href="product.html" id="main_menu">기준정보 관리</a>
         <div id="submenu">
@@ -402,7 +405,7 @@
     </div>
     <div id="user">
         <div>USER :  양나은</div>
-        <a href="login.html">로그아웃</a>
+        <a th:href="@{/productLogout}">로그아웃</a>
     </div>
 </div>
 <div id="cnt">
@@ -413,66 +416,42 @@
             <option value="type">제품유형</option>
         </select>
         <div id="search">
-            <img src="../../static/image/magnifier2.png" id="magnifier"/>
-            <input type="text" name="search" placeholder="제품을 검색하세요." autocomplete="off">
-            <img src="../../static/image/xBtn.png" id="xbtn"/>
+            <img src="/image/magnifier2.png" id="magnifier"/>
+            <input type="text" name="search" placeholder="제품을 검색하세요." autocomplete="off" id="searchInput" oninput="searchEvent(event)">
+            <img src="/image/xBtn.png" id="xbtn" onclick="clearSearchInput()"/>
         </div>
     </div>
     <div id="insert">
-        <a href="productInsert.html"><button type="button" id="insert_product">제품 등록</button></a>
+        <a th:href="@{/productInsert}"><button type="button" id="insert_product">제품 등록</button></a>
     </div>
 </div>
 <div id="label">
-    <label>제품 현황 00건</label>
+    <label>제품 현황&nbsp;&nbsp;<span th:text="${cnt}"></span>건</label>
 </div>
 <div id="table">
     <table id="data_table">
         <thead>
-            <tr>
-                <th style="width: 13.8rem; border-top-left-radius: 0.5rem"><input type="checkbox" id="checkBtnHead" onchange="checkChangeHead(this)"/>제품명</th>
-                <th style="width: 16rem;">제품 코드</th>
-                <th style="width: 14.2rem;">제품 유형</th>
-                <th style="width: 14.6rem;">단위</th>
-                <th style="width: 12.6rem;">중량</th>
-                <th style="width: 30.3rem; border-top-right-radius: 0.5rem">비고</th>
-            </tr>
+        <tr>
+            <th style="width: 13.8rem; border-top-left-radius: 0.5rem"><input type="checkbox" id="checkBtnHead" onchange="checkChangeHead(this)"/>제품명</th>
+            <th style="width: 16rem;">제품 코드</th>
+            <th style="width: 14.2rem;">제품 유형</th>
+            <th style="width: 14.6rem;">단위</th>
+            <th style="width: 12.6rem;">중량</th>
+            <th style="width: 30.3rem; border-top-right-radius: 0.5rem">비고</th>
+        </tr>
         </thead>
         <tbody id="tbody">
-        <tr>
+        <tr th:each="product : ${products}">
             <td class="name">
-                <input type="checkbox" class="checkBtn" onchange="checkChange(this)"/>
-                <div>EF-120A</div>
-                <img src="../../static/image/update.png" class="updateBtn" onclick="updateMode(this)"/>
+                <input type="checkbox" class="checkBtn" th:attr="onchange=|checkChange(this, '${product.code}')|"/>
+                <div th:text="${product.name}"></div>
+                <img src="/image/update.png" class="updateBtn" onclick="updateMode(this)"/>
             </td>
-            <td class="code"><div>CT(P)-E000001</div></td>
-            <td class="type">B</td>
-            <td class="unit">%</td>
-            <td class="weight"><div>20 KG</div></td>
-            <td class="remark"><div></div></td>
-        </tr>
-        <tr>
-            <td class="name">
-                <input type="checkbox" class="checkBtn" onchange="checkChange(this)"/>
-                <div>EF-120B</div>
-                <img src="../../static/image/update.png" class="updateBtn" onclick="updateMode(this)"/>
-            </td>
-            <td class="code"><div>CT(P)-E000002</div></td>
-            <td class="type">A</td>
-            <td class="unit">CAN</td>
-            <td class="weight"><div>30 KG</div></td>
-            <td class="remark"><div></div></td>
-        </tr>
-        <tr>
-            <td class="name">
-                <input type="checkbox" class="checkBtn" onchange="checkChange(this)"/>
-                <div>EF-120C</div>
-                <img src="../../static/image/update.png" class="updateBtn" onclick="updateMode(this)"/>
-            </td>
-            <td class="code"><div>CT(P)-E000003</div></td>
-            <td class="type">C</td>
-            <td class="unit">CAN</td>
-            <td class="weight"><div>50 KG</div></td>
-            <td class="remark"><div></div></td>
+            <td class="code"><div th:text="${product.code}"></div></td>
+            <td class="type" th:text="${product.type}"></td>
+            <td class="unit" th:text="${product.unit}"></td>
+            <td class="weight"><div th:text="${product.weight}"></div></td>
+            <td class="remark"><div th:text="${product.remark}"></div></td>
         </tr>
         </tbody>
     </table>

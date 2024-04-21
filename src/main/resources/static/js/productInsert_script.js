@@ -268,13 +268,35 @@ function checkField(cells){
 
 // 중복 검사
 function checkDuplication(name, table){
+
+    // 현재 행 검사
     var rows = table.querySelectorAll('tr');
     for(var i = 0; i < rows.length; i++){
         if(rows[i].cells[0].textContent === name){
-            alert("중복된 제품명입니다.");
+            alert("중복된 제품명입니다.(행 검사)");
             return false;
         }
     }
+
+    // DB 검사
+    fetch('/checkName', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name: name })
+    })
+        .then(response => response.json())
+        .then(data => {
+            if(data) {
+                alert("중복된 제품명입니다.(DB)");
+                return false;
+            }
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+
     return true;
 }
 
@@ -374,4 +396,9 @@ function clickUpBtn(){
     document.getElementById("input_weight").value = "0";
     document.getElementById("select_weight_unit").selectedIndex = 0;
     document.getElementById("remark_content").value = "";
+}
+
+// 검색창 x버튼 이벤트
+function clearSearchInput(){
+    document.getElementById('searchInput').value = '';
 }

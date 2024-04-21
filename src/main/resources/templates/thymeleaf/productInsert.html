@@ -558,11 +558,11 @@
         }
 
     </style>
-    <script src="../../static/js/productInsert_script.js"></script>
+    <script src="/js/productInsert_script.js"></script>
 </head>
 <body>
 <div id="header">
-    <a href="product.html" id="proFlow" tabindex="-1"><span style="color: #2E75B6;">P</span>ro<span style="color: #2E75B6;">F</span>low</a>
+    <a th:href="@{/product}" id="proFlow" tabindex="-1"><span style="color: #2E75B6;">P</span>ro<span style="color: #2E75B6;">F</span>low</a>
     <div id="menu">
         <a href="product.html" id="main_menu" tabindex="-1">기준정보 관리</a>
         <div id="submenu">
@@ -586,22 +586,22 @@
             <option value="type">제품유형</option>
         </select>
         <div id="search">
-            <img src="../../static/image/magnifier2.png" id="magnifier"/>
-            <input type="text" name="search" placeholder="제품을 검색하세요." autocomplete="off">
-            <img src="../../static/image/xBtn.png" id="xbtn"/>
+            <img src="/image/magnifier2.png" id="magnifier"/>
+            <input type="text" name="search" id="searchInput" placeholder="제품을 검색하세요." autocomplete="off">
+            <img src="/image/xBtn.png" id="xbtn" onclick="clearSearchInput()"/>
         </div>
     </div>
     <div id="insert">
-        <a href="productInsert.html"><button type="button" id="insert_product">제품 등록</button></a>
+        <a th:href="@{/productInsert}"><button type="button" id="insert_product">제품 등록</button></a>
     </div>
 </div>
 <div id="label">
-    <label>제품 현황 00건</label>
+    <label>제품 현황&nbsp;&nbsp;<span th:text="${product_cnt}"></span>건</label>
 </div>
 <div id="input">
     <div id="title">
         <span>제품 정보 입력</span>
-        <a href="product.html"><img src="../../static/image/xBtn.png"/></a>
+        <a th:href="@{/product}"><img src="/image/xBtn.png"/></a>
     </div>
     <div id="info">
         <form id="myForm">
@@ -663,16 +663,16 @@
                         </tr>
                     </thead>
                     <tbody id="tbody">
-<!--                    <tr style = "height: 2rem;">
+                    <tr style = "height: 2rem;">
                         <td class="name"></td>
                         <td class="code"></td>
                         <td class="type"></td>
                         <td class="unit"></td>
                         <td class="weight"></td>
                         <td class="remark"></td>
-                    </tr>-->
+                    </tr>
 
-                    <tr onclick="rowClick(this)">
+<!--                    <tr onclick="rowClick(this)">
                         <td class="name"><div>EF-120A</div></td>
                         <td class="code"><div>CT(P)-E000001</div></td>
                         <td class="type">A</td>
@@ -680,31 +680,9 @@
                         <td class="weight"><div>20 KG</div></td>
                         <td class="remark">
                             <div></div>
-                            <img src="../../static/image/xBtn.png" class="remove" onclick="deleteRow(event, this)"/>
+                            <img src="/image/xBtn.png" class="remove" onclick="deleteRow(event, this)"/>
                         </td>
-                    </tr>
-                    <tr onclick="rowClick(this)">
-                        <td class="name"><div>EF-120B</div></td>
-                        <td class="code"><div>CT(P)-E000002</div></td>
-                        <td class="type">B</td>
-                        <td class="unit">CAN</td>
-                        <td class="weight"><div>200 KG</div></td>
-                        <td class="remark">
-                            <div></div>
-                            <img src="../../static/image/xBtn.png" class="remove" onclick="deleteRow(event, this)"/>
-                        </td>
-                    </tr>
-                    <tr onclick="rowClick(this)">
-                        <td class="name"><div>EF-120C</div></td>
-                        <td class="code"><div>CT(P)-E00000Up</div></td>
-                        <td class="type">C</td>
-                        <td class="unit">CAN</td>
-                        <td class="weight"><div>2000 KG</div></td>
-                        <td class="remark">
-                            <div></div>
-                            <img src="../../static/image/xBtn.png" class="remove" onclick="deleteRow(event, this)"/>
-                        </td>
-                    </tr>
+                    </tr>-->
                     </tbody>
                 </table>
             </div>

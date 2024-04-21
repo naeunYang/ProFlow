@@ -1,3 +1,4 @@
+// 마우스 오른쪽 버튼 클릭 시 메뉴 생성
 document.addEventListener('contextmenu', function(event) {
     event.preventDefault(); // 기본 컨텍스트 메뉴 비활성화
     var contextMenu = document.getElementById('customContextMenu');
@@ -11,20 +12,7 @@ window.addEventListener('click', function() {
     document.getElementById('customContextMenu').style.display = 'none';
 });
 
-// 삭제 버튼
-function deleteBtn(){
-    var result = confirm("삭제하시겠습니까?");
-
-    if(result){
-        alert("삭제되었습니다.");
-        var checkBoxHead = document.getElementById('checkBtnHead');
-        checkBoxHead.checked = false;
-        checkBoxHead.onchange(function(){
-            checkChangeHead(this);
-        });
-    }
-}
-
+// 검색 유형 변경 이벤트
 var defaultContent = null;
 function optionChange(combo){
     var selectedValue = combo.value;
@@ -53,6 +41,10 @@ function optionChange(combo){
         typeCombo.style.borderRadius="0.3rem";
         typeCombo.style.marginRight="0.8rem";
 
+        typeCombo.onchange = function(){
+            searchEvent(event);
+        };
+
         search.innerHTML = '';
         search.appendChild(typeCombo);
     }else{
@@ -65,12 +57,6 @@ function optionChange(combo){
 // 수정 이미지 클릭
 function updateMode(UpdateBtn){
     var row = UpdateBtn.parentNode.parentNode;
-
-    // 수정 버튼, 체크 박스 숨기기
-    var imgCell = row.querySelector('.name img');
-    var checkCell = row.querySelector('.name .checkBtn');
-    imgCell.style.display = "none";
-    checkCell.style.display = "none";
 
     // 제품명 셀
     var nameCell = row.querySelector('.name');
@@ -150,6 +136,7 @@ function updateMode(UpdateBtn){
     var weightInput = document.createElement("input");
     weightInput.type = "text";
     var word = weightCell.textContent.split(' ');
+    console.log('중량 : ' + weightCell.textContent);
     weightInput.value = word[0]; //숫자 추출
     weightInput.style.width= "49%";
     weightInput.style.height= "2rem";
@@ -216,6 +203,24 @@ function updateMode(UpdateBtn){
         enterEvent(event, nameInput, nameCell, codeInput, codeCell, typeCombo, typeCell,unitCombo, unitCell, weightInput, weightCell, weightCombo, remarkInput, remarkCell);
     };
 
+    // 수정 중일 때 다른 행들의 수정 버튼 안보이게 하기
+    var updateBtns = document.querySelectorAll('.updateBtn');
+    var isUpdateMode = document.body.classList.contains('update-mode');
+
+    if(!isUpdateMode){
+        // 업데이트 모드가 아니라면, 모든 업데이트 버튼을 숨김
+        updateBtns.forEach(function(btn){
+            btn.style.display = 'none';
+        });
+        document.body.classList.add('update-mode');
+    } else {
+        // 이미 업데이트 모드라면, 모든 업데이트 버튼을 다시 보이게 함
+        updateBtns.forEach(function(btn){
+            btn.style.display = 'inline-block';
+        });
+        document.body.classList.remove('update-mode'); // 업데이트 모드 비활성화를 위한 클래스 제거
+    }
+
 }
 
 // 중량 input의 oninput이벤트(사용자가 입력 필드에 값을 입력할 때마다 발생)
@@ -243,13 +248,56 @@ function removeDefault(input){
     }
 }
 
-// 체크박스 체크 시 화면에 보이게 설정
-function checkChange(checkBox){
+var checkList = [];
+// 삭제 버튼
+function deleteBtn(){
+    var result = confirm("삭제하시겠습니까?");
+    if(result){
+        console.log('삭제 버튼 : ' + checkList);
+        if(checkList.length === 0) {
+            alert("선택된 값이 없습니다.");
+        }else{
+            fetch('/products/delete',{
+                method : 'POST',
+                headers: {'Content-Type' : 'application/json',},
+                body: JSON.stringify(checkList) //json문자열로 변환
+            })
+                .then(response => response.json()) // 응답을 JSON으로 변환
+                .then(data => {
+                    console.log('Success:', data);
+                    window.location.reload();
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+
+            alert("삭제되었습니다.");
+            checkList = [];
+
+            // 헤더 체크박스 초기화
+            var checkBoxHead = document.getElementById('checkBtnHead');
+            checkBoxHead.checked = false;
+            checkBoxHead.onchange(function(){
+                checkChangeHead(this);
+            });
+        }
+
+    }
+}
+
+// 바디 체크박스
+function checkChange(checkBox, code){
     if(checkBox.checked){
         checkBox.style.display = "inline-block";
+        checkList.push(code.toString());
     }else{
         checkBox.style.display = '';
+        var index = checkList.indexOf(code);
+        if (index !== -1) { //배열이 없을 경우 -1을 반환
+            checkList.splice(index, 1);
+        }
     }
+    console.log('바디 체크박스 : ' + checkList);
 }
 
 // 헤더 체크박스(전체 선택 및 해제)
@@ -262,6 +310,11 @@ function checkChangeHead(checkBox){
         checkboxes.forEach(function(checkbox){
             checkbox.checked = true;
             checkbox.style.display = 'inline-block';
+
+            // 해당 체크박스의 부모 행에서 코드 값을 가져와 배열에 추가
+            // closest() 메서드는 주어진 CSS 선택자에 일치하는 가장 가까운 조상 요소를 반환
+            var code = checkbox.closest('tr').querySelector('.code').innerText;
+            checkList.push(code.toString());
         });
     }else{
         checkBox.style.display = '';
@@ -269,12 +322,15 @@ function checkChangeHead(checkBox){
         checkboxes.forEach(function(checkbox){
             checkbox.checked = false;
             checkbox.style.display = '';
+            checkList = []; //삭제 리스트 초기화
         });
     }
+    console.log('헤더 체크박스 : ' + checkList);
 }
 
+// 키 이벤트
 function enterEvent(event, nameInput, nameCell, codeInput, codeCell, typeCombo, typeCell,unitCombo, unitCell, weightInput, weightCell, weightCombo, remarkInput, remarkCell) {
-    // keyCode 13은 엔터 키를 의미합니다.
+    // 엔터키
     if (event.keyCode === 13) {
 
         // 1. 필수 입력 검사
@@ -291,55 +347,31 @@ function enterEvent(event, nameInput, nameCell, codeInput, codeCell, typeCombo, 
             return;
         }
 
-        var nameDiv = document.createElement('div');
-        nameDiv.textContent = nameInput.value;
-        nameCell.innerHTML = '';
-
-        var img = document.createElement('img');
-        img.src="image/update.png";
-        img.onclick = function(){
-            updateMode(this);
+        var productUpdate = {
+            code: codeInput.value,
+            name: nameInput.value,
+            type: typeCombo.value,
+            unit: unitCombo.value,
+            weight: (weightInput.value + " " + weightCombo.value),
+            remark: remarkInput.value
         };
-        img.className = "updateBtn";
-
-        var check = document.createElement('input');
-        check.type = "checkbox";
-        check.className = 'checkBtn';
-        check.onclick = function(){
-            checkChange(this);
-        };
-
-        nameCell.appendChild(nameDiv);
-        nameCell.appendChild(img);
-        nameCell.appendChild(check);
-
-        // 입력 상자를 떠나기
-        nameInput.blur();
-
-        var codeDiv = document.createElement('div');
-        codeDiv.textContent = codeInput.value;
-        codeCell.innerHTML = '';
-        codeCell.appendChild(codeDiv);
-
-        var typeSpan = document.createElement('span');
-        typeSpan.textContent = typeCombo.value;
-        typeCell.innerHTML = '';
-        typeCell.appendChild(typeSpan);
-
-        var unitSpan = document.createElement('span');
-        unitSpan.textContent = unitCombo.value;
-        unitCell.innerHTML = '';
-        unitCell.appendChild(unitSpan);
-
-        var weightDiv = document.createElement('div');
-        weightDiv.textContent = weightInput.value + " " + weightCombo.value;
-        weightCell.innerHTML = '';
-        weightCell.appendChild(weightDiv);
-
-        var remarkDiv = document.createElement('div');
-        remarkDiv.textContent = remarkInput.value;
-        remarkCell.innerHTML = '';
-        remarkCell.appendChild(remarkDiv);
+        fetch('/products/update',{
+            method : 'POST',
+            headers: {'Content-Type' : 'application/json',},
+            body: JSON.stringify(productUpdate)
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+                window.location.reload();
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    }
+    //esc 키
+    else if(event.keyCode === 27){
+        window.location.reload();
     }
 }
 
@@ -367,4 +399,28 @@ function checkField(cells){
         }
     }
     return true;
+}
+
+// 검색 이벤트
+function searchEvent(event){
+    const keyword = event.target.value;
+    //var selectValue = document.querySelector('select').value;
+
+    fetch('/products/search',{
+        method : 'POST',
+        headers: {'Content-Type' : 'application/json',},
+        body: JSON.stringify(keyword)
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Success:', data);
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+}
+
+// 검색창 x버튼 이벤트
+function clearSearchInput(){
+    document.getElementById('searchInput').value = '';
 }
