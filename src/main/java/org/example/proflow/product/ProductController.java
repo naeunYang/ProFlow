@@ -73,8 +73,7 @@ public class ProductController {
 
     @PostMapping("/checkName")
     public boolean checkName(String name) {
-        String name1 = "EF-120A";
-        if(productRepository.existsByName(name1)){
+        if(productRepository.existsByName(name)){
             return false;
         }else{
             return true;
