@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Controller
@@ -60,24 +61,38 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"message\":\"Product not found\"}");
     }
 
+    // 제품 등록페이지로 이동 시 제품 현황 CNT값 가져가기
     @GetMapping("/productInsert")
     public String productInsertPage(Model model) {
         model.addAttribute("product_cnt", productService.getAllCnt());
         return "productInsert";
     }
 
+    // 로그아웃 버튼 클릭 시 로그인 페이지로 이동
     @GetMapping("/productLogout")
     public String productLogoutPage() {
         return "login";
     }
 
+    // db 제품명 중복 검사
     @PostMapping("/checkName")
-    public boolean checkName(String name) {
+    @ResponseBody
+    public boolean checkName(@RequestBody Map<String, String> json) {
+        String name = json.get("name");
+        // 포함됨
         if(productRepository.existsByName(name)){
-            return false;
-        }else{
             return true;
+        }else{ // 포함되지 않음
+            return false;
         }
+    }
+
+    // 저장
+    @PostMapping("/products/insert")
+    @ResponseBody
+    public ResponseEntity<?> insertProduct(@RequestBody List<Product> products) {
+        productService.insertProductList(products);
+        return ResponseEntity.ok().body("{\"message\":\"Insert successful\"}");
     }
 
 }

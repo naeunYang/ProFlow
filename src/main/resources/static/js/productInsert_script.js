@@ -11,7 +11,7 @@ class TableRow{
 }
 
 // 저장 버튼
-function saveComplete(saveBtn){
+function saveComplete(){
     var tbody = document.getElementById('tbody');
 
     // 행이 1개 남았을 때만 검사
@@ -21,13 +21,47 @@ function saveComplete(saveBtn){
             alert("저장할 내용이 없습니다.");
         }else{
             alert("저장이 완료되었습니다.");
-            window.location.href = "product.html";
+            save(tbody);
         }
     }
     else{
         alert("저장이 완료되었습니다.");
-        window.location.href = "product.html";
+        save(tbody);
     }
+}
+
+function save(tbody){
+    var products = [];
+
+    for(var i = 0; i < tbody.rows.length; i++){
+        var row = tbody.rows[i];
+        var product = {
+            name: row.cells[0].textContent,
+            code: row.cells[1].textContent,
+            type: row.cells[2].textContent,
+            unit: row.cells[3].textContent,
+            weight: row.cells[4].textContent,
+            remark: row.cells[5].textContent
+        };
+        console.log(product.name + product.code + product.type + product.unit + product.weight + product.remark + "");
+        products.push(product); // 리스트에 product 객체 추가
+    }
+
+    fetch('/products/insert',{
+        method : 'POST',
+        headers: {'Content-Type' : 'application/json',},
+        body: JSON.stringify(products)
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Success:', data);
+            window.location.reload();
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+
+    return products;
 }
 
 // 검색 옵션 변경 이벤트
@@ -98,10 +132,10 @@ function removeDefault(input){
 }
 
 // 추가 버튼
-function addData(){
+async function addData() {
     var name = document.getElementById('input_name').value; //제품명
-    var code = "CT(P)-E000001"; //코드
     var type = document.getElementById('select_type').value; //제품유형
+    var code = ""; //코드
     var unit = document.getElementById('select_unit').value; //단위
     var weight = document.getElementById('input_weight').value; //중량
     var weight_unit = document.getElementById('select_weight_unit').value; //중량 단위
@@ -114,22 +148,26 @@ function addData(){
         {label: "제품명", value: receiveRow.name},
         {label: "중량", value: receiveRow.weight}
     ];
-    if(!checkField(checkCells)) return;
+    if (!checkField(checkCells)) return;
 
     // 2. 중복 데이터 검사
-    if(!checkDuplication(name, table)) return;
+    // 행 검사
+    if (!checkDuplication(name, table)) return;
+    // DB 검사 -await : 비동기 함수 기다림
+    if (!await checkDuplication_db(name)) return;
+
 
     var newRow = table.insertRow(-1); // insertRow : 테이블에 새로운 행 삽입(삽입될 행의 인덱스 번호 -> 0:첫번째, -1: 마지막 행)
     // 로우 클릭 이벤트
-    newRow.onclick = function() {
+    newRow.onclick = function () {
         rowClick(this);
     };
 
     // 4. 첫번째 행의 제품명이 공백이면 해당 행 삭제
-    if(table.rows.length <= 3){
-        var firstRowName =  table.rows[1].cells[0].textContent;
+    if (table.rows.length <= 3) {
+        var firstRowName = table.rows[1].cells[0].textContent;
 
-        if(firstRowName === ""){
+        if (firstRowName === "") {
             table.deleteRow(1);
         }
     }
@@ -164,7 +202,7 @@ function addData(){
     var removeImg = document.createElement("img");
     removeImg.src = "image/xBtn.png";
     removeImg.className = "remove";
-    removeImg.onclick = function() {
+    removeImg.onclick = function () {
         deleteRow(event, this);
     };
 
@@ -266,39 +304,41 @@ function checkField(cells){
     return true;
 }
 
-// 중복 검사
+// 행 중복 검사
 function checkDuplication(name, table){
-
-    // 현재 행 검사
     var rows = table.querySelectorAll('tr');
     for(var i = 0; i < rows.length; i++){
         if(rows[i].cells[0].textContent === name){
-            alert("중복된 제품명입니다.(행 검사)");
+            alert("중복된 제품명입니다.");
             return false;
         }
     }
-
-    // DB 검사
-    fetch('/checkName', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ name: name })
-    })
-        .then(response => response.json())
-        .then(data => {
-            if(data) {
-                alert("중복된 제품명입니다.(DB)");
-                return false;
-            }
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-        });
-
     return true;
 }
+
+// db 중복 검사
+async function checkDuplication_db(name){
+    try {
+        const response = await fetch('/checkName', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ name: name })
+        });
+        const data = await response.json();
+        if(data) {
+            alert("중복된 제품명입니다.");
+            return false;
+        } else {
+            return true;
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        return false;
+    }
+}
+
 
 // 수정 버튼 <-> 추가 버튼
 var updateBtnExists = false;
@@ -352,7 +392,7 @@ function clickUpBtn(){
     revertToOriginalState();
 
     var name = document.getElementById('input_name').value; //제품명
-    var code = "CT(P)-E00000Up"; //코드
+    var code = "CT(P)-E000001"; //코드
     var type = document.getElementById('select_type').value; //제품유형
     var unit = document.getElementById('select_unit').value; //단위
     var weight = document.getElementById('input_weight').value; //중량
@@ -382,13 +422,15 @@ function clickUpBtn(){
         }
     }
 
-    upRow.cells[0].style.fontWeight = "550";
-    upRow.cells[0].textContent = name; // 제품명
-    upRow.cells[1].textContent = code; // 코드
-    upRow.cells[2].textContent = type; // 제품유형
-    upRow.cells[3].textContent = unit; // 단위
-    upRow.cells[4].textContent = weight + " " + weight_unit; // 중량 및 중량 단위
-    upRow.cells[5].textContent = remark; // 비고
+    if(upRow != null){
+        upRow.cells[0].style.fontWeight = "550";
+        upRow.cells[0].textContent = name; // 제품명
+        upRow.cells[1].textContent = code; // 코드
+        upRow.cells[2].textContent = type; // 제품유형
+        upRow.cells[3].textContent = unit; // 단위
+        upRow.cells[4].textContent = weight + " " + weight_unit; // 중량 및 중량 단위
+        upRow.cells[5].textContent = remark; // 비고
+    }
 
     document.getElementById("input_name").value = "";
     document.getElementById("select_type").selectedIndex = 0;
