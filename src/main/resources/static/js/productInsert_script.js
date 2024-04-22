@@ -65,45 +65,8 @@ function save(tbody){
 }
 
 // 검색 옵션 변경 이벤트
-var defaultContent = null;
 function optionChange(select){
-    var selectValue = select.value;
-    var option = select.parentNode;
-    var search = option.querySelector('#search'); //검색어 입력하는 부분
-
-    // 설정한 default 없다면 검색어 입력 화면 적용
-    if(defaultContent == null){
-        defaultContent = search.innerHTML;
-    }
-
-    // 제품 유형 선택 시
-    if(selectValue === "type"){
-        search.style.border = "none"; //검색어 입력 영역 none
-
-        // 새로운 select 태그 생성
-        var typeCombo = document.createElement("select");
-        // 옵션 생성 및 추가
-        var typeOption1 = new Option("A", "A");
-        var typeOption2 = new Option("B", "B");
-        var typeOption3 = new Option("C", "C");
-        typeCombo.appendChild(typeOption1);
-        typeCombo.appendChild(typeOption2);
-        typeCombo.appendChild(typeOption3);
-        // 스타일 설정
-        typeCombo.style.width="40%";
-        typeCombo.style.height="2.3rem";
-        typeCombo.style.textAlign="center";
-        typeCombo.style.borderRadius="0.3rem";
-        typeCombo.style.marginRight="0.8rem";
-
-        // search 영역 비우고 typeCombo 추가
-        search.innerHTML = '';
-        search.appendChild(typeCombo);
-    }else{
-        // 이전 상태로 복원
-        search.style.border = '';
-        search.innerHTML = defaultContent;
-    }
+    window.location = "product";
 }
 
 // 중량 input의 oninput이벤트(사용자가 입력 필드에 값을 입력할 때마다 발생)
@@ -197,7 +160,6 @@ async function addData() {
 
     var remarkDiv = document.createElement("div");
     remarkDiv.innerHTML = remark;
-    remarkDiv.style.fontSize = "1rem";
 
     var removeImg = document.createElement("img");
     removeImg.src = "image/xBtn.png";
@@ -349,6 +311,7 @@ var updateBtnExists = false;
 function updateBtn(){
     var addBtn = document.getElementById('add_btn');
     if (!updateBtnExists) {
+        // 수정 버튼 생성
         var updateBtn = document.createElement('button');
         updateBtn.type = "button";
         updateBtn.className = 'upBtn';
@@ -364,7 +327,6 @@ function updateBtn(){
         updateBtn.style.cursor = "pointer";
         updateBtn.innerHTML = '수정';
 
-        // 수정 버튼 클릭 후 다시 추가 버튼으로 돌려놓기
         updateBtn.onclick = function() {
             clickUpBtn();
         };
@@ -393,7 +355,6 @@ function clickReset(){
 
 // 수정 버튼 클릭 이벤트
 async function clickUpBtn(){
-    revertToOriginalState();
 
     var name = document.getElementById('input_name').value; //제품명
     var code = ""; //코드
@@ -426,14 +387,25 @@ async function clickUpBtn(){
 
     if(upRow != null){
         upRow.cells[0].style.fontWeight = "550";
-        upRow.cells[0].textContent = name; // 제품명
+        upRow.cells[0].className = "name";
+        upRow.cells[0].innerHTML = `<div>${name}</div>`;
         upRow.cells[1].textContent = code; // 코드
         upRow.cells[2].textContent = type; // 제품유형
         upRow.cells[3].textContent = unit; // 단위
         upRow.cells[4].textContent = weight + " " + weight_unit; // 중량 및 중량 단위
-        upRow.cells[5].textContent = remark; // 비고
+        upRow.cells[5].className = "remark";
+        upRow.cells[5].innerHTML = `<div>${remark}</div>`;
 
-        var remarkDiv = document.createElement("div");
+        var removeImg = document.createElement("img");
+        removeImg.src = "image/xBtn.png";
+        removeImg.className = "remove";
+        removeImg.onclick = function () {
+            deleteRow(event, this);
+        };
+
+        upRow.cells[5].appendChild(removeImg);
+
+/*        var remarkDiv = document.createElement("div");
         remarkDiv.innerHTML = remark;
         remarkDiv.style.fontSize = "1rem";
 
@@ -444,8 +416,9 @@ async function clickUpBtn(){
             deleteRow(event, this);
         };
 
-        upRow.cells[5].appendChild(removeImg);
         upRow.cells[5].appendChild(remarkDiv);
+        upRow.cells[5].appendChild(removeImg);*/
+
     }
 
     document.getElementById("input_name").value = "";
@@ -454,9 +427,10 @@ async function clickUpBtn(){
     document.getElementById("input_weight").value = "0";
     document.getElementById("select_weight_unit").selectedIndex = 0;
     document.getElementById("remark_content").value = "";
+
+    revertToOriginalState();
 }
 
-// 검색창 x버튼 이벤트
-function clearSearchInput(){
-    document.getElementById('searchInput').value = '';
+function searchInput(){
+    window.location = "product";
 }

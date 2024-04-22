@@ -564,9 +564,9 @@
 <div id="header">
     <a th:href="@{/product}" id="proFlow" tabindex="-1"><span style="color: #2E75B6;">P</span>ro<span style="color: #2E75B6;">F</span>low</a>
     <div id="menu">
-        <a href="product.html" id="main_menu" tabindex="-1">기준정보 관리</a>
+        <a th:href="@{/product}" id="main_menu" tabindex="-1">기준정보 관리</a>
         <div id="submenu">
-            <a href="product.html">제품 관리</a>
+            <a th:href="@{/product}">제품 관리</a>
             <a href="#">거래처 관리</a>
             <a href="#">자재 관리</a>
             <a href="#">BOM 관리</a>
@@ -575,7 +575,7 @@
     </div>
     <div id="user">
         <div>USER :  양나은</div>
-        <a href="login.html">로그아웃</a>
+        <a th:href="@{/productLogout}">로그아웃</a>
     </div>
 </div>
 <div id="cnt">
@@ -587,8 +587,8 @@
         </select>
         <div id="search">
             <img src="/image/magnifier2.png" id="magnifier"/>
-            <input type="text" name="search" id="searchInput" placeholder="제품을 검색하세요." autocomplete="off">
-            <img src="/image/xBtn.png" id="xbtn" onclick="clearSearchInput()"/>
+            <input type="text" name="search" id="searchInput" placeholder="제품을 검색하세요." autocomplete="off" oninput = "searchInput()">
+            <img src="/image/xBtn.png" id="xbtn"/>
         </div>
     </div>
     <div id="insert">

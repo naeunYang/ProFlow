@@ -337,7 +337,6 @@
             text-overflow: ellipsis;
             white-space: nowrap;
             padding-left: 0.5rem;
-            font-size: 1rem;
         }
 
         ::-webkit-scrollbar {
@@ -395,9 +394,9 @@
 <div id="header">
     <a th:href="@{/product}" id="proFlow"><span style="color: #2E75B6;">P</span>ro<span style="color: #2E75B6;">F</span>low</a>
     <div id="menu">
-        <a href="product.html" id="main_menu">기준정보 관리</a>
+        <a th:href="@{/product}" id="main_menu">기준정보 관리</a>
         <div id="submenu">
-            <a href="product.html">제품 관리</a>
+            <a th:href="@{/product}">제품 관리</a>
             <a href="#">거래처 관리</a>
             <a href="#">자재 관리</a>
             <a href="#">BOM 관리</a>

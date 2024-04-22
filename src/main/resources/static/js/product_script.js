@@ -1,3 +1,7 @@
+window.onload = function() {
+    document.getElementById('searchInput').focus();
+};
+
 // 마우스 오른쪽 버튼 클릭 시 메뉴 생성
 document.addEventListener('contextmenu', function(event) {
     event.preventDefault(); // 기본 컨텍스트 메뉴 비활성화
