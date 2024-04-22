@@ -236,9 +236,11 @@ function deleteRow(event, removeBtn){
         }
     }else{
         table.deleteRow(rowIndex);
-        console.log("현재 삭제된 행은 제품명이 " + row.cells[0].textContent + "입니다.");
     }
 }
+
+// 행 인덱스
+var selectedRowIndex = -1;
 
 // 행 클릭 이벤트
 function rowClick(row){
@@ -260,6 +262,8 @@ function rowClick(row){
     // 행 한개씩 클릭
     var rows = tbody.querySelectorAll('tr');
     var previousRow = null;
+
+    selectedRowIndex = Array.from(tbody.children).indexOf(row);
 
     rows.forEach(function(row) {
 
@@ -388,11 +392,11 @@ function clickReset(){
 }
 
 // 수정 버튼 클릭 이벤트
-function clickUpBtn(){
+async function clickUpBtn(){
     revertToOriginalState();
 
     var name = document.getElementById('input_name').value; //제품명
-    var code = "CT(P)-E000001"; //코드
+    var code = ""; //코드
     var type = document.getElementById('select_type').value; //제품유형
     var unit = document.getElementById('select_unit').value; //단위
     var weight = document.getElementById('input_weight').value; //중량
@@ -409,17 +413,15 @@ function clickUpBtn(){
     ];
     if(!checkField(checkCells)) return;
 
-    var upRow = null;
-    for (var i = 1; i < rows.length; i++) {
-        var proCode = rows[i].cells[1].textContent;
-        if (proCode === code) {
-            upRow = rows[i];
-            // 로우 클릭 이벤트
-            upRow.onclick = function() {
-                rowClick(this);
-            };
-            break;
-        }
+    // 2. 중복 데이터 검사
+    // DB 검사 -await : 비동기 함수 기다림
+    if (!await checkDuplication_db(name)) return;
+
+    if(selectedRowIndex > -1){
+        var upRow = rows[selectedRowIndex + 1];
+        upRow.onclick = function() {
+            rowClick(this);
+        };
     }
 
     if(upRow != null){
@@ -430,6 +432,20 @@ function clickUpBtn(){
         upRow.cells[3].textContent = unit; // 단위
         upRow.cells[4].textContent = weight + " " + weight_unit; // 중량 및 중량 단위
         upRow.cells[5].textContent = remark; // 비고
+
+        var remarkDiv = document.createElement("div");
+        remarkDiv.innerHTML = remark;
+        remarkDiv.style.fontSize = "1rem";
+
+        var removeImg = document.createElement("img");
+        removeImg.src = "image/xBtn.png";
+        removeImg.className = "remove";
+        removeImg.onclick = function () {
+            deleteRow(event, this);
+        };
+
+        upRow.cells[5].appendChild(removeImg);
+        upRow.cells[5].appendChild(remarkDiv);
     }
 
     document.getElementById("input_name").value = "";
