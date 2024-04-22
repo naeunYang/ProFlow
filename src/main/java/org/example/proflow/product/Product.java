@@ -29,3 +29,4 @@ public class Product {
     @Column(name = "REMARK", length = 500)
     private String remark;
 }
+
