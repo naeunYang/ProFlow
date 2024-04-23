@@ -64,11 +64,6 @@ function save(tbody){
     return products;
 }
 
-// 검색 옵션 변경 이벤트
-function optionChange(select){
-    window.location = "product";
-}
-
 // 중량 input의 oninput이벤트(사용자가 입력 필드에 값을 입력할 때마다 발생)
 function numFormat(input){
     input.value = comma(uncomma(input.value));
@@ -431,6 +426,6 @@ async function clickUpBtn(){
     revertToOriginalState();
 }
 
-function searchInput(){
-    window.location = "product";
+function searchClick(){
+    window.location="product";
 }

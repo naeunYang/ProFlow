@@ -580,14 +580,14 @@
 </div>
 <div id="cnt">
     <div id="option">
-        <select onchange="optionChange(this)">
+        <select onclick="searchClick()">
             <option value="name">제품명</option>
             <option value="code">제품코드</option>
             <option value="type">제품유형</option>
         </select>
         <div id="search">
             <img src="/image/magnifier2.png" id="magnifier"/>
-            <input type="text" name="search" id="searchInput" placeholder="제품을 검색하세요." autocomplete="off" oninput = "searchInput()">
+            <input type="text" name="search" id="searchInput" placeholder="제품을 검색하세요." autocomplete="off" onclick="searchClick()">
             <img src="/image/xBtn.png" id="xbtn"/>
         </div>
     </div>

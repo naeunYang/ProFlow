@@ -30,6 +30,7 @@ public class ProductService {
     @PersistenceContext
     private EntityManager entityManager;
 
+    // 저장 프로시저 실행
     @Transactional
     public void insertProductList(List<Product> products) {
         for (Product product : products) {
@@ -41,7 +42,21 @@ public class ProductService {
                     .setParameter("weight", product.getWeight())
                     .setParameter("remark", product.getRemark())
                     .executeUpdate();
-            System.out.println("Inserted product " + product.getName() + " " + product.getCode() + " " + product.getType());
         }
+    }
+
+    // 검색조건 : name
+    public List<Product> getProductsByName(String name) {
+        return productRepository.findByNameContaining(name);
+    }
+
+    // 검색조건 : code
+    public List<Product> getProductsByCode(String code) {
+        return productRepository.findByCodeContaining(code);
+    }
+
+    // 검색조건 : type
+    public List<Product> getProductsByType(String type) {
+        return productRepository.findByTypeContaining(type);
     }
 }

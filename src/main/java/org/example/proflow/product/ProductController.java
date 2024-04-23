@@ -33,6 +33,29 @@ public class ProductController {
         return "product";
     }
 
+    // 검색조회
+    @GetMapping("/product/search")
+    @ResponseBody //@ResponseBody가 없을 때는 보통 해당 문자열에 해당하는 뷰 템플릿을 찾아서 반환, 있을 때는 메서드가 반환하는 객체나 리스트가 클라이언트에게 JSON형태로 직접 전송된다.
+    public List<Product> getAllProducts(@RequestParam(value = "keyword", required = false) String keyword, String searchType) {
+        List<Product> productList;
+
+        if (keyword != null && !keyword.isEmpty()) {
+            // 제품명으로 조회
+            if(searchType.equals("name"))
+                productList = productService.getProductsByName(keyword);
+            // 제품코드로 조회
+            else if(searchType.equals("code"))
+                productList = productService.getProductsByCode(keyword);
+            // 제품유형으로 조회
+            else
+                productList = productService.getProductsByType(keyword);
+        } else {
+            productList = productService.getAllProducts();
+        }
+
+        return productList;
+    }
+
     // 삭제
     @PostMapping("/products/delete")
     public ResponseEntity<?> deleteProducts(@RequestBody List<String> codes){

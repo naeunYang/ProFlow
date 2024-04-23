@@ -1,3 +1,4 @@
+// 페이지 로드 시 검색창에 포커스
 window.onload = function() {
     document.getElementById('searchInput').focus();
 };
@@ -31,10 +32,12 @@ function optionChange(combo){
         search.style.border = "none";
         var typeCombo = document.createElement("select");
         // 옵션 생성 및 추가
+        var option0 = new Option("전체", "");
         var option1 = new Option("유형A", "A");
         var option2 = new Option("유형B", "B");
         var option3 = new Option("유형C", "C");
 
+        typeCombo.appendChild(option0);
         typeCombo.appendChild(option1);
         typeCombo.appendChild(option2);
         typeCombo.appendChild(option3);
@@ -56,6 +59,22 @@ function optionChange(combo){
         search.style.border = '';
         search.innerHTML = defaultContent;
     }
+
+    var selectValue = document.querySelector('select').value;
+    const url = new URL('/product/search', window.location.origin);
+    url.searchParams.append('keyword', ""); // 쿼리 매개변수 추가
+    url.searchParams.append('searchType', selectValue); // 쿼리 매개변수 추가
+
+    fetch(url,{
+        method : 'GET',
+    })
+        .then(response => response.json())
+        .then(products => {
+            updateTable(products);
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
 }
 
 // 수정 이미지 클릭
@@ -407,24 +426,98 @@ function checkField(cells){
 
 // 검색 이벤트
 function searchEvent(event){
-    const keyword = event.target.value;
-    //var selectValue = document.querySelector('select').value;
+    let keyword = event.target.value;
+    var selectValue = document.querySelector('select').value;
 
-    fetch('/products/search',{
-        method : 'POST',
-        headers: {'Content-Type' : 'application/json',},
-        body: JSON.stringify(keyword)
+    if(keyword === undefined)
+        keyword = "";
+
+    console.log("키워드 : " + keyword);
+    // URL에 쿼리 매개변수를 추가하여 검색 키워드를 서버로 전송
+    const url = new URL('/product/search', window.location.origin);
+    url.searchParams.append('keyword', keyword); // 쿼리 매개변수 추가
+    url.searchParams.append('searchType', selectValue); // 쿼리 매개변수 추가
+
+    fetch(url,{
+        method : 'GET',
     })
         .then(response => response.json())
-        .then(data => {
-            console.log('Success:', data);
+        .then(products => {
+            updateTable(products);
         })
         .catch((error) => {
             console.error('Error:', error);
         });
 }
 
+// 검색에 따른 테이블 데이터 변경
+function updateTable(products){
+    const tbody = document.querySelector('tbody');
+    tbody.innerHTML = ''; // 기존 내용을 비웁니다.
+
+    // 데이터로부터 새로운 행을 생성합니다.
+    products.forEach(product => {
+        const tr = document.createElement('tr');
+
+        // 제품 정보에 따라 셀을 생성
+        const tdName = document.createElement('td');
+        tdName.className = 'name';
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.className = 'checkBtn';
+        checkbox.setAttribute('onchange', `checkChange(this, '${product.code}')`);
+        tdName.appendChild(checkbox);
+
+        const nameDiv = document.createElement('div');
+        nameDiv.textContent = product.name;
+        tdName.appendChild(nameDiv);
+
+        const updateImg = document.createElement('img');
+        updateImg.src = '/image/update.png';
+        updateImg.className = 'updateBtn';
+        updateImg.setAttribute('onclick', 'updateMode(this)');
+        tdName.appendChild(updateImg);
+
+        tr.appendChild(tdName);
+
+        const tdCode = document.createElement('td');
+        tdCode.className = 'code';
+        const codeDiv = document.createElement('div');
+        codeDiv.textContent = product.code;
+        tdCode.appendChild(codeDiv);
+        tr.appendChild(tdCode);
+
+        const tdType = document.createElement('td');
+        tdType.className = 'type';
+        tdType.textContent = product.type;
+        tr.appendChild(tdType);
+
+        const tdUnit = document.createElement('td');
+        tdUnit.className = 'unit';
+        tdUnit.textContent = product.unit;
+        tr.appendChild(tdUnit);
+
+        const tdWeight = document.createElement('td');
+        tdWeight.className = 'weight';
+        const weightDiv = document.createElement('div');
+        weightDiv.textContent = product.weight;
+        tdWeight.appendChild(weightDiv);
+        tr.appendChild(tdWeight);
+
+        const tdRemark = document.createElement('td');
+        tdRemark.className = 'remark';
+        const remarkDiv = document.createElement('div');
+        remarkDiv.textContent = product.remark;
+        tdRemark.appendChild(remarkDiv);
+        tr.appendChild(tdRemark);
+
+        // 완성된 행을 tbody에 추가합니다.
+        tbody.appendChild(tr);
+    });
+}
+
 // 검색창 x버튼 이벤트
 function clearSearchInput(){
     document.getElementById('searchInput').value = '';
+    searchEvent(event);
 }
