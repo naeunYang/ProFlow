@@ -75,17 +75,19 @@
         }
 
     </style>
+    <script src="/js/login_script.js"></script>
 </head>
 <body>
     <div id = "header">
-        <a href="login.html" id="proFlow"><span style="color: #2E75B6;">P</span>ro<span style="color: #2E75B6;">F</span>low</a>
+        <a th:href="@{/login}" id="proFlow"><span style="color: #2E75B6;">P</span>ro<span style="color: #2E75B6;">F</span>low</a>
         <div id = "login">
             <input type="text" id="userName" name="userName" placeholder="User ID" autocomplete="off"><br>
             <input type="password" id="password" name="password" placeholder="Password" autocomplete="off">
         </div>
-        <a href="product.html"><button type="button" id="loginBtn">LOGIN</button></a>
+        <button type="submit" id="loginBtn" onclick="loginClick()">LOGIN</button>
+        <!--<a th:href="@{/product}"><button type="submit" id="loginBtn">LOGIN</button></a>-->
         <div id="signUp">
-            <a href="signUp.html">회원가입</a>
+            <a th:href="@{/signUp}">회원가입</a>
         </div>
     </div>
 </body>
