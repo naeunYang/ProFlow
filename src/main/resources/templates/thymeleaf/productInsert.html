@@ -574,7 +574,7 @@
         </div>
     </div>
     <div id="user">
-        <div>USER :  양나은</div>
+        <div>USER : &nbsp; &nbsp;<span th:text="${userName}"></span></div>
         <a th:href="@{/productLogout}">로그아웃</a>
     </div>
 </div>
@@ -671,18 +671,6 @@
                         <td class="weight"></td>
                         <td class="remark"></td>
                     </tr>
-
-<!--                    <tr onclick="rowClick(this)">
-                        <td class="name"><div>EF-120A</div></td>
-                        <td class="code"><div>CT(P)-E000001</div></td>
-                        <td class="type">A</td>
-                        <td class="unit">CAN</td>
-                        <td class="weight"><div>20 KG</div></td>
-                        <td class="remark">
-                            <div></div>
-                            <img src="/image/xBtn.png" class="remove" onclick="deleteRow(event, this)"/>
-                        </td>
-                    </tr>-->
                     </tbody>
                 </table>
             </div>

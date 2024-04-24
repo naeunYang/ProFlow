@@ -1,5 +1,7 @@
 package org.example.proflow.product;
 
+import jakarta.servlet.http.HttpSession;
+import org.example.proflow.login.Member;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,14 +24,28 @@ public class ProductController {
         this.productRepository = productRepository;
     }
 
+    // 세션을 저장할 변수
+    Member user = null;
     // 조회
     @GetMapping("/product")
-    public String getAllProducts(Model model) {
+    public String getAllProducts(HttpSession session, Model model) {
+        
+        // 사용자 세션
+        user = (Member) session.getAttribute("user");
+        if (user != null) {
+            model.addAttribute("userName", user.getName());
+        }
+
+        if (user == null) {
+            return "redirect:/login"; // 로그인 페이지 경로 변경
+        }
+        
         List<Product> products =  productService.getAllProducts();
         model.addAttribute("products", products);
 
         long cnt = productService.getAllCnt();
         model.addAttribute("cnt", cnt);
+        
         return "product";
     }
 
@@ -86,14 +102,21 @@ public class ProductController {
 
     // 제품 등록페이지로 이동 시 제품 현황 CNT값 가져가기
     @GetMapping("/productInsert")
-    public String productInsertPage(Model model) {
+    public String productInsertPage(Model model, HttpSession session) {
         model.addAttribute("product_cnt", productService.getAllCnt());
+
+        // 사용자 세션
+        if (user != null) {
+            model.addAttribute("userName", user.getName());
+        }
+
         return "productInsert";
     }
 
     // 로그아웃 버튼 클릭 시 로그인 페이지로 이동
     @GetMapping("/productLogout")
-    public String productLogoutPage() {
+    public String productLogoutPage(HttpSession session) {
+        session.invalidate(); //세션 종료
         return "login";
     }
 

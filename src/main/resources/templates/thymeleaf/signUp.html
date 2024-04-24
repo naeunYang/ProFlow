@@ -56,17 +56,6 @@
             align-items: center;
         }
 
-        #signUp #container #id button{
-            color: white;
-            background: #2E75B6;
-            border-radius: 0.4rem;
-            border: #777777;
-            width: 5rem;
-            height: 2rem;
-            margin-left: 1rem;
-            cursor: pointer;
-        }
-
         #signUp #join{
             color: white;
             background: #2E75B6;
@@ -85,63 +74,56 @@
             font-size: 1rem;
         }
 
-        #signUp #container #id_msg{
-            font-size: 0.8rem;
+        #signUp #container #pwd{
             margin-bottom: 2rem;
-            color: #ff0000;
-            padding-right: 6rem;
-            padding-top: 0.1rem;
         }
 
-        #signUp #container #pwd_msg{
+        #signUp #container #id_msg{
             font-size: 0.8rem;
-            margin-bottom: 2rem;
             color: #ff0000;
-            padding-right: 1.5rem;
-            padding-top: 0.1rem;
+            padding-right: 6.3rem;
+            margin-top: 0.2rem;
+            margin-bottom: 2rem;
+            visibility: hidden;
         }
 
         #signUp #container #checkPwd_msg{
             font-size: 0.8rem;
-            margin-bottom: 2rem;
             color: #ff0000;
             padding-right: 3.6rem;
             margin-top: -0.5rem;
+            margin-bottom: 2rem;
+            visibility: hidden;
         }
 
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
 
     </style>
-    <script>
-        function showAlert(){
-            alert("사용 가능한 아이디입니다.");
-        }
-
-        function signUpAlert(){
-            alert("가입이 완료되었습니다.");
-        }
-    </script>
+    <script src="/js/signUp_script.js"></script>
 </head>
 <body>
 
 <div id="header">
-    <a href="login.html" id="proFlow"><span style="color: #2E75B6;">P</span>ro<span style="color: #2E75B6;">F</span>low</a>
+    <a th:href="@{/login}" id="proFlow"><span style="color: #2E75B6;">P</span>ro<span style="color: #2E75B6;">F</span>low</a>
 </div>
 
 <div id = "signUp">
     <div id="container">
         <div style="font-weight: bold; font-size: 2rem; margin-bottom: 3rem;">Sign up</div>
         <div id="id">
-            <label style="margin-right: 1.8rem; padding-left: 6.7rem;">User ID</label>
+            <label style="margin-right: 1.8rem; padding-left: 0.5rem;">User ID</label>
             <input type="text" id="userName" name="userName" placeholder="아이디를 입력하세요" autocomplete="off"/>
-            <button type="button" onclick="showAlert()">중복확인</button>
         </div>
-        <div id="id_msg">중복확인이 필요합니다.</div>
+        <div id="id_msg">중복된 아이디입니다.</div>
 
         <div id="pwd">
             <label style="margin-right: 1.1rem;">Password</label>
             <input type="password" id="password" name="password" placeholder="비밀번호를 입력하세요" autocomplete="off"/>
         </div>
-        <div id="pwd_msg" >20자 이내의 비밀번호를 입력해주세요.</div>
 
         <div id="checkPwd">
             <label style="margin-right: 1.1rem;">&nbsp;&nbsp;Verify<br>Password</label>
@@ -156,14 +138,14 @@
 
         <div id="num" style="margin-bottom: 3rem;">
             <label style="margin-right: 2.3rem;">&nbsp;&nbsp;Phone</label>
-            <input type="text" id="tel" name="tel" placeholder="전화번호를 입력하세요" autocomplete="off"/>
+            <input type="number" inputmode="numeric" id="tel" name="tel" placeholder="전화번호를 입력하세요" autocomplete="off"/>
         </div>
 
         <div id="mail" style="margin-bottom: 3rem;">
             <label style="margin-right: 2.3rem;">&nbsp;&nbsp;E-mail</label>
             <input type="text" id="email" name="mail" placeholder="이메일을 입력하세요" autocomplete="off"/>
         </div>
-        <a href="product.html"><button type="submit" id="join" onclick="signUpAlert()" style="width: 6rem; height: 2.5rem; font-size: 1.1rem;">가입하기</button></a>
+        <button type="submit" id="join" onclick="signUpAlert()" style="width: 6rem; height: 2rem; font-size: 1rem;">가입하기</button>
     </div>
 </div>
 

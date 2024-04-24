@@ -55,7 +55,7 @@ function save(tbody){
         .then(response => response.json())
         .then(data => {
             console.log('Success:', data);
-            window.location.reload();
+            window.location.href = '/productInsert';
         })
         .catch((error) => {
             console.error('Error:', error);
@@ -91,6 +91,7 @@ function removeDefault(input){
 
 // 추가 버튼
 async function addData() {
+    var divNameInput = document.getElementById('input_name');
     var name = document.getElementById('input_name').value; //제품명
     var type = document.getElementById('select_type').value; //제품유형
     var code = ""; //코드
@@ -110,9 +111,9 @@ async function addData() {
 
     // 2. 중복 데이터 검사
     // 행 검사
-    if (!checkDuplication(name, table)) return;
+    if (!checkDuplication(name, table, divNameInput)) return;
     // DB 검사 -await : 비동기 함수 기다림
-    if (!await checkDuplication_db(name)) return;
+    if (!await checkDuplication_db(name, divNameInput)) return;
 
 
     var newRow = table.insertRow(-1); // insertRow : 테이블에 새로운 행 삽입(삽입될 행의 인덱스 번호 -> 0:첫번째, -1: 마지막 행)
@@ -173,6 +174,7 @@ async function addData() {
     document.getElementById("select_weight_unit").selectedIndex = 0;
     document.getElementById("remark_content").value = "";
 
+    divNameInput.focus();
 }
 
 // 행 삭제 버튼 이벤트(x)
@@ -266,11 +268,12 @@ function checkField(cells){
 }
 
 // 행 중복 검사
-function checkDuplication(name, table){
+function checkDuplication(name, table, divNameInput){
     var rows = table.querySelectorAll('tr');
     for(var i = 0; i < rows.length; i++){
         if(rows[i].cells[0].textContent === name){
             alert("중복된 제품명입니다.");
+            divNameInput.focus();
             return false;
         }
     }
@@ -278,7 +281,7 @@ function checkDuplication(name, table){
 }
 
 // db 중복 검사
-async function checkDuplication_db(name){
+async function checkDuplication_db(name, divNameInput){
     try {
         const response = await fetch('/checkName', {
             method: 'POST',
@@ -290,6 +293,7 @@ async function checkDuplication_db(name){
         const data = await response.json();
         if(data) {
             alert("중복된 제품명입니다.");
+            divNameInput.focus();
             return false;
         } else {
             return true;
@@ -400,20 +404,6 @@ async function clickUpBtn(){
 
         upRow.cells[5].appendChild(removeImg);
 
-/*        var remarkDiv = document.createElement("div");
-        remarkDiv.innerHTML = remark;
-        remarkDiv.style.fontSize = "1rem";
-
-        var removeImg = document.createElement("img");
-        removeImg.src = "image/xBtn.png";
-        removeImg.className = "remove";
-        removeImg.onclick = function () {
-            deleteRow(event, this);
-        };
-
-        upRow.cells[5].appendChild(remarkDiv);
-        upRow.cells[5].appendChild(removeImg);*/
-
     }
 
     document.getElementById("input_name").value = "";
@@ -427,5 +417,5 @@ async function clickUpBtn(){
 }
 
 function searchClick(){
-    window.location="product";
+    window.location="/product";
 }
