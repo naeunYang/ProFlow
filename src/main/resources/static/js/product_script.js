@@ -31,6 +31,24 @@ function optionChange(combo){
     if(selectedValue === "type"){
         search.style.border = "none";
         var typeCombo = document.createElement("select");
+
+        var typeList = [];
+
+        const url = new URL('/search/typelist', window.location.origin);
+        url.searchParams.append('type', 'protype'); // 쿼리 매개변수 추가
+
+        fetch(url,{
+            method : 'GET',
+        })
+            .then(response => response.json())
+            .then(list => {
+                typeList = list;
+                console.log('리스트 : ' + list);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+
         // 옵션 생성 및 추가
         var option0 = new Option("전체", "");
         var option1 = new Option("유형A", "A");

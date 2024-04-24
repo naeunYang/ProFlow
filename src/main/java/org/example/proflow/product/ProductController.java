@@ -1,6 +1,8 @@
 package org.example.proflow.product;
 
 import jakarta.servlet.http.HttpSession;
+import org.example.proflow.category.SubCategory;
+import org.example.proflow.category.SubCategoryRepository;
 import org.example.proflow.login.Member;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -17,11 +20,13 @@ import java.util.Optional;
 public class ProductController {
     private final ProductService productService;
     private final ProductRepository productRepository;
+    private final SubCategoryRepository subCategoryRepository;
 
     @Autowired
-    public ProductController(ProductService productService, ProductRepository productRepository) {
+    public ProductController(ProductService productService, ProductRepository productRepository, SubCategoryRepository subCategoryRepository) {
         this.productService = productService;
         this.productRepository = productRepository;
+        this.subCategoryRepository = subCategoryRepository;
     }
 
     // 세션을 저장할 변수
@@ -139,6 +144,21 @@ public class ProductController {
     public ResponseEntity<?> insertProduct(@RequestBody List<Product> products) {
         productService.insertProductList(products);
         return ResponseEntity.ok().body("{\"message\":\"Insert successful\"}");
+    }
+
+    // 유형 및 단위 조회
+    @GetMapping("/search/typelist")
+    @ResponseBody
+    public List<String> getAllProtypeList(String type) {
+        List<String> categoryList = new ArrayList<>();
+
+        if("protype".equals(type)){
+            categoryList =  subCategoryRepository.findAllByProType();
+        }
+
+        System.out.println("단위 리스트 : " + categoryList);
+
+        return categoryList;
     }
 
 }
