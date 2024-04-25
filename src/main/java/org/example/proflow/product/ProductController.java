@@ -11,7 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -113,6 +112,8 @@ public class ProductController {
         // 사용자 세션
         if (user != null) {
             model.addAttribute("userName", user.getName());
+        }else{
+            return "redirect:/login"; // 로그인 페이지 경로 변경
         }
 
         return "productInsert";
@@ -149,14 +150,18 @@ public class ProductController {
     // 유형 및 단위 조회
     @GetMapping("/search/typelist")
     @ResponseBody
-    public List<String> getAllProtypeList(String type) {
-        List<String> categoryList = new ArrayList<>();
+    public  List<SubCategory> getAllProtypeList(String type) {
+        List<SubCategory> categoryList = null;
 
         if("protype".equals(type)){
             categoryList =  subCategoryRepository.findAllByProType();
         }
-
-        System.out.println("단위 리스트 : " + categoryList);
+        else if("prounit".equals(type)){
+            categoryList =  subCategoryRepository.findAllByProUnit();
+        }
+        else if("weightunit".equals(type)){
+            categoryList =  subCategoryRepository.findAllByWeightUnit();
+        }
 
         return categoryList;
     }

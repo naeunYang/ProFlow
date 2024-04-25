@@ -91,13 +91,31 @@ function removeDefault(input){
 
 // 추가 버튼
 async function addData() {
+    //제품명
     var divNameInput = document.getElementById('input_name');
-    var name = document.getElementById('input_name').value; //제품명
-    var type = document.getElementById('select_type').value; //제품유형
-    var code = ""; //코드
-    var unit = document.getElementById('select_unit').value; //단위
-    var weight = document.getElementById('input_weight').value; //중량
-    var weight_unit = document.getElementById('select_weight_unit').value; //중량 단위
+    var name = document.getElementById('input_name').value;
+
+    //제품유형
+    var typeSelect = document.getElementById('select_type');
+    var type = typeSelect.value;
+    var typeValue = typeSelect.options[typeSelect.selectedIndex].text;
+
+    //코드
+    var code = "";
+
+    //단위
+    var unitSelect = document.getElementById('select_unit');
+    var unit = unitSelect.value;
+    var unitValue = unitSelect.options[unitSelect.selectedIndex].text;
+
+    //중량
+    var weight = document.getElementById('input_weight').value;
+
+    //중량 단위
+    var weight_unit_select = document.getElementById('select_weight_unit');
+    var weight_unit = weight_unit_select.value;
+    var weight_unit_value = weight_unit_select.options[weight_unit_select.selectedIndex].text;
+
     var remark = document.getElementById('remark_content').value; //비고
     var table = document.getElementById('data_table'); //테이블
     var receiveRow = new TableRow(name, code, type, unit, weight, weight_unit, remark);
@@ -105,7 +123,10 @@ async function addData() {
     // 1. 필수 입력 검사
     var checkCells = [
         {label: "제품명", value: receiveRow.name},
-        {label: "중량", value: receiveRow.weight}
+        {label: "중량", value: receiveRow.weight},
+        {label: "중량 단위", value: receiveRow.weight_unit},
+        {label: "제품유형", value: receiveRow.type},
+        {label: "제품 단위", value: receiveRow.unit}
     ];
     if (!checkField(checkCells)) return;
 
@@ -141,15 +162,18 @@ async function addData() {
 
     var cell2 = newRow.insertCell(-1);
     cell2.className = "type";
-    cell2.innerHTML = type;
+    cell2.innerHTML = typeValue;
+    cell2.setAttribute("value", type);
 
     var cell3 = newRow.insertCell(-1);
     cell3.style.textAlign = "center";
-    cell3.innerHTML = unit;
+    cell3.innerHTML = unitValue;
+    cell3.setAttribute("value", unit);
 
     var cell4 = newRow.insertCell(-1);
     cell4.className = "weight";
-    cell4.innerHTML = weight + " " + weight_unit;
+    cell4.innerHTML = weight + " " + weight_unit_value;
+    cell4.setAttribute("value", weight_unit);
 
     var cell5 = newRow.insertCell(-1);
     cell5.className = "remark"; // 클래스 적용
@@ -204,8 +228,8 @@ var selectedRowIndex = -1;
 // 행 클릭 이벤트
 function rowClick(row){
     var name = row.cells[0].textContent;
-    var type = row.cells[2].textContent;
-    var unit = row.cells[3].textContent;
+    var type = row.cells[2].getAttribute("value");
+    var unit = row.cells[3].getAttribute("value");
     var weight = row.cells[4].textContent;
     var word = weight.split(' ');
     var remark = row.cells[5].textContent;
@@ -214,7 +238,7 @@ function rowClick(row){
     document.getElementById('select_type').value = type;
     document.getElementById('select_unit').value = unit;
     document.getElementById('input_weight').value = word[0];
-    document.getElementById('select_weight_unit').value = word[1];
+    document.getElementById('select_weight_unit').value = row.cells[4].getAttribute("value");
     document.getElementById('remark_content').value = remark.trim();
 
     var tbody = row.parentNode;
@@ -324,6 +348,7 @@ function updateBtn(){
         updateBtn.style.fontWeight = "600";
         updateBtn.style.marginRight = "1rem";
         updateBtn.style.cursor = "pointer";
+        updateBtn.tabIndex = "7";
         updateBtn.innerHTML = '수정';
 
         updateBtn.onclick = function() {
@@ -357,10 +382,20 @@ async function clickUpBtn(){
 
     var name = document.getElementById('input_name').value; //제품명
     var code = ""; //코드
-    var type = document.getElementById('select_type').value; //제품유형
-    var unit = document.getElementById('select_unit').value; //단위
+    //제품유형
+    var typeSelect = document.getElementById('select_type');
+    var typeValue = typeSelect.options[typeSelect.selectedIndex].text;
+
+    //단위
+    var unitSelect = document.getElementById('select_unit');
+    var unitValue = unitSelect.options[unitSelect.selectedIndex].text;
+
     var weight = document.getElementById('input_weight').value; //중량
-    var weight_unit = document.getElementById('select_weight_unit').value; //중량 단위
+
+    //중량 단위
+    var weight_unit_select = document.getElementById('select_weight_unit');
+    var weight_unit_value = weight_unit_select.options[weight_unit_select.selectedIndex].text;
+
     var remark = document.getElementById('remark_content').value; //비고
 
     var table = document.getElementById('data_table'); //테이블
@@ -389,9 +424,9 @@ async function clickUpBtn(){
         upRow.cells[0].className = "name";
         upRow.cells[0].innerHTML = `<div>${name}</div>`;
         upRow.cells[1].textContent = code; // 코드
-        upRow.cells[2].textContent = type; // 제품유형
-        upRow.cells[3].textContent = unit; // 단위
-        upRow.cells[4].textContent = weight + " " + weight_unit; // 중량 및 중량 단위
+        upRow.cells[2].textContent = typeValue; // 제품유형
+        upRow.cells[3].textContent = unitValue; // 단위
+        upRow.cells[4].textContent = weight + " " + weight_unit_value; // 중량 및 중량 단위
         upRow.cells[5].className = "remark";
         upRow.cells[5].innerHTML = `<div>${remark}</div>`;
 
@@ -418,4 +453,95 @@ async function clickUpBtn(){
 
 function searchClick(){
     window.location="/product";
+}
+
+var dataLoad1 = false;
+function typeChange(){
+    var typeCombo = document.getElementById("select_type");
+
+    if(dataLoad1) return;
+
+    if (!dataLoad1) {
+        const initialOption = new Option("", "", true, true);
+        initialOption.disabled = true; // 이 옵션을 선택할 수 없게 만듭니다.
+        typeCombo.appendChild(initialOption);
+    }
+
+    const url = new URL('/search/typelist', window.location.origin);
+    url.searchParams.append('type', 'protype');
+    fetch(url,{
+        method : 'GET',
+    })
+        .then(response => response.json())
+        .then(data => {
+            data.forEach(item => {
+                const option = new Option(item['sc_name'], item['sc_code']);
+                typeCombo.appendChild(option);
+            });
+            dataLoad1 = true;
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+}
+
+
+var dataLoad2 = false;
+function unitChange(){
+    var unitCombo = document.getElementById("select_unit");
+
+    if(dataLoad2) return;
+
+    if (!dataLoad2) {
+        const initialOption = new Option("", "", true, true);
+        initialOption.disabled = true; // 이 옵션을 선택할 수 없게 만듭니다.
+        unitCombo.appendChild(initialOption);
+    }
+
+    const url1 = new URL('/search/typelist', window.location.origin);
+    url1.searchParams.append('type', 'prounit');
+    fetch(url1,{
+        method : 'GET',
+    })
+        .then(response => response.json())
+        .then(data => {
+            data.forEach(item => {
+                const option = new Option(item['sc_name'], item['sc_code']);
+                unitCombo.appendChild(option);
+            });
+            dataLoad2 = true;
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+}
+
+var dataLoad3 = false;
+function wunitChange(){
+    var wunitCombo = document.getElementById("select_weight_unit");
+
+    if(dataLoad3) return;
+
+    if (!dataLoad3) {
+        const initialOption = new Option("", "", true, true);
+        initialOption.disabled = true; // 이 옵션을 선택할 수 없게 만듭니다.
+        wunitCombo.appendChild(initialOption);
+    }
+
+    const url2 = new URL('/search/typelist', window.location.origin);
+    url2.searchParams.append('type', 'weightunit');
+    fetch(url2,{
+        method : 'GET',
+    })
+        .then(response => response.json())
+        .then(data => {
+            data.forEach(item => {
+                const option = new Option(item['sc_name'], item['sc_code']);
+                wunitCombo.appendChild(option);
+            });
+            dataLoad3 = true;
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
 }

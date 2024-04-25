@@ -557,6 +557,10 @@
             margin: 0;
         }
 
+        div:lang(ko) {
+            font-size: 1rem;
+        }
+
     </style>
     <script src="/js/productInsert_script.js"></script>
 </head>
@@ -613,18 +617,12 @@
                 <div id="type">
                     <div id="item_type">
                         <label>제품유형</label>
-                        <select id="select_type" tabindex="2">
-                            <option value="A">유형A</option>
-                            <option value="B">유형B</option>
-                            <option value="C">유형C</option>
+                        <select id="select_type" tabindex="2" onfocus="typeChange(this)">
                         </select>
                     </div>
                     <div id="item_unit">
                         <label>단위</label>
-                        <select id="select_unit" tabindex="3">
-                            <option value="CAN">CAN</option>
-                            <option value="%">%</option>
-                            <option value="CM">CM</option>
+                        <select id="select_unit" tabindex="3" onfocus="unitChange(this)">
                         </select>
                     </div>
                 </div>
@@ -632,10 +630,7 @@
                     <label>중량</label>
                     <div>
                         <input type="text" id="input_weight" value="0" tabindex="4" oninput="numFormat(this)" onfocus="removeDefault(this)"/>
-                        <select id="select_weight_unit" tabindex="5">
-                            <option value="KG">KG</option>
-                            <option value="G">G</option>
-                            <option value="CM">CM</option>
+                        <select id="select_weight_unit" tabindex="5" onfocus="wunitChange(this)">
                         </select>
                     </div>
                 </div>

@@ -32,8 +32,6 @@ function optionChange(combo){
         search.style.border = "none";
         var typeCombo = document.createElement("select");
 
-        var typeList = [];
-
         const url = new URL('/search/typelist', window.location.origin);
         url.searchParams.append('type', 'protype'); // 쿼리 매개변수 추가
 
@@ -41,24 +39,15 @@ function optionChange(combo){
             method : 'GET',
         })
             .then(response => response.json())
-            .then(list => {
-                typeList = list;
-                console.log('리스트 : ' + list);
+            .then(data => {
+                data.forEach(item => {
+                    const option = new Option(item['sc_name'], item['sc_code']);
+                    typeCombo.appendChild(option);
+                });
             })
             .catch((error) => {
                 console.error('Error:', error);
             });
-
-        // 옵션 생성 및 추가
-        var option0 = new Option("전체", "");
-        var option1 = new Option("유형A", "A");
-        var option2 = new Option("유형B", "B");
-        var option3 = new Option("유형C", "C");
-
-        typeCombo.appendChild(option0);
-        typeCombo.appendChild(option1);
-        typeCombo.appendChild(option2);
-        typeCombo.appendChild(option3);
 
         typeCombo.style.width="40%";
         typeCombo.style.height="2.3rem";
@@ -131,14 +120,23 @@ function updateMode(UpdateBtn){
     // 제품유형 셀
     var typeCell =row.querySelector('.type');
     var typeCombo = document.createElement("select");
-    // 옵션 생성 및 추가
-    var typeOption1 = new Option("A", "A");
-    var typeOption2 = new Option("B", "B");
-    var typeOption3 = new Option("C", "C");
 
-    typeCombo.appendChild(typeOption1);
-    typeCombo.appendChild(typeOption2);
-    typeCombo.appendChild(typeOption3);
+    // 옵션 생성 및 추가
+    const url = new URL('/search/typelist', window.location.origin);
+    url.searchParams.append('type', 'protype'); // 쿼리 매개변수 추가
+    fetch(url,{
+        method : 'GET',
+    })
+        .then(response => response.json())
+        .then(data => {
+            data.forEach(item => {
+                const option = new Option(item['sc_name'], item['sc_code']);
+                typeCombo.appendChild(option);
+            });
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
 
     typeCombo.value = typeCell.textContent;
     typeCombo.style.width="100%";
@@ -154,13 +152,21 @@ function updateMode(UpdateBtn){
     var unitCell =row.querySelector('.unit');
     var unitCombo = document.createElement("select");
     // 옵션 생성 및 추가
-    var unitOption1 = new Option("CAN", "CAN");
-    var unitOption2 = new Option("%", "%");
-    var unitOption3 = new Option("개", "개");
-
-    unitCombo.appendChild(unitOption1);
-    unitCombo.appendChild(unitOption2);
-    unitCombo.appendChild(unitOption3);
+    const url1 = new URL('/search/typelist', window.location.origin);
+    url1.searchParams.append('type', 'prounit'); // 쿼리 매개변수 추가
+    fetch(url1,{
+        method : 'GET',
+    })
+        .then(response => response.json())
+        .then(data => {
+            data.forEach(item => {
+                const option = new Option(item['sc_name'], item['sc_code']);
+                unitCombo.appendChild(option);
+            });
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
 
     unitCombo.value = unitCell.textContent;
     unitCombo.style.width="100%";
@@ -196,13 +202,21 @@ function updateMode(UpdateBtn){
 
     var weightCombo = document.createElement("select");
     // 옵션 생성 및 추가
-    var weightOption1 = new Option("KG", "KG");
-    var weightOption2 = new Option("G", "G");
-    var weightOption3 = new Option("CM", "CM");
-
-    weightCombo.appendChild(weightOption1);
-    weightCombo.appendChild(weightOption2);
-    weightCombo.appendChild(weightOption3);
+    const url2 = new URL('/search/typelist', window.location.origin);
+    url2.searchParams.append('type', 'weightunit');
+    fetch(url2,{
+        method : 'GET',
+    })
+        .then(response => response.json())
+        .then(data => {
+            data.forEach(item => {
+                const option = new Option(item['sc_name'], item['sc_code']);
+                weightCombo.appendChild(option);
+            });
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
 
     weightCombo.value = word[1];
     weightCombo.style.width="49%";
