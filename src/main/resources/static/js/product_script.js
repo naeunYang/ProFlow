@@ -31,6 +31,8 @@ function optionChange(combo){
     if(selectedValue === "type"){
         search.style.border = "none";
         var typeCombo = document.createElement("select");
+        var option1 = new Option('전체', '');
+        typeCombo.appendChild(option1);
 
         const url = new URL('/search/typelist', window.location.origin);
         url.searchParams.append('type', 'protype'); // 쿼리 매개변수 추가
@@ -48,6 +50,8 @@ function optionChange(combo){
             .catch((error) => {
                 console.error('Error:', error);
             });
+
+        typeCombo.selectedIndex = 0;
 
         typeCombo.style.width="40%";
         typeCombo.style.height="2.3rem";
@@ -82,6 +86,7 @@ function optionChange(combo){
         .catch((error) => {
             console.error('Error:', error);
         });
+
 }
 
 // 수정 이미지 클릭
@@ -120,6 +125,8 @@ function updateMode(UpdateBtn){
     // 제품유형 셀
     var typeCell =row.querySelector('.type');
     var typeCombo = document.createElement("select");
+    var typeCellText = typeCell.textContent;
+    var typeCellValue;
 
     // 옵션 생성 및 추가
     const url = new URL('/search/typelist', window.location.origin);
@@ -133,12 +140,18 @@ function updateMode(UpdateBtn){
                 const option = new Option(item['sc_name'], item['sc_code']);
                 typeCombo.appendChild(option);
             });
+            for (let i = 0; i < typeCombo.options.length; i++) {
+                if (typeCombo.options[i].text === typeCellText) {
+                    typeCombo.selectedIndex = i;
+                    typeCellValue = typeCombo.options[i].value;
+                    break;
+                }
+            }
         })
         .catch((error) => {
             console.error('Error:', error);
         });
 
-    typeCombo.value = typeCell.textContent;
     typeCombo.style.width="100%";
     typeCombo.style.height="2rem";
     typeCombo.style.textAlign="center";
@@ -151,6 +164,9 @@ function updateMode(UpdateBtn){
     // 단위 셀
     var unitCell =row.querySelector('.unit');
     var unitCombo = document.createElement("select");
+    var unitCellText = unitCell.textContent;
+    var unitCellValue;
+
     // 옵션 생성 및 추가
     const url1 = new URL('/search/typelist', window.location.origin);
     url1.searchParams.append('type', 'prounit'); // 쿼리 매개변수 추가
@@ -163,12 +179,18 @@ function updateMode(UpdateBtn){
                 const option = new Option(item['sc_name'], item['sc_code']);
                 unitCombo.appendChild(option);
             });
+            for (let i = 0; i < unitCombo.options.length; i++) {
+                if (unitCombo.options[i].text === unitCellText) {
+                    unitCombo.selectedIndex = i;
+                    unitCellValue = unitCombo.options[i].value;
+                    break;
+                }
+            }
         })
         .catch((error) => {
             console.error('Error:', error);
         });
 
-    unitCombo.value = unitCell.textContent;
     unitCombo.style.width="100%";
     unitCombo.style.height="2rem";
     unitCombo.style.textAlign="center";
@@ -183,7 +205,6 @@ function updateMode(UpdateBtn){
     var weightInput = document.createElement("input");
     weightInput.type = "text";
     var word = weightCell.textContent.split(' ');
-    console.log('중량 : ' + weightCell.textContent);
     weightInput.value = word[0]; //숫자 추출
     weightInput.style.width= "49%";
     weightInput.style.height= "2rem";
@@ -201,6 +222,7 @@ function updateMode(UpdateBtn){
     };
 
     var weightCombo = document.createElement("select");
+    var weightValue;
     // 옵션 생성 및 추가
     const url2 = new URL('/search/typelist', window.location.origin);
     url2.searchParams.append('type', 'weightunit');
@@ -213,12 +235,18 @@ function updateMode(UpdateBtn){
                 const option = new Option(item['sc_name'], item['sc_code']);
                 weightCombo.appendChild(option);
             });
+            for (let i = 0; i < weightCombo.options.length; i++) {
+                if (weightCombo.options[i].text === word[1]) {
+                    weightCombo.selectedIndex = i;
+                    weightValue = weightCombo.options[i].value;
+                    break;
+                }
+            }
         })
         .catch((error) => {
             console.error('Error:', error);
         });
 
-    weightCombo.value = word[1];
     weightCombo.style.width="49%";
     weightCombo.style.height="2rem";
     weightCombo.style.textAlign="center";
@@ -246,16 +274,16 @@ function updateMode(UpdateBtn){
     remarkCell.appendChild(remarkInput);
 
     nameInput.onkeyup = function(event){
-        enterEvent(event, nameInput, nameCell, codeInput, codeCell, typeCombo, typeCell,unitCombo, unitCell, weightInput, weightCell, weightCombo, remarkInput, remarkCell);
+        enterEvent(event, nameInput, codeInput, typeCombo, unitCombo, weightInput, weightCombo, remarkInput);
     };
     codeInput.onkeyup = function(event){
-        enterEvent(event, nameInput, nameCell, codeInput, codeCell, typeCombo, typeCell,unitCombo, unitCell, weightInput, weightCell, weightCombo, remarkInput, remarkCell);
+        enterEvent(event, nameInput, codeInput, typeCombo, unitCombo, weightInput, weightCombo, remarkInput);
     };
     weightInput.onkeyup = function(event){
-        enterEvent(event, nameInput, nameCell, codeInput, codeCell, typeCombo, typeCell,unitCombo, unitCell, weightInput, weightCell, weightCombo, remarkInput, remarkCell);
+        enterEvent(event, nameInput, codeInput, typeCombo, unitCombo, weightInput, weightCombo, remarkInput);
     };
     remarkInput.onkeyup = function(event){
-        enterEvent(event, nameInput, nameCell, codeInput, codeCell, typeCombo, typeCell,unitCombo, unitCell, weightInput, weightCell, weightCombo, remarkInput, remarkCell);
+        enterEvent(event, nameInput, codeInput, typeCombo, unitCombo, weightInput, weightCombo, remarkInput);
     };
 
     // 수정 중일 때 다른 행들의 수정 버튼 안보이게 하기
@@ -384,10 +412,9 @@ function checkChangeHead(checkBox){
 }
 
 // 키 이벤트
-function enterEvent(event, nameInput, nameCell, codeInput, codeCell, typeCombo, typeCell,unitCombo, unitCell, weightInput, weightCell, weightCombo, remarkInput, remarkCell) {
+function enterEvent(event, nameInput, codeInput, typeCombo, unitCombo, weightInput, weightCombo, remarkInput) {
     // 엔터키
     if (event.keyCode === 13) {
-
         // 1. 필수 입력 검사
         var checkCells = [
             {label: "제품명", value: nameInput.value},
@@ -402,12 +429,13 @@ function enterEvent(event, nameInput, nameCell, codeInput, codeCell, typeCombo, 
             return;
         }
 
+        var weightComboText = weightCombo.options[weightCombo.selectedIndex].text;
         var productUpdate = {
             code: codeInput.value,
             name: nameInput.value,
             type: typeCombo.value,
             unit: unitCombo.value,
-            weight: (weightInput.value + " " + weightCombo.value),
+            weight: (weightInput.value + " " + weightComboText),
             remark: remarkInput.value
         };
         fetch('/products/update',{
@@ -464,11 +492,10 @@ function searchEvent(event){
     if(keyword === undefined)
         keyword = "";
 
-    console.log("키워드 : " + keyword);
     // URL에 쿼리 매개변수를 추가하여 검색 키워드를 서버로 전송
     const url = new URL('/product/search', window.location.origin);
-    url.searchParams.append('keyword', keyword); // 쿼리 매개변수 추가
-    url.searchParams.append('searchType', selectValue); // 쿼리 매개변수 추가
+    url.searchParams.append('keyword', keyword); // 입력값
+    url.searchParams.append('searchType', selectValue); // 검색유형
 
     fetch(url,{
         method : 'GET',
@@ -546,10 +573,24 @@ function updateTable(products){
         // 완성된 행을 tbody에 추가합니다.
         tbody.appendChild(tr);
     });
+
+    cnt();
 }
 
 // 검색창 x버튼 이벤트
 function clearSearchInput(){
     document.getElementById('searchInput').value = '';
     searchEvent(event);
+}
+
+window.onload = function() {
+    cnt();
+};
+
+// 제품 현황 건 수 반영
+function cnt() {
+    var table = document.getElementById('data_table');
+    var rowCount = table.rows.length - 1;
+    var span = document.getElementById('productCount');
+    span.textContent = rowCount.toString();
 }

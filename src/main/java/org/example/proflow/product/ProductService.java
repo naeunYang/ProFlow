@@ -46,19 +46,4 @@ public class ProductService {
                     .executeUpdate();
         }
     }
-
-    // 검색조건 : name
-    public List<Product> getProductsByName(String name) {
-        return productRepository.findByNameContaining(name);
-    }
-
-    // 검색조건 : code
-    public List<Product> getProductsByCode(String code) {
-        return productRepository.findByCodeContaining(code);
-    }
-
-    // 검색조건 : type
-    public List<Product> getProductsByType(String type) {
-        return productRepository.findByTypeContaining(type);
-    }
 }

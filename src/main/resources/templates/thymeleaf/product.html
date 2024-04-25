@@ -304,6 +304,7 @@
             text-align: center;
             overflow: hidden;
             text-overflow: ellipsis;
+            font-size: 1rem;
         }
 
         #table tbody .unit{
@@ -337,6 +338,7 @@
             text-overflow: ellipsis;
             white-space: nowrap;
             padding-left: 0.5rem;
+            font-size: 1rem;
         }
 
         ::-webkit-scrollbar {
@@ -426,7 +428,8 @@
     </div>
 </div>
 <div id="label">
-    <label>제품 현황&nbsp;&nbsp;<span th:text="${cnt}"></span>건</label>
+<!--    <label>제품 현황&nbsp;&nbsp;<span th:text="${cnt}"></span>건</label>-->
+    <label>제품 현황&nbsp;&nbsp;<span id="productCount"></span>건</label>
 </div>
 <div id="table">
     <table id="data_table">

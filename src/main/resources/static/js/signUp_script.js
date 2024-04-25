@@ -45,6 +45,7 @@ async function signUpAlert(){
         .then(data => {
             console.log('Success:', data);
             window.location.href = '/product';
+            alert("가입이 완료되었습니다");
         })
         .catch((error) => {
             console.error('Error:', error);
@@ -94,5 +95,12 @@ async function checkId(id, id_msg){
     } catch (error) {
         console.error('Error:', error);
         return false;
+    }
+}
+
+// 글자 수 제한
+function limitInputLength(input){
+    if (input.value.length > 11) {
+        input.value = input.value.slice(0, 11);
     }
 }

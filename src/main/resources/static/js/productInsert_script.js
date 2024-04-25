@@ -38,14 +38,14 @@ function save(tbody){
         var product = {
             name: row.cells[0].textContent,
             code: row.cells[1].textContent,
-            type: row.cells[2].textContent,
-            unit: row.cells[3].textContent,
+            type: row.cells[2].getAttribute("value"),
+            unit: row.cells[3].getAttribute("value"),
             weight: row.cells[4].textContent,
             remark: row.cells[5].textContent
         };
-        console.log(product.name + product.code + product.type + product.unit + product.weight + product.remark + "");
         products.push(product); // 리스트에 product 객체 추가
     }
+    console.log("저장 행 : " + products);
 
     fetch('/products/insert',{
         method : 'POST',

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -43,8 +44,8 @@ public class ProductController {
         if (user == null) {
             return "redirect:/login"; // 로그인 페이지 경로 변경
         }
-        
-        List<Product> products =  productService.getAllProducts();
+
+        List<ProductDTO> products = productRepository.findAllByProducts(null, null, null);
         model.addAttribute("products", products);
 
         long cnt = productService.getAllCnt();
@@ -56,22 +57,18 @@ public class ProductController {
     // 검색조회
     @GetMapping("/product/search")
     @ResponseBody //@ResponseBody가 없을 때는 보통 해당 문자열에 해당하는 뷰 템플릿을 찾아서 반환, 있을 때는 메서드가 반환하는 객체나 리스트가 클라이언트에게 JSON형태로 직접 전송된다.
-    public List<Product> getAllProducts(@RequestParam(value = "keyword", required = false) String keyword, String searchType) {
-        List<Product> productList;
+    public List<ProductDTO> getAllProducts(@RequestParam(value = "keyword", required = false) String keyword, String searchType) {
+        List<ProductDTO> productList = new ArrayList<>();
 
-        if (keyword != null && !keyword.isEmpty()) {
-            // 제품명으로 조회
-            if(searchType.equals("name"))
-                productList = productService.getProductsByName(keyword);
-            // 제품코드로 조회
-            else if(searchType.equals("code"))
-                productList = productService.getProductsByCode(keyword);
-            // 제품유형으로 조회
-            else
-                productList = productService.getProductsByType(keyword);
-        } else {
-            productList = productService.getAllProducts();
-        }
+        // 제품명으로 조회
+        if(searchType.equals("name"))
+            productList = productRepository.findAllByProducts(keyword, null, null);
+        // 제품코드로 조회
+        else if(searchType.equals("code"))
+            productList = productRepository.findAllByProducts(null, keyword, null);
+        // 제품유형으로 조회
+        else
+            productList = productRepository.findAllByProducts(null, null, keyword);
 
         return productList;
     }
@@ -95,6 +92,8 @@ public class ProductController {
             product.setUnit(updateProduct.getUnit());
             product.setWeight(updateProduct.getWeight());
             product.setRemark(updateProduct.getRemark());
+
+            System.out.println("저장할 값 : " + product);
 
             productRepository.save(product);
 
