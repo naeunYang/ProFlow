@@ -55,7 +55,7 @@ function save(tbody){
         .then(response => response.json())
         .then(data => {
             console.log('Success:', data);
-            window.location.href = '/productInsert';
+            window.location.href = '/product';
         })
         .catch((error) => {
             console.error('Error:', error);

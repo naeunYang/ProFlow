@@ -41,7 +41,7 @@ function save(tbody){
         .then(response => response.json())
         .then(data => {
             console.log('Success:', data);
-            window.location.href = '/materialInsert';
+            window.location.href = '/material';
         })
         .catch((error) => {
             console.error('Error:', error);
@@ -401,10 +401,10 @@ async function clickUpBtn(){
         upRow.cells[1].textContent = code; // 코드
         upRow.cells[2].textContent = typeValue; // 제품유형
         upRow.cells[2].setAttribute("value", typeSelect.value);
-        upRow.cells[4].textContent = weight + " " + weight_unit_value; // 중량 및 중량 단위
-        upRow.cells[4].setAttribute("value", weight_unit_select.value);
-        upRow.cells[5].className = "remark";
-        upRow.cells[5].innerHTML = `<div>${remark}</div>`;
+        upRow.cells[3].textContent = weight + " " + weight_unit_value; // 중량 및 중량 단위
+        upRow.cells[3].setAttribute("value", weight_unit_select.value);
+        upRow.cells[4].className = "remark";
+        upRow.cells[4].innerHTML = `<div>${remark}</div>`;
 
         var removeImg = document.createElement("img");
         removeImg.src = "image/xBtn.png";
@@ -413,7 +413,7 @@ async function clickUpBtn(){
             deleteRow(event, this);
         };
 
-        upRow.cells[5].appendChild(removeImg);
+        upRow.cells[4].appendChild(removeImg);
 
     }
 

@@ -42,7 +42,7 @@ function save(tbody){
         .then(response => response.json())
         .then(data => {
             console.log('Success:', data);
-            window.location.href = '/customerInsert';
+            window.location.href = '/customer';
         })
         .catch((error) => {
             console.error('Error:', error);

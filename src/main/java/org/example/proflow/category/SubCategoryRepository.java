@@ -24,6 +24,6 @@ public interface SubCategoryRepository extends JpaRepository<SubCategory, String
     List<SubCategory> findAllByCustType();
 
     //자재 유형 리스트
-    @Query("SELECT s FROM SubCategory s WHERE s.mc_code = 'MAT_TYPE'")
+    @Query("SELECT s FROM SubCategory s WHERE s.mc_code = 'MAT_TYPE' ORDER BY s.sc_code")
     List<SubCategory> findAllByMatType();
 }
