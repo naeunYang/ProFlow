@@ -1,23 +1,11 @@
-class TableRow{
-    constructor(name, code, type, unit, weight, weight_unit, remark) {
-        this.name = name;
-        this.code = code;
-        this.type = type;
-        this.unit = unit;
-        this.weight = weight;
-        this.weight_unit = weight_unit;
-        this.remark = remark;
-    }
-}
-
 // 저장 버튼
 function saveComplete(){
     var tbody = document.getElementById('tbody');
 
     // 행이 1개 남았을 때만 검사
     if(tbody.rows.length <= 1){
-        var proName = tbody.rows[0].cells[0].textContent;
-        if(proName === ""){
+        var custName = tbody.rows[0].cells[0].textContent;
+        if(custName === ""){
             alert("저장할 내용이 없습니다.");
         }else{
             alert("저장이 완료되었습니다.");
@@ -31,106 +19,73 @@ function saveComplete(){
 }
 
 function save(tbody){
-    var products = [];
+    var customers = [];
 
     for(var i = 0; i < tbody.rows.length; i++){
         var row = tbody.rows[i];
-        var product = {
+        var customer = {
             name: row.cells[0].textContent,
             code: row.cells[1].textContent,
-            type: row.cells[2].getAttribute("value"),
-            unit: row.cells[3].getAttribute("value"),
-            weight: row.cells[4].textContent,
-            remark: row.cells[5].textContent
+            no: row.cells[2].textContent,
+            type: row.cells[3].getAttribute("value"),
+            tel: row.cells[4].textContent,
+            addr: row.cells[5].textContent
         };
-        products.push(product); // 리스트에 product 객체 추가
+        customers.push(customer); // 리스트에 product 객체 추가
     }
-    console.log("저장 행 : " + products);
 
-    fetch('/products/insert',{
+    fetch('/customers/insert',{
         method : 'POST',
         headers: {'Content-Type' : 'application/json',},
-        body: JSON.stringify(products)
+        body: JSON.stringify(customers)
     })
         .then(response => response.json())
         .then(data => {
             console.log('Success:', data);
-            window.location.href = '/productInsert';
+            window.location.href = '/customerInsert';
         })
         .catch((error) => {
             console.error('Error:', error);
         });
 
-    return products;
-}
-
-// 중량 input의 oninput이벤트(사용자가 입력 필드에 값을 입력할 때마다 발생)
-function numFormat(input){
-    input.value = comma(uncomma(input.value));
-}
-function comma(str) {
-    // 소수점 이하를 분리하여 처리
-    var parts = str.split('.');
-    // 정수 부분에만 콤마 추가
-    parts[0] = parts[0].replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
-    // 정수 부분과 소수점 이하를 다시 합침
-    return parts.join('.');
-}
-function uncomma(str) {
-    // 숫자와 소수점만 남김 (소수점 포함)
-    return str.replace(/[^\d.]+/g, '');
-}
-
-// 중량 input의 onfocus이벤트(포커스를 받았을 때 발생)
-function removeDefault(input){
-    // 디폴트 값인 0으로 설정되어 있을 시 공백으로 보여주기
-    if(input.value === "0"){
-        input.value = "";
-    }
+    return customers;
 }
 
 // 추가 버튼
 async function addData() {
     await typeChange();
-    await unitChange();
-    await wunitChange();
 
-    //제품명
+    //거래처명
     var divNameInput = document.getElementById('input_name');
     var name = document.getElementById('input_name').value;
 
-    //제품유형
+    //거래처코드
+    var code = "";
+
+    //사업자등록번호
+    var divNoInput = document.getElementById('input_no');
+    var no = document.getElementById('input_no').value;
+
+    //거래처유형
     var typeSelect = document.getElementById('select_type');
     var type = typeSelect.value;
     var typeValue = typeSelect.options[typeSelect.selectedIndex].text;
 
-    //코드
-    var code = "";
+    //연락처
+    var divTelInput = document.getElementById('input_tel');
+    var tel = document.getElementById('input_tel').value;
 
-    //단위
-    var unitSelect = document.getElementById('select_unit');
-    var unit = unitSelect.value;
-    var unitValue = unitSelect.options[unitSelect.selectedIndex].text;
+    //주소
+    var divAddrInput = document.getElementById('input_addr');
+    var addr = document.getElementById('input_addr').value;
+    divAddrInput.style.fontSize = "1rem";
 
-    //중량
-    var weight = document.getElementById('input_weight').value;
-
-    //중량 단위
-    var weight_unit_select = document.getElementById('select_weight_unit');
-    var weight_unit = weight_unit_select.value;
-    var weight_unit_value = weight_unit_select.options[weight_unit_select.selectedIndex].text;
-
-    var remark = document.getElementById('remark_content').value; //비고
     var table = document.getElementById('data_table'); //테이블
-    var receiveRow = new TableRow(name, code, type, unit, weight, weight_unit, remark);
 
     // 1. 필수 입력 검사
     var checkCells = [
-        {label: "제품명", value: receiveRow.name},
-        {label: "중량", value: receiveRow.weight},
-        {label: "중량 단위", value: receiveRow.weight_unit},
-        {label: "제품유형", value: receiveRow.type},
-        {label: "제품 단위", value: receiveRow.unit}
+        {label: "거래처명", value: name},
+        {label: "거래처유형", value: type},
     ];
     if (!checkField(checkCells)) return;
 
@@ -139,7 +94,6 @@ async function addData() {
     if (!checkDuplication(name, table, divNameInput)) return;
     // DB 검사 -await : 비동기 함수 기다림
     if (!await checkDuplication_db(name, divNameInput)) return;
-
 
     var newRow = table.insertRow(-1); // insertRow : 테이블에 새로운 행 삽입(삽입될 행의 인덱스 번호 -> 0:첫번째, -1: 마지막 행)
     // 로우 클릭 이벤트
@@ -158,6 +112,7 @@ async function addData() {
 
     var cell0 = newRow.insertCell(0); // -> 0인덱스에 셀 추가, 이 셀에 대한 참조를 cell1에 저장
     cell0.className = "name"; // 클래스 적용
+    cell0.style.fontSize = "1rem";
     cell0.innerHTML = `<div>${name}</div>`;
 
     var cell1 = newRow.insertCell(-1);
@@ -165,43 +120,40 @@ async function addData() {
     cell1.innerHTML = code;
 
     var cell2 = newRow.insertCell(-1);
-    cell2.className = "type";
-    cell2.style.fontSize = "1rem";
-    cell2.innerHTML = typeValue;
-    cell2.setAttribute("value", type);
+    cell2.className = "no";
+    cell2.innerHTML = no;
 
     var cell3 = newRow.insertCell(-1);
-    cell3.style.textAlign = "center";
-    cell3.innerHTML = unitValue;
-    cell3.setAttribute("value", unit);
+    cell3.className = "type";
+    cell3.innerHTML = typeValue;
+    cell3.setAttribute("value", type);
 
     var cell4 = newRow.insertCell(-1);
-    cell4.className = "weight";
-    cell4.innerHTML = weight + " " + weight_unit_value;
-    cell4.setAttribute("value", weight_unit);
+    cell4.className = "tel";
+    cell4.innerHTML = tel;
 
     var cell5 = newRow.insertCell(-1);
-    cell5.className = "remark"; // 클래스 적용
+    cell5.className = "addr"; // 클래스 적용
+    cell5.style.fontSize = "1rem";
 
-    var remarkDiv = document.createElement("div");
-    remarkDiv.innerHTML = remark;
+    var addrDiv = document.createElement("div");
+    addrDiv.innerHTML = addr;
 
-    var removeImg = document.createElement("img");
-    removeImg.src = "image/xBtn.png";
-    removeImg.className = "remove";
-    removeImg.onclick = function () {
+    var addrImg = document.createElement("img");
+    addrImg.src = "image/xBtn.png";
+    addrImg.className = "remove";
+    addrImg.onclick = function () {
         deleteRow(event, this);
     };
 
-    cell5.appendChild(removeImg);
-    cell5.appendChild(remarkDiv);
+    cell5.appendChild(addrImg);
+    cell5.appendChild(addrDiv);
 
     document.getElementById("input_name").value = "";
+    document.getElementById("input_no").value = "";
     document.getElementById("select_type").selectedIndex = 0;
-    document.getElementById("select_unit").selectedIndex = 0;
-    document.getElementById("input_weight").value = "0";
-    document.getElementById("select_weight_unit").selectedIndex = 0;
-    document.getElementById("remark_content").value = "";
+    document.getElementById("input_tel").value = "";
+    document.getElementById("input_addr").value = "";
 
     divNameInput.focus();
 }
@@ -233,18 +185,16 @@ var selectedRowIndex = -1;
 // 행 클릭 이벤트
 function rowClick(row){
     var name = row.cells[0].textContent;
-    var type = row.cells[2].getAttribute("value");
-    var unit = row.cells[3].getAttribute("value");
-    var weight = row.cells[4].textContent;
-    var word = weight.split(' ');
-    var remark = row.cells[5].textContent;
+    var no = row.cells[2].textContent;
+    var type = row.cells[3].getAttribute("value");
+    var tel = row.cells[4].textContent;
+    var addr = row.cells[5].textContent;
 
     document.getElementById('input_name').value = name;
+    document.getElementById('input_no').value = no;
     document.getElementById('select_type').value = type;
-    document.getElementById('select_unit').value = unit;
-    document.getElementById('input_weight').value = word[0];
-    document.getElementById('select_weight_unit').value = row.cells[4].getAttribute("value");
-    document.getElementById('remark_content').value = remark.trim();
+    document.getElementById('input_tel').value = tel;
+    document.getElementById('input_addr').value = addr;
 
     var tbody = row.parentNode;
     // 행 한개씩 클릭
@@ -256,7 +206,6 @@ function rowClick(row){
     rows.forEach(function(row) {
 
         row.addEventListener('click', function(){
-            // 이 경우, 단순 클릭입니다.
             if(previousRow != null){
                 previousRow.style.backgroundColor = "";
             }
@@ -301,7 +250,7 @@ function checkDuplication(name, table, divNameInput){
     var rows = table.querySelectorAll('tr');
     for(var i = 0; i < rows.length; i++){
         if(rows[i].cells[0].textContent === name){
-            alert("중복된 제품명입니다.");
+            alert("중복된 거래처명입니다.");
             divNameInput.focus();
             return false;
         }
@@ -312,7 +261,7 @@ function checkDuplication(name, table, divNameInput){
 // db 중복 검사
 async function checkDuplication_db(name, divNameInput){
     try {
-        const response = await fetch('/checkName', {
+        const response = await fetch('/checkCustName', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -321,7 +270,7 @@ async function checkDuplication_db(name, divNameInput){
         });
         const data = await response.json();
         if(data) {
-            alert("중복된 제품명입니다.");
+            alert("중복된 거래처명입니다.");
             divNameInput.focus();
             return false;
         } else {
@@ -387,29 +336,20 @@ async function clickUpBtn(){
 
     var name = document.getElementById('input_name').value; //제품명
     var code = ""; //코드
-    //제품유형
+    var no = document.getElementById('input_no').value; //사업자등록번호
+    //거래처유형
     var typeSelect = document.getElementById('select_type');
     var typeValue = typeSelect.options[typeSelect.selectedIndex].text;
 
-    //단위
-    var unitSelect = document.getElementById('select_unit');
-    var unitValue = unitSelect.options[unitSelect.selectedIndex].text;
-
-    var weight = document.getElementById('input_weight').value; //중량
-
-    //중량 단위
-    var weight_unit_select = document.getElementById('select_weight_unit');
-    var weight_unit_value = weight_unit_select.options[weight_unit_select.selectedIndex].text;
-
-    var remark = document.getElementById('remark_content').value; //비고
+    var tel = document.getElementById('input_tel').value; //연락처
+    var addr = document.getElementById('input_addr').value; //주소
 
     var table = document.getElementById('data_table'); //테이블
     var rows = table.getElementsByTagName('tr');
 
     // 1. 필수 입력 검사
     var checkCells = [
-        {label: "제품명", value: name},
-        {label: "중량", value: weight}
+        {label: "거래처명", value: name},
     ];
     if(!checkField(checkCells)) return;
 
@@ -429,14 +369,12 @@ async function clickUpBtn(){
         upRow.cells[0].className = "name";
         upRow.cells[0].innerHTML = `<div>${name}</div>`;
         upRow.cells[1].textContent = code; // 코드
-        upRow.cells[2].textContent = typeValue; // 제품유형
-        upRow.cells[2].setAttribute("value", typeSelect.value);
-        upRow.cells[3].textContent = unitValue; // 단위
-        upRow.cells[3].setAttribute("value", unitSelect.value);
-        upRow.cells[4].textContent = weight + " " + weight_unit_value; // 중량 및 중량 단위
-        upRow.cells[4].setAttribute("value", weight_unit_select.value);
-        upRow.cells[5].className = "remark";
-        upRow.cells[5].innerHTML = `<div>${remark}</div>`;
+        upRow.cells[2].textContent = no; // 사업자등록번호
+        upRow.cells[3].textContent = typeValue; // 거래처유형
+        upRow.cells[3].setAttribute("value", typeSelect.value);
+        upRow.cells[4].textContent = tel; // 연락처
+        upRow.cells[5].className = "addr"; //주소
+        upRow.cells[5].innerHTML = `<div>${addr}</div>`;
 
         var removeImg = document.createElement("img");
         removeImg.src = "image/xBtn.png";
@@ -449,18 +387,17 @@ async function clickUpBtn(){
 
     }
 
-    document.getElementById("input_name").value = "";
-    document.getElementById("select_type").selectedIndex = 0;
-    document.getElementById("select_unit").selectedIndex = 0;
-    document.getElementById("input_weight").value = "0";
-    document.getElementById("select_weight_unit").selectedIndex = 0;
-    document.getElementById("remark_content").value = "";
+    document.getElementById('input_name').value = "";
+    document.getElementById('input_no').value = "";
+    document.getElementById('select_type').selectedIndex = 0;
+    document.getElementById('input_tel').value = "";
+    document.getElementById('input_addr').value = "";
 
     revertToOriginalState();
 }
 
 function searchClick(){
-    window.location="/product";
+    window.location="/customer";
 }
 
 var dataLoad1 = false;
@@ -471,12 +408,12 @@ function typeChange(){
 
     if (!dataLoad1) {
         const initialOption = new Option("", "", true, true);
-        initialOption.disabled = true; // 이 옵션을 선택할 수 없게 만듭니다.
+        initialOption.disabled = true;
         typeCombo.appendChild(initialOption);
     }
 
     const url = new URL('/search/typelist', window.location.origin);
-    url.searchParams.append('type', 'protype');
+    url.searchParams.append('type', 'custtype');
     fetch(url,{
         method : 'GET',
     })
@@ -493,63 +430,9 @@ function typeChange(){
         });
 }
 
-
-var dataLoad2 = false;
-function unitChange(){
-    var unitCombo = document.getElementById("select_unit");
-
-    if(dataLoad2) return;
-
-    if (!dataLoad2) {
-        const initialOption = new Option("", "", true, true);
-        initialOption.disabled = true; // 이 옵션을 선택할 수 없게 만듭니다.
-        unitCombo.appendChild(initialOption);
+// 글자 수 제한
+function limitInputLength(input){
+    if (input.value.length > 11) {
+        input.value = input.value.slice(0, 11);
     }
-
-    const url1 = new URL('/search/typelist', window.location.origin);
-    url1.searchParams.append('type', 'prounit');
-    fetch(url1,{
-        method : 'GET',
-    })
-        .then(response => response.json())
-        .then(data => {
-            data.forEach(item => {
-                const option = new Option(item['sc_name'], item['sc_code']);
-                unitCombo.appendChild(option);
-            });
-            dataLoad2 = true;
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-        });
-}
-
-var dataLoad3 = false;
-function wunitChange(){
-    var wunitCombo = document.getElementById("select_weight_unit");
-
-    if(dataLoad3) return;
-
-    if (!dataLoad3) {
-        const initialOption = new Option("", "", true, true);
-        initialOption.disabled = true; // 이 옵션을 선택할 수 없게 만듭니다.
-        wunitCombo.appendChild(initialOption);
-    }
-
-    const url2 = new URL('/search/typelist', window.location.origin);
-    url2.searchParams.append('type', 'weightunit');
-    fetch(url2,{
-        method : 'GET',
-    })
-        .then(response => response.json())
-        .then(data => {
-            data.forEach(item => {
-                const option = new Option(item['sc_name'], item['sc_code']);
-                wunitCombo.appendChild(option);
-            });
-            dataLoad3 = true;
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-        });
 }

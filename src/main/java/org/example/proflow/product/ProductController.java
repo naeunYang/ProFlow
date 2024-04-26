@@ -161,6 +161,9 @@ public class ProductController {
         else if("weightunit".equals(type)){
             categoryList =  subCategoryRepository.findAllByWeightUnit();
         }
+        else if("custtype".equals(type)){
+            categoryList =  subCategoryRepository.findAllByCustType();
+        }
 
         return categoryList;
     }

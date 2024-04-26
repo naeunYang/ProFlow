@@ -18,4 +18,8 @@ public interface SubCategoryRepository extends JpaRepository<SubCategory, String
     //중량 단위 리스트
     @Query("SELECT s FROM SubCategory s WHERE s.mc_code = 'WEIGHT_UNIT'")
     List<SubCategory> findAllByWeightUnit();
+
+    //거래처 유형 리스트
+    @Query("SELECT s FROM SubCategory s WHERE s.mc_code = 'CUST_TYPE'")
+    List<SubCategory> findAllByCustType();
 }
