@@ -164,6 +164,9 @@ public class ProductController {
         else if("custtype".equals(type)){
             categoryList =  subCategoryRepository.findAllByCustType();
         }
+        else if("mattype".equals(type)){
+            categoryList = subCategoryRepository.findAllByMatType();
+        }
 
         return categoryList;
     }

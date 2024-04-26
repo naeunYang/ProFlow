@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>ProFlow 거래처등록</title>
+    <title>ProFlow 자재등록</title>
     <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
     <style>
         html {
@@ -233,6 +233,7 @@
         }
 
         #input #info #add_info{
+            width: 50%;
             height: 39rem;
             padding-left: 5rem;
         }
@@ -250,25 +251,7 @@
 
         #input #info #add_info #name #input_name{
             outline: none;
-            width: 80%;
-            height: 2rem;
-            font-size: 1.1rem;
-        }
-
-        #input #info #add_info #no{
-            width: 30rem;
-            height: 5rem;
-            margin: 0.5rem 0.5rem 1rem 0.5rem;
-        }
-
-        #input #info #add_info #no #label_no{
-            display: block;
-            margin-bottom: 0.5rem;
-        }
-
-        #input #info #add_info #no #input_no{
-            outline: none;
-            width: 80%;
+            width: 74.5%;
             height: 2rem;
             font-size: 1.1rem;
         }
@@ -283,7 +266,7 @@
         }
 
         #input #info #add_info #type #item_type{
-            width: 60%;
+            width: 50%;
             height: 5rem;
         }
 
@@ -299,44 +282,56 @@
             margin-top: 0.5rem;
         }
 
-        #input #info #add_info #tel{
+        #input #info #add_info #weight{
             width: 30rem;
             height: 5rem;
             margin: 0.5rem 0.5rem 1rem 0.5rem;
+            display: block;
         }
 
-        #input #info #add_info #tel #label_tel{
+        #input #info #add_info #weight #input_weight{
+            outline: none;
+            width: 15rem;
+            height: 2rem;
+            font-size: 1.1rem;
+            text-align: right;
+        }
+
+        #input #info #add_info #weight select{
+            width: 7rem;
+            height: 2rem;
+            font-size: 1rem;
+            text-align: center;
+            border: #a6a6a6 1px solid;
+            border-radius: 0.3rem;
+            margin-left: 0.2rem;
+            margin-right: 0.8em;
+            margin-top: 0.5rem;
+        }
+
+        #input #info #add_info #remark{
+            width: 30rem;
+            height: 13rem;
+            margin: 0.5rem 0.5rem 1rem 0.5rem;
+            display: block;
+        }
+
+        #input #info #add_info #remark label{
             display: block;
             margin-bottom: 0.5rem;
         }
 
-        #input #info #add_info #tel #input_tel{
+        #input #info #add_info #remark #remark_content{
+            resize: none;
+            width: 100%;
+            height: 10rem;
             outline: none;
-            width: 80%;
-            height: 2rem;
             font-size: 1.1rem;
-        }
-
-        #input #info #add_info #addr{
-            width: 30rem;
-            height: 5rem;
-            margin: 0.5rem 0.5rem 1rem 0.5rem;
-        }
-
-        #input #info #add_info #addr #label_addr{
-            display: block;
-            margin-bottom: 0.5rem;
-        }
-
-        #input #info #add_info #addr #input_addr{
-            outline: none;
-            width: 80%;
-            height: 2rem;
-            font-size: 1.1rem;
+            font-family: 'Spoqa Han Sans Neo', 'sans-serif';
         }
 
         #input #info #add_info #addBtn{
-            width: 24rem;
+            width: 30rem;
             height: auto;
             margin: 0.5rem 0.5rem 1rem 0.5rem;
             text-align: center;
@@ -459,21 +454,6 @@
             white-space: nowrap;
         }
 
-        #input #info #add_table #table #data_table tbody .no{
-            text-align: center;
-            width: 9rem;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-
-        #input #info #add_table #table #data_table tbody .no div{
-            max-width: 9rem;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-
         #input #info #add_table #table #data_table tbody .type{
             text-align: center;
             width: 8.2rem;
@@ -481,38 +461,44 @@
             text-overflow: ellipsis;
         }
 
-        #input #info #add_table #table #data_table tbody .tel{
+        #input #info #add_table #table #data_table tbody .unit{
             text-align: center;
-            width: 9rem;
+            width: 8.2rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        #input #info #add_table #table #data_table tbody .weight{
+            text-align: right;
+            width: 9.9rem;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
         }
 
-        #input #info #add_table #table #data_table tbody .tel div{
+        #input #info #add_table #table #data_table tbody .weight div{
             max-width: 9rem;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
         }
 
-        #input #info #add_table #table #data_table tbody .addr{
+        #input #info #add_table #table #data_table tbody .remark{
             text-align: left;
-            width: 9rem;
+            width: 8.8rem;
             overflow: hidden;
             text-overflow: ellipsis;
-            white-space: nowrap;
             position: relative;
         }
 
-        #input #info #add_table #table #data_table tbody .addr div{
+        #input #info #add_table #table #data_table tbody .remark div{
             width: 6rem;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
         }
 
-        #input #info #add_table #table #data_table tbody .addr .remove{
+        #input #info #add_table #table #data_table tbody .remark .remove{
             width: 1.5rem;
             cursor: pointer;
             display: none;
@@ -558,7 +544,7 @@
         }
 
     </style>
-    <script src="/js/customerInsert_script.js"></script>
+    <script src="/js/materialInsert_script.js"></script>
 </head>
 <body>
 <div id="header">
@@ -581,57 +567,57 @@
 <div id="cnt">
     <div id="option">
         <select onclick="searchClick()">
-            <option value="name">거래처명</option>
-            <option value="code">거래처코드</option>
-            <option value="type">거래처유형</option>
+            <option value="name">자재명</option>
+            <option value="code">자재코드</option>
+            <option value="type">자재유형</option>
         </select>
         <div id="search">
             <img src="/image/magnifier2.png" id="magnifier"/>
-            <input type="text" name="search" id="searchInput" placeholder="거래처를 검색하세요." autocomplete="off" onclick="searchClick()">
+            <input type="text" name="search" id="searchInput" placeholder="자재를 검색하세요." autocomplete="off" onclick="searchClick()">
             <img src="/image/xBtn.png" id="xbtn"/>
         </div>
     </div>
     <div id="insert">
-        <a th:href="@{/customerInsert}"><button type="button" id="insert_product">거래처 등록</button></a>
+        <a th:href="@{/materialInsert}"><button type="button" id="insert_product">자재 등록</button></a>
     </div>
 </div>
 <div id="label">
-    <label>거래처 현황&nbsp;&nbsp;<span th:text="${customer_cnt}"></span>건</label>
+    <label>자재 현황&nbsp;&nbsp;<span th:text="${material_cnt}"></span>건</label>
 </div>
 <div id="input">
     <div id="title">
-        <span>거래처 정보 입력</span>
-        <a th:href="@{/customer}"><img src="/image/xBtn.png"/></a>
+        <span>자재 정보 입력</span>
+        <a th:href="@{/material}"><img src="/image/xBtn.png"/></a>
     </div>
     <div id="info">
         <form id="myForm">
             <div id="add_info">
                 <div id="name">
-                    <label id="label_name">거래처명</label>
+                    <label id="label_name">자재명</label>
                     <input type="text" id="input_name" tabindex="1"/>
-                </div>
-                <div id="no">
-                    <label id="label_no">사업자등록번호</label>
-                    <input type="text" id="input_no" tabindex="2"/>
                 </div>
                 <div id="type">
                     <div id="item_type">
-                        <label>거래처유형</label>
-                        <select id="select_type" tabindex="3" onfocus="typeChange(this)">
+                        <label>자재유형</label>
+                        <select id="select_type" tabindex="2" onfocus="typeChange(this)">
                         </select>
                     </div>
                 </div>
-                <div id="tel">
-                    <label id="label_tel">연락처</label>
-                    <input type="number" id="input_tel" tabindex="4" inputmode="numeric" oninput="limitInputLength(this)"/>
+                <div id="weight">
+                    <label>중량</label>
+                    <div>
+                        <input type="text" id="input_weight" value="0" tabindex="4" oninput="numFormat(this)" onfocus="removeDefault(this)"/>
+                        <select id="select_weight_unit" tabindex="5" onfocus="wunitChange(this)">
+                        </select>
+                    </div>
                 </div>
-                <div id="addr">
-                    <label id="label_addr">주소</label>
-                    <input type="text" id="input_addr" tabindex="5"/>
+                <div id="remark">
+                    <label>비고</label>
+                    <textarea id="remark_content" tabindex="6"></textarea>
                 </div>
                 <div id="addBtn">
-                    <button type="button" id="add_btn" class="addBtn" tabindex="6" onclick="addData()">추가</button>
-                    <button type="reset" id="reset_btn" tabindex="7" onclick="clickReset()">초기화</button>
+                    <button type="button" id="add_btn" class="addBtn" tabindex="7" onclick="addData()">추가</button>
+                    <button type="reset" id="reset_btn" tabindex="8" onclick="clickReset()">초기화</button>
                 </div>
             </div>
         </form>
@@ -640,22 +626,20 @@
                 <table id="data_table">
                     <thead>
                     <tr>
-                        <th>거래처명</th>
-                        <th>거래처코드</th>
-                        <th>사업자등록번호</th>
-                        <th>거래처유형</th>
-                        <th>연락처</th>
-                        <th>주소</th>
+                        <th>자재명</th>
+                        <th>자재 코드</th>
+                        <th>자재 유형</th>
+                        <th>중량</th>
+                        <th>비고</th>
                     </tr>
                     </thead>
                     <tbody id="tbody">
                     <tr style = "height: 2rem;">
                         <td class="name"></td>
                         <td class="code"></td>
-                        <td class="no"></td>
                         <td class="type"></td>
-                        <td class="tel"></td>
-                        <td class="addr"></td>
+                        <td class="weight"></td>
+                        <td class="remark"></td>
                     </tr>
                     </tbody>
                 </table>

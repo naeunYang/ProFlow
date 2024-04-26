@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>ProFlow 거래처조회</title>
+    <title>ProFlow 자재조회</title>
     <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
     <style>
         html {
@@ -113,7 +113,7 @@
         }
 
         #cnt #option select{
-            width: 6.3rem;
+            width: 5.5rem;
             height: 2.5rem;
             font-size: 0.9rem;
             text-align: center;
@@ -269,7 +269,6 @@
             text-overflow: ellipsis;
             max-width: 10.5rem;
             padding: 0.3rem;
-            font-size: 1rem;
         }
 
         #table tbody .name .updateBtn{
@@ -301,44 +300,39 @@
             white-space: nowrap;
         }
 
-        #table tbody .no{
-            text-align: center;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
         #table tbody .type{
             text-align: center;
             overflow: hidden;
             text-overflow: ellipsis;
+            font-size: 1rem;
         }
 
-        #table tbody .tel{
+        #table tbody .weight{
             overflow: hidden;
             text-overflow: ellipsis;
             position: relative;
-            text-align: center;
         }
 
-        #table tbody .tel div{
+        #table tbody .weight div{
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
-            text-align: center;
+            text-align: right;
+            padding-right: 0.5rem;
         }
 
-        #table tbody .addr{
+        #table tbody .remark{
             text-align: left;
             overflow: hidden;
             text-overflow: ellipsis;
         }
 
-        #table tbody .addr div{
+        #table tbody .remark div{
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
             padding-left: 0.5rem;
-            font-size: 0.9rem;
+            font-size: 1rem;
         }
 
         ::-webkit-scrollbar {
@@ -385,7 +379,7 @@
         }
 
     </style>
-    <script src="/js/customer_script.js"></script>
+    <script src="/js/material_script.js"></script>
 </head>
 <body>
 <div id="customContextMenu" class="context-menu">
@@ -413,47 +407,45 @@
 <div id="cnt">
     <div id="option">
         <select onchange="optionChange(this)">
-            <option value="name">거래처명</option>
-            <option value="code">거래처코드</option>
-            <option value="type">거래처유형</option>
+            <option value="name">자재명</option>
+            <option value="code">자재코드</option>
+            <option value="type">자재유형</option>
         </select>
         <div id="search">
             <img src="/image/magnifier2.png" id="magnifier"/>
-            <input type="text" name="search" placeholder="거래처 검색하세요." autocomplete="off" id="searchInput" oninput="searchEvent(event)">
+            <input type="text" name="search" placeholder="자재를 검색하세요." autocomplete="off" id="searchInput" oninput="searchEvent(event)">
             <img src="/image/xBtn.png" id="xbtn" onclick="clearSearchInput()"/>
         </div>
     </div>
     <div id="insert">
-        <a th:href="@{/customerInsert}"><button type="button" id="insert_product">거래처 등록</button></a>
+        <a th:href="@{/materialInsert}"><button type="button" id="insert_product">자재 등록</button></a>
     </div>
 </div>
 <div id="label">
-    <label>거래처 현황&nbsp;&nbsp;<span id="customerCount"></span>건</label>
+    <label>자재 현황&nbsp;&nbsp;<span id="materialCount"></span>건</label>
 </div>
 <div id="table">
     <table id="data_table">
         <thead>
         <tr>
-            <th style="width: 13.8rem; border-top-left-radius: 0.5rem"><input type="checkbox" id="checkBtnHead" onchange="checkChangeHead(this)"/>거래처명</th>
-            <th style="width: 16rem;">거래처 코드</th>
-            <th style="width: 14.2rem;">사업자등록번호</th>
-            <th style="width: 14.6rem;">거래처 유형</th>
-            <th style="width: 12.6rem;">연락처</th>
-            <th style="width: 30.3rem; border-top-right-radius: 0.5rem">주소</th>
+            <th style="width: 13.8rem; border-top-left-radius: 0.5rem"><input type="checkbox" id="checkBtnHead" onchange="checkChangeHead(this)"/>자재명</th>
+            <th style="width: 16rem;">자재 코드</th>
+            <th style="width: 14.2rem;">자재 유형</th>
+            <th style="width: 12.6rem;">중량</th>
+            <th style="width: 30.3rem; border-top-right-radius: 0.5rem">비고</th>
         </tr>
         </thead>
         <tbody id="tbody">
-        <tr th:each="customer : ${customers}">
+        <tr th:each="material : ${materials}">
             <td class="name">
-                <input type="checkbox" class="checkBtn" th:attr="onchange=|checkChange(this, '${customer.code}')|"/>
-                <div th:text="${customer.name}"></div>
+                <input type="checkbox" class="checkBtn" th:attr="onchange=|checkChange(this, '${material.code}')|"/>
+                <div th:text="${material.name}"></div>
                 <img src="/image/update.png" class="updateBtn" onclick="updateMode(this)"/>
             </td>
-            <td class="code"><div th:text="${customer.code}"></div></td>
-            <td class="no" th:text="${customer.no}"></td>
-            <td class="type" th:text="${customer.type}"></td>
-            <td class="tel"><div th:text="${customer.tel}"></div></td>
-            <td class="addr"><div th:text="${customer.addr}"></div></td>
+            <td class="code"><div th:text="${material.code}"></div></td>
+            <td class="type" th:text="${material.type}"></td>
+            <td class="weight"><div th:text="${material.weight}"></div></td>
+            <td class="remark"><div th:text="${material.remark}"></div></td>
         </tr>
         </tbody>
     </table>
