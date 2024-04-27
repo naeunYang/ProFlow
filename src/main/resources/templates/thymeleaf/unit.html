@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>ProFlow 제품조회</title>
+    <title>ProFlow 단위조회</title>
     <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
     <style>
         html {
@@ -98,7 +98,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            width: 80%;
+            width: 50%;
             margin: 1rem auto 0rem auto;
             font-size: 1rem;
             letter-spacing: 0px;
@@ -113,41 +113,13 @@
         }
 
         #cnt #option select{
-            width: 5.5rem;
+            width: 7.5rem;
             height: 2.5rem;
             font-size: 0.9rem;
             text-align: center;
             border: #a6a6a6 1px solid;
             border-radius: 0.3rem;
             margin-right: 0.8em;
-        }
-
-        #cnt #option #search{
-            width: 20rem;
-            border: #a6a6a6 1px solid;
-            border-radius: 0.3rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            color: #a6a6a6;
-        }
-
-        #cnt #option #search #magnifier{
-            margin: 0rem 0.5rem;
-        }
-
-        #cnt #option #search input{
-            width: 15rem;
-            height: 2.5rem;
-            border: transparent;
-            outline: none;
-            font-size: 0.9rem;
-        }
-
-        #cnt #option #search #xbtn{
-            margin: 0rem 0.5rem;
-            width: 1.4rem;
-            cursor: pointer;
         }
 
         #cnt #insert_product{
@@ -166,7 +138,7 @@
             display: flex;
             justify-content: flex-end;
             align-items: center;
-            width: 80%;
+            width: 50%;
             margin: 0rem auto;
             font-size: 1rem;
             letter-spacing: 0px;
@@ -175,7 +147,7 @@
         #table{
             display: flex;
             justify-content: center;
-            width: 80%;
+            width: 50%;
             max-height: 50rem;
             margin: 0 auto;
             border-radius: 0.5rem;
@@ -242,16 +214,15 @@
             background-color: #D8E7F3;
         }
 
-        #table tbody .name{
-            text-align: left;
-            padding-left: 1.7rem;
+        #table tbody .mcname{
+            text-align: center;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
             position: relative;
         }
 
-        #table tbody .name .checkBtn{
+        #table tbody .mcname .checkBtn{
             display: none;
             position: absolute;
             left: 0.3rem;
@@ -262,7 +233,8 @@
             display: inline-block;
         }
 
-        #table tbody .name div{
+        #table tbody .mcname div{
+            text-align: center;
             color: black;
             font-weight: 550;
             overflow: hidden;
@@ -271,7 +243,7 @@
             padding: 0.3rem;
         }
 
-        #table tbody .name .updateBtn{
+        #table tbody .mcname .updateBtn{
             width: 1.3rem;
             cursor: pointer;
             display: none;
@@ -286,59 +258,24 @@
             display: inline-block;
         }
 
-        #table tbody .code{
+        #table tbody .sccode{
             text-align: center;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
         }
 
-        #table tbody .code div{
+        #table tbody .sccode div{
             width: 100%;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
         }
 
-        #table tbody .type{
+        #table tbody .scname{
             text-align: center;
             overflow: hidden;
             text-overflow: ellipsis;
-            font-size: 1rem;
-        }
-
-        #table tbody .unit{
-            text-align: center;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        #table tbody .weight{
-            overflow: hidden;
-            text-overflow: ellipsis;
-            position: relative;
-        }
-
-        #table tbody .weight div{
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            text-align: right;
-            padding-right: 0.5rem;
-        }
-
-        #table tbody .remark{
-            text-align: left;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        #table tbody .remark div{
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            padding-left: 0.5rem;
-            font-size: 1rem;
         }
 
         ::-webkit-scrollbar {
@@ -385,7 +322,7 @@
         }
 
     </style>
-    <script src="/js/product_script.js"></script>
+    <script src="/js/unit_script.js"></script>
 </head>
 <body>
 <div id="customContextMenu" class="context-menu">
@@ -413,48 +350,42 @@
 <div id="cnt">
     <div id="option">
         <select onchange="optionChange(this)">
-            <option value="name">제품명</option>
-            <option value="code">제품코드</option>
-            <option value="type">제품유형</option>
+            <option value="">전체</option>
+            <th:block th:each="category : ${categoryList}">
+                <option th:value="${category.mc_code}" th:text="${category.mc_name}">Category Name</option>
+            </th:block>
         </select>
-        <div id="search">
-            <img src="/image/magnifier2.png" id="magnifier"/>
-            <input type="text" name="search" placeholder="제품을 검색하세요." autocomplete="off" id="searchInput" oninput="searchEvent(event)">
-            <img src="/image/xBtn.png" id="xbtn" onclick="clearSearchInput()"/>
-        </div>
     </div>
     <div id="insert">
-        <a th:href="@{/productInsert}"><button type="button" id="insert_product">제품 등록</button></a>
+        <a th:href="@{/unitInsert}"><button type="button" id="insert_product">단위 등록</button></a>
     </div>
 </div>
 <div id="label">
-<!--    <label>제품 현황&nbsp;&nbsp;<span th:text="${cnt}"></span>건</label>-->
-    <label>제품 현황&nbsp;&nbsp;<span id="productCount"></span>건</label>
+    <label>단위 현황&nbsp;&nbsp;<span id="categoryCount"></span>건</label>
 </div>
 <div id="table">
     <table id="data_table">
         <thead>
         <tr>
-            <th style="width: 13.8rem; border-top-left-radius: 0.5rem"><input type="checkbox" id="checkBtnHead" onchange="checkChangeHead(this)"/>제품명</th>
-            <th style="width: 16rem;">제품 코드</th>
-            <th style="width: 14.2rem;">제품 유형</th>
-            <th style="width: 14.6rem;">단위</th>
-            <th style="width: 12.6rem;">중량</th>
-            <th style="width: 30.3rem; border-top-right-radius: 0.5rem">비고</th>
+            <th style="width: 13.8rem; border-top-left-radius: 0.5rem"><input type="checkbox" id="checkBtnHead" onchange="checkChangeHead(this)"/>대분류</th>
+            <th style="width: 16rem;">분류코드</th>
+            <th style="width: 16rem;">소분류</th>
         </tr>
         </thead>
         <tbody id="tbody">
-        <tr th:each="product : ${products}">
-            <td class="name">
-                <input type="checkbox" class="checkBtn" th:attr="onchange=|checkChange(this, '${product.code}')|"/>
-                <div th:text="${product.name}"></div>
+        <tr th:each="category : ${categorys}">
+            <td class="mcname">
+                <input type="checkbox" class="checkBtn" th:attr="onchange=|checkChange(this, '${category.sc_code}')|"/>
+                <div th:text="${category.mc_name}"></div>
                 <img src="/image/update.png" class="updateBtn" onclick="updateMode(this)"/>
             </td>
-            <td class="code"><div th:text="${product.code}"></div></td>
-            <td class="type" th:text="${product.type}"></td>
-            <td class="unit" th:text="${product.unit}"></td>
-            <td class="weight"><div th:text="${product.weight}"></div></td>
-            <td class="remark"><div th:text="${product.remark}"></div></td>
+<!--            <td th:if="${iterStat.index == 0 or !category.mc_name.equals(categorys[iterStat.index - 1].mc_name)}" class="mcname" th:rowspan="${category.rowSpan}">
+                <input type="checkbox" class="checkBtn" th:attr="onchange=|checkChange(this, '${category.sc_code}')|"/>
+                <div th:text="${category.mc_name}"></div>
+                <img src="/image/update.png" class="updateBtn" onclick="updateMode(this)"/>
+            </td>-->
+            <td class="sccode"><div th:text="${category.sc_code}"></div></td>
+            <td class="scname" th:text="${category.sc_name}"></td>
         </tr>
         </tbody>
     </table>

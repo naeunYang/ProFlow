@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>ProFlow 자재등록</title>
+    <title>ProFlow 단위등록</title>
     <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
     <style>
         html {
@@ -112,41 +112,13 @@
         }
 
         #cnt #option select{
-            width: 5.5rem;
+            width: 7.5rem;
             height: 2.5rem;
             font-size: 0.9rem;
             text-align: center;
             border: #a6a6a6 1px solid;
             border-radius: 0.3rem;
             margin-right: 0.8em;
-        }
-
-        #cnt #option #search{
-            width: 20rem;
-            border: #a6a6a6 1px solid;
-            border-radius: 0.3rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            color: #a6a6a6;
-        }
-
-        #cnt #option #search #magnifier{
-            margin: 0rem 0.5rem 0.1rem 0.5rem;
-        }
-
-        #cnt #option #search input{
-            width: 15rem;
-            height: 2.5rem;
-            border: transparent;
-            outline: none;
-            font-size: 0.9rem;
-        }
-
-        #cnt #option #search #xbtn{
-            margin: 0rem 0.5rem;
-            width: 1.4rem;
-            cursor: pointer;
         }
 
         #cnt #insert_product{
@@ -233,9 +205,10 @@
         }
 
         #input #info #add_info{
-            width: 50%;
+            width: 100%;
             height: 39rem;
-            padding-left: 5rem;
+            padding-left: 8rem;
+            padding-top: 5rem;
         }
 
         #input #info #add_info #name{
@@ -257,7 +230,7 @@
         }
 
         #input #info #add_info #type{
-            width: 30rem;
+            width: 22.5rem;
             height: 5rem;
             margin: 0.5rem 0.5rem 1rem 0.5rem;
             display: flex;
@@ -271,7 +244,7 @@
         }
 
         #input #info #add_info #type #item_type select{
-            width: 8rem;
+            width: 10rem;
             height: 2rem;
             font-size: 1rem;
             text-align: center;
@@ -280,60 +253,12 @@
             margin-right: 0.8em;
             display: block;
             margin-top: 0.5rem;
-        }
-
-        #input #info #add_info #weight{
-            width: 30rem;
-            height: 5rem;
-            margin: 0.5rem 0.5rem 1rem 0.5rem;
-            display: block;
-        }
-
-        #input #info #add_info #weight #input_weight{
-            outline: none;
-            width: 15rem;
-            height: 2rem;
-            font-size: 1.1rem;
-            text-align: right;
-        }
-
-        #input #info #add_info #weight select{
-            width: 7rem;
-            height: 2rem;
-            font-size: 1rem;
-            text-align: center;
-            border: #a6a6a6 1px solid;
-            border-radius: 0.3rem;
-            margin-left: 0.2rem;
-            margin-right: 0.8em;
-            margin-top: 0.5rem;
-        }
-
-        #input #info #add_info #remark{
-            width: 30rem;
-            height: 13rem;
-            margin: 0.5rem 0.5rem 1rem 0.5rem;
-            display: block;
-        }
-
-        #input #info #add_info #remark label{
-            display: block;
-            margin-bottom: 0.5rem;
-        }
-
-        #input #info #add_info #remark #remark_content{
-            resize: none;
-            width: 100%;
-            height: 10rem;
-            outline: none;
-            font-size: 1.1rem;
-            font-family: 'Spoqa Han Sans Neo', 'sans-serif';
         }
 
         #input #info #add_info #addBtn{
-            width: 30rem;
+            width: 22.5rem;
             height: auto;
-            margin: 0.5rem 0.5rem 1rem 0.5rem;
+            margin: 2rem 0.5rem 1rem 0.5rem;
             text-align: center;
         }
 
@@ -423,7 +348,7 @@
             cursor: pointer;
         }
 
-        #input #info #add_table #table #data_table tbody .name{
+        #input #info #add_table #table #data_table tbody .mcname{
             text-align: left;
             padding-left: 1rem;
             white-space: nowrap;
@@ -431,7 +356,7 @@
             width: 9.8rem;
         }
 
-        #input #info #add_table #table #data_table tbody .name div{
+        #input #info #add_table #table #data_table tbody .mcname div{
             color: black;
             font-weight: 550;
             overflow: hidden;
@@ -439,7 +364,7 @@
             max-width: 8rem;
         }
 
-        #input #info #add_table #table #data_table tbody .code{
+        #input #info #add_table #table #data_table tbody .sccode{
             text-align: center;
             width: 9rem;
             overflow: hidden;
@@ -447,43 +372,14 @@
             white-space: nowrap;
         }
 
-        #input #info #add_table #table #data_table tbody .code div{
+        #input #info #add_table #table #data_table tbody .sccode div{
             max-width: 9rem;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
         }
 
-        #input #info #add_table #table #data_table tbody .type{
-            text-align: center;
-            width: 8.2rem;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        #input #info #add_table #table #data_table tbody .unit{
-            text-align: center;
-            width: 8.2rem;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        #input #info #add_table #table #data_table tbody .weight{
-            text-align: right;
-            width: 9.9rem;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-
-        #input #info #add_table #table #data_table tbody .weight div{
-            max-width: 9rem;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-
-        #input #info #add_table #table #data_table tbody .remark{
+        #input #info #add_table #table #data_table tbody .scname{
             text-align: left;
             width: 8.8rem;
             overflow: hidden;
@@ -491,14 +387,14 @@
             position: relative;
         }
 
-        #input #info #add_table #table #data_table tbody .remark div{
-            width: 6rem;
+        #input #info #add_table #table #data_table tbody .scname div{
+            width: 15rem;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
         }
 
-        #input #info #add_table #table #data_table tbody .remark .remove{
+        #input #info #add_table #table #data_table tbody .scname .remove{
             width: 1.5rem;
             cursor: pointer;
             display: none;
@@ -544,7 +440,7 @@
         }
 
     </style>
-    <script src="/js/materialInsert_script.js"></script>
+    <script src="/js/unitInsert_script.js"></script>
 </head>
 <body>
 <div id="header">
@@ -567,57 +463,44 @@
 <div id="cnt">
     <div id="option">
         <select onclick="searchClick()">
-            <option value="name">자재명</option>
-            <option value="code">자재코드</option>
-            <option value="type">자재유형</option>
+            <option value="">전체</option>
+            <th:block th:each="category : ${categoryList}">
+                <option th:value="${category.mc_code}" th:text="${category.mc_name}">Category Name</option>
+            </th:block>
         </select>
-        <div id="search">
-            <img src="/image/magnifier2.png" id="magnifier"/>
-            <input type="text" name="search" id="searchInput" placeholder="자재를 검색하세요." autocomplete="off" onclick="searchClick()">
-            <img src="/image/xBtn.png" id="xbtn"/>
-        </div>
     </div>
     <div id="insert">
-        <a th:href="@{/materialInsert}"><button type="button" id="insert_product">자재 등록</button></a>
+        <a th:href="@{/unitInsert}"><button type="button" id="insert_product">단위 등록</button></a>
     </div>
 </div>
 <div id="label">
-    <label>자재 현황&nbsp;&nbsp;<span th:text="${material_cnt}"></span>건</label>
+    <label>단위 현황&nbsp;&nbsp;<span th:text="${unit_cnt}"></span>건</label>
 </div>
 <div id="input">
     <div id="title">
-        <span>자재 정보 입력</span>
-        <a th:href="@{/material}"><img src="/image/xBtn.png"/></a>
+        <span>단위 정보 입력</span>
+        <a th:href="@{/unit}"><img src="/image/xBtn.png"/></a>
     </div>
     <div id="info">
         <form id="myForm">
             <div id="add_info">
-                <div id="name">
-                    <label id="label_name">자재명</label>
-                    <input type="text" id="input_name" tabindex="1"/>
-                </div>
                 <div id="type">
                     <div id="item_type">
-                        <label>자재유형</label>
-                        <select id="select_type" tabindex="2" onfocus="typeChange(this)">
+                        <label>대분류 선택</label>
+                        <select id="select_type" tabindex="1">
+                            <th:block th:each="category : ${categoryList}">
+                                <option th:value="${category.mc_code}" th:text="${category.mc_name}">Category Name</option>
+                            </th:block>
                         </select>
                     </div>
                 </div>
-                <div id="weight">
-                    <label>중량</label>
-                    <div>
-                        <input type="text" id="input_weight" value="0" tabindex="4" oninput="numFormat(this)" onfocus="removeDefault(this)"/>
-                        <select id="select_weight_unit" tabindex="5" onfocus="wunitChange(this)">
-                        </select>
-                    </div>
-                </div>
-                <div id="remark">
-                    <label>비고</label>
-                    <textarea id="remark_content" tabindex="6"></textarea>
+                <div id="name">
+                    <label id="label_name">소분류명</label>
+                    <input type="text" id="input_name" tabindex="2"/>
                 </div>
                 <div id="addBtn">
-                    <button type="button" id="add_btn" class="addBtn" tabindex="7" onclick="addData()">추가</button>
-                    <button type="reset" id="reset_btn" tabindex="8" onclick="clickReset()">초기화</button>
+                    <button type="button" id="add_btn" class="addBtn" tabindex="6" onclick="addData()">추가</button>
+                    <button type="reset" id="reset_btn" tabindex="7" onclick="clickReset()">초기화</button>
                 </div>
             </div>
         </form>
@@ -626,20 +509,16 @@
                 <table id="data_table">
                     <thead>
                     <tr>
-                        <th>자재명</th>
-                        <th>자재 코드</th>
-                        <th>자재 유형</th>
-                        <th>중량</th>
-                        <th>비고</th>
+                        <th>대분류</th>
+                        <th>소분류 코드</th>
+                        <th>소분류 명</th>
                     </tr>
                     </thead>
                     <tbody id="tbody">
                     <tr style = "height: 2rem;">
-                        <td class="name"></td>
-                        <td class="code"></td>
-                        <td class="type"></td>
-                        <td class="weight"></td>
-                        <td class="remark"></td>
+                        <td class="mcname"></td>
+                        <td class="sccode"></td>
+                        <td class="scname"></td>
                     </tr>
                     </tbody>
                 </table>
