@@ -103,6 +103,7 @@ async function addData() {
 
     //비고
     var remark = document.getElementById('remark_content').value; //비고
+
     var table = document.getElementById('data_table'); //테이블
 
     // 1. 필수 입력 검사

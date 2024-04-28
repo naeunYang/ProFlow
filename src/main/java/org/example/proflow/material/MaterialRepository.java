@@ -17,4 +17,11 @@ public interface MaterialRepository extends JpaRepository<Material, String> {
             "AND (:type IS NULL OR mat.type LIKE %:type%) " +
             "ORDER BY mat.name")
     List<MaterialDTO> findAllByMaterials(@Param("name") String name, @Param("code") String code, @Param("type") String type);
+
+    @Query("SELECT new org.example.proflow.material.MaterialDTO(mat.name, mat.code, sub.sc_name, mat.weight, mat.remark) " +
+            "FROM Material mat " +
+            "LEFT JOIN SubCategory sub ON mat.type = sub.sc_code " +
+            "WHERE (:name IS NULL OR mat.name LIKE %:name%) " +
+            "ORDER BY mat.name")
+    List<MaterialDTO> findAllByMaterials(@Param("name") String name);
 }

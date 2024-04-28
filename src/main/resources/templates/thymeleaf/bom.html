@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>ProFlow 자재조회</title>
+    <title>ProFlow bom조회</title>
     <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
     <style>
         html {
@@ -96,23 +96,21 @@
 
         #cnt{
             display: flex;
-            justify-content: space-between;
+            justify-content: flex-start;
             align-items: center;
             width: 80%;
             margin: 1rem auto 0rem auto;
             font-size: 1rem;
             letter-spacing: 0px;
-            padding: 0.3rem 0rem 0.5rem 0rem;
         }
 
-        #cnt #option{
+        #cnt .option{
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: -2.5rem;
         }
 
-        #cnt #option select{
+        #cnt .option select{
             width: 5.5rem;
             height: 2.5rem;
             font-size: 0.9rem;
@@ -122,8 +120,8 @@
             margin-right: 0.8em;
         }
 
-        #cnt #option #search{
-            width: 20rem;
+        #cnt .option .search{
+            width: 20.1rem;
             border: #a6a6a6 1px solid;
             border-radius: 0.3rem;
             display: flex;
@@ -132,25 +130,29 @@
             color: #a6a6a6;
         }
 
-        #cnt #option #search #magnifier{
+        #cnt .option .search .magnifier{
             margin: 0rem 0.5rem;
         }
 
-        #cnt #option #search input{
-            width: 15rem;
+        #cnt .option .search input{
+            width: 100%;
             height: 2.5rem;
             border: transparent;
             outline: none;
             font-size: 0.9rem;
         }
 
-        #cnt #option #search #xbtn{
+        #cnt .option .search .xbtn{
             margin: 0rem 0.5rem;
             width: 1.4rem;
             cursor: pointer;
         }
 
-        #cnt #insert_product{
+        #cnt #insert{
+            margin-left: 33.9rem;
+        }
+
+        #cnt #insert .btn{
             width: 6.5rem;
             height: 2.4rem;
             background: #428BCA;
@@ -162,27 +164,81 @@
             font-weight: 600;
         }
 
-        #label{
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            width: 80%;
-            margin: 0rem auto;
+        #cnt #label{
             font-size: 1rem;
             letter-spacing: 0px;
+            margin-top: 2rem;
+            margin-left: 13rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         #table{
             display: flex;
-            justify-content: center;
+            justify-content: flex-start;
             width: 80%;
-            max-height: 50rem;
+            height: 49.05rem;
             margin: 0 auto;
-            border-radius: 0.5rem;
             overflow: hidden;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
             overflow-y: auto;
             user-select: none;
+        }
+
+        #table #product_list{
+            width: 20%;
+            height: 49.05rem;
+            border: 1px solid #276090;
+            border-radius: 0.5rem;
+            overflow:auto;
+            padding: 1rem;
+        }
+
+        #table #product_list ul{
+            width: 100%;
+            list-style-type: none;
+        }
+
+        #table #product_list ul li{
+            font-size: 1.2rem;
+            padding: 0.3rem;
+        }
+
+        #table #product_list ul li span{
+            cursor: pointer;
+        }
+
+        #table #product_list ul li img{
+            width: 1.2rem;
+            margin-right: 0.5rem;
+            cursor: pointer;
+        }
+
+        #table #product_list .pro_mat_list{
+            padding-left: 1.5rem;
+        }
+
+        #table #product_list .pro_mat_list li{
+            padding: 0;
+        }
+
+        #table #product_list .pro_mat_list li span{
+            font-size: 1rem;
+        }
+
+        #pro_table{
+            width: 40%;
+            margin-right: 1rem;
+            overflow:auto;
+            max-height:50rem;
+        }
+
+        #mat_table{
+            width: 40%;
+            overflow:auto;
+            max-height:49.05rem;
+            background: #F5F9FC;
         }
 
         #table table {
@@ -205,17 +261,6 @@
             font-weight: normal;
             padding: 0.7rem 0.5rem; /* 셀 안의 여백 설정 */
             border: 1px solid white;
-        }
-
-        #table thead #checkBtnHead{
-            display: none;
-            position: absolute;
-            left: 0.5rem;
-            top: 1rem;
-        }
-
-        #table thead tr:hover #checkBtnHead{
-            display: inline-block;
         }
 
         #table tbody{
@@ -242,24 +287,25 @@
             background-color: #D8E7F3;
         }
 
+        #table tbody .no-click {
+            background-color: #e4e4e4; /* 중복 시 배경색 */
+        }
+        #table tbody .no-click:nth-child(even) {
+            background-color: #e4e4e4;
+        }
+
+        #table tbody .no-click:hover {
+            background-color: #e4e4e4;
+        }
+
         #table tbody .name{
             text-align: left;
-            padding-left: 1.7rem;
+            padding-left: 1rem;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
             position: relative;
-        }
-
-        #table tbody .name .checkBtn{
-            display: none;
-            position: absolute;
-            left: 0.3rem;
-            top: 0.6rem;
-        }
-
-        #table tbody tr:hover .checkBtn{
-            display: inline-block;
+            font-weight: 550;
         }
 
         #table tbody .name div{
@@ -269,21 +315,6 @@
             text-overflow: ellipsis;
             max-width: 10.5rem;
             padding: 0.3rem;
-        }
-
-        #table tbody .name .updateBtn{
-            width: 1.3rem;
-            cursor: pointer;
-            display: none;
-            z-index: 1000;
-            position: absolute;
-            right: 0;
-            top: 0.45rem;
-            margin-right: 0.3rem;
-        }
-
-        #table tbody tr:hover .updateBtn {
-            display: inline-block;
         }
 
         #table tbody .code{
@@ -321,22 +352,27 @@
             padding-right: 0.5rem;
         }
 
-        #table tbody .remark{
+        #table tbody .qty{
             text-align: left;
             overflow: hidden;
             text-overflow: ellipsis;
+            padding-right: 1rem;
+            position: relative;
+            cursor: pointer;
         }
 
-        #table tbody .remark div{
+        #table tbody .qty div{
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
-            padding-left: 0.5rem;
-            font-size: 1rem;
+            position: absolute;
+            right: 0;
+            top: 0.3rem;
+            margin-right: 0.3rem;
         }
 
         ::-webkit-scrollbar {
-            width: 0.5rem;
+            width: 0.3rem;
         }
 
         /* 스크롤바의 track(트랙)에 스타일을 적용합니다. */
@@ -379,7 +415,7 @@
         }
 
     </style>
-    <script src="/js/material_script.js"></script>
+    <script src="/js/bom_script.js"></script>
 </head>
 <body>
 <div id="customContextMenu" class="context-menu">
@@ -405,50 +441,82 @@
     </div>
 </div>
 <div id="cnt">
-    <div id="option">
-        <select onchange="optionChange(this)">
-            <option value="name">자재명</option>
-            <option value="code">자재코드</option>
-            <option value="type">자재유형</option>
-        </select>
-        <div id="search">
-            <img src="/image/magnifier2.png" id="magnifier"/>
-            <input type="text" name="search" placeholder="자재를 검색하세요." autocomplete="off" id="searchInput" oninput="searchEvent(event)">
-            <img src="/image/xBtn.png" id="xbtn" onclick="clearSearchInput()"/>
+    <div class="option">
+        <div class="search">
+            <img src="/image/magnifier2.png" class="magnifier"/>
+            <input type="text" name="search" placeholder="제품을 검색하세요." autocomplete="off" id="searchPro" class="searchInput" oninput="searchEventPro(event)">
+            <img src="/image/xBtn.png" class="xbtn" onclick="clearSearchProInput()"/>
         </div>
     </div>
     <div id="insert">
-        <a th:href="@{/materialInsert}"><button type="button" id="insert_product">자재 등록</button></a>
+        <button type="button" class="btn" onclick="save()">저장</button>
+    </div>
+    <div class="option" style="margin-left: 1.3rem;">
+        <div class="search">
+            <img src="/image/magnifier2.png" class="magnifier"/>
+            <input type="text" name="search" placeholder="자재 검색하세요." autocomplete="off" id="searchMat" class="searchInput" oninput="searchEventMat(event)">
+            <img src="/image/xBtn.png" class="xbtn" onclick="clearSearchMatInput()"/>
+        </div>
+    </div>
+    <div id="label">
+        <label>자재 현황&nbsp;&nbsp;<span id="materialCnt"></span>건</label>
     </div>
 </div>
-<div id="label">
-    <label>자재 현황&nbsp;&nbsp;<span id="materialCount"></span>건</label>
-</div>
 <div id="table">
-    <table id="data_table">
-        <thead>
-        <tr>
-            <th style="width: 13.8rem; border-top-left-radius: 0.5rem"><input type="checkbox" id="checkBtnHead" onchange="checkChangeHead(this)"/>자재명</th>
-            <th style="width: 16rem;">자재 코드</th>
-            <th style="width: 14.2rem;">자재 유형</th>
-            <th style="width: 12.6rem;">중량</th>
-            <th style="width: 30.3rem; border-top-right-radius: 0.5rem">비고</th>
-        </tr>
-        </thead>
-        <tbody id="tbody">
-        <tr th:each="material : ${materials}">
-            <td class="name">
-                <input type="checkbox" class="checkBtn" th:attr="onchange=|checkChange(this, '${material.code}')|"/>
-                <div th:text="${material.name}"></div>
-                <img src="/image/update.png" class="updateBtn" onclick="updateMode(this)"/>
-            </td>
-            <td class="code"><div th:text="${material.code}"></div></td>
-            <td class="type" th:text="${material.type}"></td>
-            <td class="weight"><div th:text="${material.weight}"></div></td>
-            <td class="remark"><div th:text="${material.remark}"></div></td>
-        </tr>
-        </tbody>
-    </table>
+    <div id="product_list">
+        <ul id="pro_list">
+            <li id="li" th:each="product : ${products}" onclick="proNameClick(this)">
+                <img id="headerImg" src="/image/plus.png" onclick="proImgClick(event)"/>
+                <span th:text="${product.name}"></span>
+            </li>
+        </ul>
+    </div>
+    <div id="pro_table">
+        <table class="data_table" id="table1">
+            <thead>
+            <tr>
+                <th style="width: 11rem; border-top-left-radius: 0.5rem">자재명</th>
+                <th style="width: 13rem;">자재 코드</th>
+                <th style="width: 8rem;">자재 유형</th>
+                <th style="border-top-right-radius: 0.5rem">수량</th>
+            </tr>
+            </thead>
+            <tbody class="tbody">
+            <tbody id="tbody">
+            <tr th:each="i : ${#numbers.sequence(1, 23)}" style = "height: 2rem;">
+                <td class="name"></td>
+                <td class="code"></td>
+                <td class="type"></td>
+                <td class="qty" ondblclick="qtyClick(this)"></td>
+            </tr>
+            </tbody>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="mat_table">
+        <table class="data_table" id="table2">
+            <thead>
+            <tr>
+                <th style="width: 11rem; border-top-left-radius: 0.5rem">자재명</th>
+                <th style="width: 13rem;">자재 코드</th>
+                <th style="width: 8rem;">자재 유형</th>
+                <th style="border-top-right-radius: 0.5rem">중량</th>
+            </tr>
+            </thead>
+            <tbody class="tbody" id="table2_tbody">
+            <tr style="cursor: pointer" th:each="material : ${materials}" onclick="rowClick(this)">
+                <td class="name">
+                    <div th:text="${material.name}"></div>
+                </td>
+                <td class="code"><div th:text="${material.code}"></div></td>
+                <td class="type" th:text="${material.type}"></td>
+                <td class="weight"><div th:text="${material.weight}"></div></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
 </div>
 
 

@@ -27,5 +27,13 @@ public interface ProductRepository extends JpaRepository<Product, String> {
             "ORDER BY pro.name")
     List<ProductDTO> findAllByProducts(@Param("name") String name, @Param("code") String code, @Param("type") String type);
 
+    @Query("SELECT new org.example.proflow.product.ProductDTO(pro.name, pro.code, sub.sc_name, sub1.sc_name, pro.weight, pro.remark) " +
+            "FROM Product pro " +
+            "LEFT JOIN SubCategory sub ON pro.type = sub.sc_code " +
+            "LEFT JOIN SubCategory sub1 ON pro.unit = sub1.sc_code " +
+            "WHERE (:name IS NULL OR pro.name LIKE %:name%) " +
+            "ORDER BY pro.name")
+    List<ProductDTO> findAllByProducts(@Param("name") String name);
+
 }
 
