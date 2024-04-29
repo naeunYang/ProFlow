@@ -5,6 +5,7 @@ import org.example.proflow.category.SubCategory;
 import org.example.proflow.category.SubCategoryRepository;
 import org.example.proflow.login.Member;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -76,8 +77,16 @@ public class ProductController {
     // 삭제
     @PostMapping("/products/delete")
     public ResponseEntity<?> deleteProducts(@RequestBody List<String> codes){
-        productRepository.deleteAllById(codes);
-        return ResponseEntity.ok().body("{\"message\":\"Deletion successful\"}");
+        try {
+            productRepository.deleteAllById(codes);
+            return ResponseEntity.ok().body("{\"message\":\"Deletion successful\"}");
+        } catch (DataIntegrityViolationException e) {
+            // 무결성 제약조건 위배 처리
+            return ResponseEntity.badRequest().body("{\"error\":\"Bom이 등록된 제품은 삭제할 수 없습니다.\"}");
+        } catch (Exception e) {
+            // 기타 예외 처리
+            return ResponseEntity.internalServerError().body("{\"error\":\"An unexpected error occurred.\"}");
+        }
     }
 
     // 수정

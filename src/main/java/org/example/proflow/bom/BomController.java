@@ -42,7 +42,7 @@ public class BomController {
     @GetMapping("/bom")
     public String getAllMaterials(HttpSession session, Model model) {
 
-/*        // 사용자 세션
+        // 사용자 세션
         user = (Member) session.getAttribute("user");
         if (user != null) {
             model.addAttribute("userName", user.getName());
@@ -50,7 +50,7 @@ public class BomController {
 
         if (user == null) {
             return "redirect:/login"; // 로그인 페이지 경로 변경
-        }*/
+        }
 
         // 자재 리스트
         List<MaterialDTO> materials = materialRepository.findAllByMaterials(null);
@@ -98,9 +98,17 @@ public class BomController {
     // 데이터 저장
     @PostMapping("/bom/save")
     public ResponseEntity<?> deleteCustomers(@RequestBody List<Bom> boms){
-        bomRepository.deleteAll(); //전체 삭제
-        bomRepository.saveAll(boms); //리스트 저장
+        //기존 데이터 전부 삭제
+        for (Bom bom : boms) {
+            bomRepository.deleteByBom(bom.getProCode());
+            System.out.println("받아온 값 : " + bom.getProCode() + ", " + bom.getMatCode() + ", " + bom.getQty());
+
+            if(bom.getMatCode() == null) return ResponseEntity.ok().body("{\"message\":\"마지막 행 삭제\"}");
+        }
+        //저장 프로시저 실행
+        bomService.insertMaterialList(boms);
 
         return ResponseEntity.ok().body("{\"message\":\"Deletion successful\"}");
     }
+
 }

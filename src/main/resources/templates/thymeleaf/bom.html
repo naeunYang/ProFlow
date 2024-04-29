@@ -465,7 +465,7 @@
 <div id="table">
     <div id="product_list">
         <ul id="pro_list">
-            <li id="li" th:each="product : ${products}" onclick="proNameClick(this)">
+            <li id="li" th:each="product : ${products}" onclick="proNameClick(this)" th:data-product-code="${product.code}">
                 <img id="headerImg" src="/image/plus.png" onclick="proImgClick(event)"/>
                 <span th:text="${product.name}"></span>
             </li>

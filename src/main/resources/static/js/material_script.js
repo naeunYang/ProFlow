@@ -306,16 +306,22 @@ function deleteBtn(){
                 headers: {'Content-Type' : 'application/json',},
                 body: JSON.stringify(checkList) //json문자열로 변환
             })
-                .then(response => response.json()) // 응답을 JSON으로 변환
+                .then(response => {
+                    if (!response.ok) {
+                        throw response;
+                    }
+                    return response.json(); // 응답을 JSON으로 변환
+                }) // 응답을 JSON으로 변환
                 .then(data => {
-                    console.log('Success:', data);
+                    alert("삭제되었습니다.");
                     window.location.reload();
                 })
                 .catch((error) => {
-                    console.error('Error:', error);
+                    error.json().then(errorMessage => {
+                        alert(errorMessage.error || "알 수 없는 에러가 발생하였습니다.");
+                    });
                 });
 
-            alert("삭제되었습니다.");
             checkList = [];
 
             // 헤더 체크박스 초기화

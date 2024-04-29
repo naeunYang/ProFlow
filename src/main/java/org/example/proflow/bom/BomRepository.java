@@ -1,6 +1,8 @@
 package org.example.proflow.bom;
 
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -17,5 +19,8 @@ public interface BomRepository extends JpaRepository<Bom, String> {
             "ORDER BY mat.name")
     List<BomDTO> findAllByBoms(@Param("name") String name);
 
-
+    @Modifying
+    @Transactional
+    @Query("DELETE FROM Bom bom WHERE bom.proCode = :proCode")
+    void deleteByBom(@Param("proCode") String proCode);
 }

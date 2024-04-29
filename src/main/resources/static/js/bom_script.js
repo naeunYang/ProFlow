@@ -192,11 +192,11 @@ function cnt() {
 
 // 제품명 클릭 이벤트
 var proName = "";
+var proCode = "";
 async function proNameClick(clickedLi){
-
-    // 선택된 제품명
+    // 선택된 제품명, 제품코드
     proName = clickedLi.textContent.trim().split("∟")[0].trim();
-    console.log("클릭 제품명 : " + proName);
+    proCode = clickedLi.getAttribute('data-product-code');
 
     // 선택된 제품명 span
     var pro = clickedLi.querySelector("span");
@@ -220,8 +220,11 @@ async function proNameClick(clickedLi){
 }
 
 // 클릭된 제품의 그리드 세팅
+var matCodeList
 var lastClickedProduct = null; // 마지막으로 클릭된 제품을 추적하기 위한 전역 변수
 function updateTable(bomList, pro){
+    matCodeList = [];
+
     if (lastClickedProduct !== null) {
         // 이전에 클릭된 제품이 있으면, 그 제품의 font-weight를 400으로 설정
         lastClickedProduct.style.fontWeight = "400";
@@ -243,6 +246,8 @@ function updateTable(bomList, pro){
 
     // 그리드에 데이터 세팅
     for (let i = 0; i < bomList.length; i++) {
+        matCodeList.push(bomList[i].matCode);
+
         var newRow;
         if (i + 1 >= rows.length) { // 현재 행의 개수보다 데이터가 더 많은 경우
             newRow = table.insertRow(); // 새로운 행 추가
@@ -581,17 +586,49 @@ function save(){
     var rows = table.getElementsByTagName("tr");
     var boms = [];
 
-    for(var i = 0; i < rows.length; i++){
-        var bom = {
-            name: rows.cells[0].textContent,
-            code: rows.cells[1].textContent,
-            no: rows.cells[2].textContent,
-            type: rows.cells[3].getAttribute("value"),
-            tel: rows.cells[4].textContent,
-            addr: rows.cells[5].textContent
-        };
-        boms.push(bom); // 리스트에 product 객체 추가
+    for(var i=1; i <rows.length; i++){
+        if(rows[i].cells[0].textContent != ""){
+            var firstChild = rows[i].cells[3].firstChild;
+
+            // 첫 번째 자식 요소가 input 태그인 경우 반복문 종료
+            if(firstChild.nodeName === 'INPUT'){
+                alert("수량 입력을 완료해주세요");
+                return;
+            }
+
+            // 첫 번째 자식 요소가 div 태그인 경우, 계속 실행
+            else if(firstChild.nodeName === 'DIV') {
+                var bom = {
+                    bomCode: '',
+                    proCode: proCode,
+                    matCode: rows[i].cells[1].textContent,
+                    qty: rows[i].cells[3].textContent,
+                };
+                boms.push(bom);
+            }
+        }
     }
+
+    if(boms.length === 0){
+        var bom = {
+            proCode: proCode
+        };
+        boms.push(bom);
+    }
+
+    fetch('/bom/save',{
+        method : 'POST',
+        headers: {'Content-Type' : 'application/json',},
+        body: JSON.stringify(boms)
+    })
+        .then(response => response.json())
+        .then(data => {
+            alert("저장이 완료되었습니다.");
+            console.log('Success:', data);
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
 
 }
 
