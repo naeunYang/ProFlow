@@ -248,23 +248,23 @@ function updateMode(UpdateBtn){
     };
 
     // 수정 중일 때 다른 행들의 수정 버튼 안보이게 하기
-    var updateBtns = document.querySelectorAll('.updateBtn');
+    visibleUpBtn();
+
+}
+
+// 수정 중일 때 다른 행들의 수정 버튼 안보이게 하기
+function visibleUpBtn(){
+    var updateBtns = document.querySelectorAll('.updateBtn'); //모든 행의 수정 버튼
     var isUpdateMode = document.body.classList.contains('update-mode');
 
     if(!isUpdateMode){
-        // 업데이트 모드가 아니라면, 모든 업데이트 버튼을 숨김
         updateBtns.forEach(function(btn){
             btn.style.display = 'none';
         });
         document.body.classList.add('update-mode');
     } else {
-        // 이미 업데이트 모드라면, 모든 업데이트 버튼을 다시 보이게 함
-        updateBtns.forEach(function(btn){
-            btn.style.display = 'inline-block';
-        });
         document.body.classList.remove('update-mode'); // 업데이트 모드 비활성화를 위한 클래스 제거
     }
-
 }
 
 // 중량 input의 oninput이벤트(사용자가 입력 필드에 값을 입력할 때마다 발생)
@@ -410,16 +410,29 @@ function enterEvent(event, nameInput, codeInput, typeCombo, weightInput, weightC
             .then(response => response.json())
             .then(data => {
                 console.log('Success:', data);
-                window.location.reload();
+                // 검색 입력 필드의 참조를 가져옵니다.
+                var searchInput = document.getElementById('searchInput');
+                var fakeEvent = {
+                    target: searchInput
+                };
+                searchEvent(fakeEvent);
 
             })
             .catch((error) => {
                 console.error('Error:', error);
             });
+        visibleUpBtn();
     }
     //esc 키
     else if(event.keyCode === 27){
-        window.location.reload();
+        // 검색 입력 필드의 참조를 가져옵니다.
+        var searchInput = document.getElementById('searchInput');
+        var fakeEvent = {
+            target: searchInput
+        };
+        searchEvent(fakeEvent);
+
+        visibleUpBtn();
     }
 }
 

@@ -21,9 +21,9 @@ public interface ProductRepository extends JpaRepository<Product, String> {
             "FROM Product pro " +
             "LEFT JOIN SubCategory sub ON pro.type = sub.sc_code " +
             "LEFT JOIN SubCategory sub1 ON pro.unit = sub1.sc_code " +
-            "WHERE (:name IS NULL OR pro.name LIKE %:name%) " +
-            "AND (:code IS NULL OR pro.code LIKE %:code%) " +
-            "AND (:type IS NULL OR pro.type LIKE %:type%) " +
+            "WHERE (:name IS NULL OR LOWER(pro.name) LIKE LOWER(CONCAT('%', :name, '%'))) " +
+            "AND (:code IS NULL OR LOWER(pro.code) LIKE LOWER(CONCAT('%', :code, '%'))) " +
+            "AND (:type IS NULL OR LOWER(pro.type) LIKE LOWER(CONCAT('%', :type, '%'))) " +
             "ORDER BY pro.name")
     List<ProductDTO> findAllByProducts(@Param("name") String name, @Param("code") String code, @Param("type") String type);
 

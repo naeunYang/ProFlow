@@ -349,7 +349,7 @@
 </div>
 <div id="cnt">
     <div id="option">
-        <select onchange="optionChange(this)">
+        <select id="combo" onchange="optionChange(this)">
             <option value="">전체</option>
             <th:block th:each="category : ${categoryList}">
                 <option th:value="${category.mc_code}" th:text="${category.mc_name}">Category Name</option>
@@ -379,11 +379,6 @@
                 <div th:text="${category.mc_name}"></div>
                 <img src="/image/update.png" class="updateBtn" onclick="updateMode(this)"/>
             </td>
-<!--            <td th:if="${iterStat.index == 0 or !category.mc_name.equals(categorys[iterStat.index - 1].mc_name)}" class="mcname" th:rowspan="${category.rowSpan}">
-                <input type="checkbox" class="checkBtn" th:attr="onchange=|checkChange(this, '${category.sc_code}')|"/>
-                <div th:text="${category.mc_name}"></div>
-                <img src="/image/update.png" class="updateBtn" onclick="updateMode(this)"/>
-            </td>-->
             <td class="sccode"><div th:text="${category.sc_code}"></div></td>
             <td class="scname" th:text="${category.sc_name}"></td>
         </tr>

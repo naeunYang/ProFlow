@@ -12,9 +12,9 @@ public interface MaterialRepository extends JpaRepository<Material, String> {
     @Query("SELECT new org.example.proflow.material.MaterialDTO(mat.name, mat.code, sub.sc_name, mat.weight, mat.remark) " +
             "FROM Material mat " +
             "LEFT JOIN SubCategory sub ON mat.type = sub.sc_code " +
-            "WHERE (:name IS NULL OR mat.name LIKE %:name%) " +
-            "AND (:code IS NULL OR mat.code LIKE %:code%) " +
-            "AND (:type IS NULL OR mat.type LIKE %:type%) " +
+            "WHERE (:name IS NULL OR LOWER(mat.name) LIKE LOWER(CONCAT('%', :name, '%'))) " +
+            "AND (:code IS NULL OR LOWER(mat.code) LIKE LOWER(CONCAT('%', :code, '%'))) " +
+            "AND (:type IS NULL OR LOWER(mat.type) LIKE LOWER(CONCAT('%', :type, '%'))) " +
             "ORDER BY mat.name")
     List<MaterialDTO> findAllByMaterials(@Param("name") String name, @Param("code") String code, @Param("type") String type);
 

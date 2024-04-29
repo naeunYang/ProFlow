@@ -13,9 +13,9 @@ public interface CustomerRepository extends JpaRepository<Customer, String> {
     @Query("SELECT new org.example.proflow.customer.CustomerDTO(cust.name, cust.code, cust.no, sub.sc_name, cust.addr, cust.tel) " +
             "FROM Customer cust " +
             "LEFT JOIN SubCategory sub ON cust.type = sub.sc_code " +
-            "WHERE (:name IS NULL OR cust.name LIKE %:name%) " +
-            "AND (:code IS NULL OR cust.code LIKE %:code%) " +
-            "AND (:type IS NULL OR cust.type LIKE %:type%) " +
+            "WHERE (:name IS NULL OR LOWER(cust.name) LIKE LOWER(CONCAT('%', :name, '%'))) " +
+            "AND (:code IS NULL OR LOWER(cust.code) LIKE LOWER(CONCAT('%', :code, '%'))) " +
+            "AND (:type IS NULL OR LOWER(cust.type) LIKE LOWER(CONCAT('%', :type, '%'))) " +
             "ORDER BY cust.code")
     List<CustomerDTO> findAllByCustomers(@Param("name") String name, @Param("code") String code, @Param("type") String type);
 }
