@@ -1,3 +1,9 @@
+// 페이지 로드
+window.addEventListener("load", async function () {
+    // 제품 검색 창에 포커스
+    document.getElementById('userName').focus();
+});
+
 function loginClick(){
     var username = document.getElementById('userName').value;
     var password = document.getElementById('password').value;
