@@ -82,7 +82,7 @@
         <a th:href="@{/login}" id="proFlow"><span style="color: #2E75B6;">P</span>ro<span style="color: #2E75B6;">F</span>low</a>
         <div id = "login">
             <input type="text" id="userName" name="userName" placeholder="User ID" autocomplete="off"><br>
-            <input type="password" id="password" name="password" placeholder="Password" autocomplete="off">
+            <input type="password" id="password" name="password" placeholder="Password" autocomplete="off" onkeydown="enterEvent(event)">
         </div>
         <button type="submit" id="loginBtn" onclick="loginClick()">LOGIN</button>
         <div id="signUp">

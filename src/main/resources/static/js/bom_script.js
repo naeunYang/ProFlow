@@ -25,6 +25,8 @@ function duplicationRow(){
 
     table2Rows.forEach(function (row) {
         var nameInRow = row.querySelector('td.name div').innerText.trim();
+        row.style.pointerEvents = "all";
+        row.style.cursor = "pointer";
 
         // table1에 같은 이름이 있으면 배경색 변경
         if (namesInTable1.includes(nameInRow)) {
@@ -32,6 +34,15 @@ function duplicationRow(){
         }else{
             row.classList.remove('no-click');
         }
+    });
+}
+
+function noDuplication(){
+    var table2Rows = table2.querySelectorAll('#table2_tbody tr');
+    table2Rows.forEach(function (row) {
+        row.classList.remove('no-click');
+        row.style.pointerEvents = "none";
+        row.style.cursor = "default";
     });
 }
 
@@ -47,6 +58,41 @@ function clearSearchMatInput(){
     searchEventMat(event);
 }
 
+// 제품 검색 이벤트
+function searchEventPro(event){
+    let keyword = event.target.value;
+
+    if(keyword === undefined)
+        keyword = "";
+
+    var table = document.getElementById('table1'); //테이블
+    var rows = table.rows;
+
+    // 검색 시 그리드 셀 clear
+    for (var i = 1; i < rows.length; i++) {
+        var cells = rows[i].cells;
+        for (var j = 0; j < cells.length; j++) {
+            cells[j].innerHTML = '';
+        }
+    }
+
+    // URL에 쿼리 매개변수를 추가하여 검색 키워드를 서버로 전송
+    const url = new URL('/bompro/search', window.location.origin);
+    url.searchParams.append('keyword', keyword); // 입력값
+
+    fetch(url,{
+        method : 'GET',
+    })
+        .then(response => response.json())
+        .then(products => {
+            updateProTable(products);
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+
+    noDuplication();
+}
 
 // 자재 검색 이벤트
 function searchEventMat(event){
@@ -109,43 +155,19 @@ function updateMatTable(materials){
 
         // 완성된 행을 tbody에 추가합니다.
         tbody.appendChild(tr);
+
+        tr.style.cursor = "pointer";
+        tr.onclick = function () {
+            rowClick(tr);
+        }
     });
 
     cnt();
-}
 
-// 제품 검색 이벤트
-function searchEventPro(event){
-    let keyword = event.target.value;
-
-    if(keyword === undefined)
-        keyword = "";
-
-    var table = document.getElementById('table1'); //테이블
-    var rows = table.rows;
-
-    // 검색 시 그리드 셀 clear
-    for (var i = 1; i < rows.length; i++) {
-        var cells = rows[i].cells;
-        for (var j = 0; j < cells.length; j++) {
-            cells[j].innerHTML = '';
-        }
-    }
-
-    // URL에 쿼리 매개변수를 추가하여 검색 키워드를 서버로 전송
-    const url = new URL('/bompro/search', window.location.origin);
-    url.searchParams.append('keyword', keyword); // 입력값
-
-    fetch(url,{
-        method : 'GET',
-    })
-        .then(response => response.json())
-        .then(products => {
-            updateProTable(products);
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-        });
+    // 자재리스트에 이미 포함된 자재는 배경색 변경 및 리스너 x
+    var table1 = document.getElementById('table1');
+    var table2 = document.getElementById('table2');
+    duplicationRow(table1, table2);
 }
 
 // 검색에 따른 제품 리스트 데이터 변경
@@ -447,7 +469,6 @@ function appendTable(cellValues){
     }
 
     var newRow;
-    console.log("행 수: " + rowLength);
     if (23 >= rowLength) {
         newRow = rows[lastRowWithDataIndex + 1];
     } else {

@@ -104,3 +104,9 @@ function limitInputLength(input){
         input.value = input.value.slice(0, 11);
     }
 }
+
+function enterEvent(event){
+    if(event.keyCode === 13){
+        signUpAlert();
+    }
+}

@@ -39,5 +39,10 @@ function loginClick(){
         .catch((error) => {
             console.error('Error:', error);
         });
+}
 
+function enterEvent(event){
+    if (event.keyCode === 13) {
+        loginClick();
+    }
 }

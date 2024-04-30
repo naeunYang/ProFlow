@@ -116,34 +116,34 @@
         <div style="font-weight: bold; font-size: 2rem; margin-bottom: 3rem;">Sign up</div>
         <div id="id">
             <label style="margin-right: 1.8rem; padding-left: 0.5rem;">User ID</label>
-            <input type="text" id="userName" name="userName" maxlength="25" placeholder="아이디를 입력하세요" autocomplete="off"/>
+            <input type="text" id="userName" name="userName" maxlength="25" placeholder="아이디를 입력하세요" autocomplete="off" onkeydown="enterEvent(event)"/>
         </div>
         <div id="id_msg">중복된 아이디입니다.</div>
 
         <div id="pwd">
             <label style="margin-right: 1.1rem;">Password</label>
-            <input type="password" id="password" name="password" maxlength="40"placeholder="비밀번호를 입력하세요" autocomplete="off"/>
+            <input type="password" id="password" name="password" maxlength="40"placeholder="비밀번호를 입력하세요" autocomplete="off" onkeydown="enterEvent(event)"/>
         </div>
 
         <div id="checkPwd">
             <label style="margin-right: 1.1rem;">&nbsp;&nbsp;Verify<br>Password</label>
-            <input type="password" id="checkpassword" name="checkpassword" maxlength="40" placeholder="비밀번호를 한번 더 입력하세요" autocomplete="off"/>
+            <input type="password" id="checkpassword" name="checkpassword" maxlength="40" placeholder="비밀번호를 한번 더 입력하세요" autocomplete="off" onkeydown="enterEvent(event)"/>
         </div>
         <div id="checkPwd_msg">비밀번호가 일치하지 않습니다.</div>
 
         <div id="nam" style="margin-bottom: 3rem;">
             <label style="margin-right: 2.5rem;">&nbsp;&nbsp;Name</label>
-            <input type="text" id="name" name="name" maxlength="15"placeholder="이름을 입력하세요" autocomplete="off"/>
+            <input type="text" id="name" name="name" maxlength="15"placeholder="이름을 입력하세요" autocomplete="off" onkeydown="enterEvent(event)"/>
         </div>
 
         <div id="num" style="margin-bottom: 3rem;">
             <label style="margin-right: 2.3rem;">&nbsp;&nbsp;Phone</label>
-            <input type="number" inputmode="numeric" id="tel" name="tel" placeholder="전화번호를 입력하세요" autocomplete="off" oninput="limitInputLength(this)"/>
+            <input type="number" inputmode="numeric" id="tel" name="tel" placeholder="전화번호를 입력하세요" autocomplete="off" oninput="limitInputLength(this)" onkeydown="enterEvent(event)"/>
         </div>
 
         <div id="mail" style="margin-bottom: 3rem;">
             <label style="margin-right: 2.3rem;">&nbsp;&nbsp;E-mail</label>
-            <input type="text" id="email" name="mail" maxlength="25" placeholder="이메일을 입력하세요" autocomplete="off"/>
+            <input type="text" id="email" name="mail" maxlength="25" placeholder="이메일을 입력하세요" autocomplete="off" onkeydown="enterEvent(event)"/>
         </div>
         <button type="submit" id="join" onclick="signUpAlert()" style="width: 6rem; height: 2rem; font-size: 1rem;">가입하기</button>
     </div>
