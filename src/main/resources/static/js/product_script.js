@@ -32,6 +32,7 @@ function optionChange(combo){
         search.style.border = "none";
         var typeCombo = document.createElement("select");
         var option1 = new Option('전체', '');
+        typeCombo.id = "typeCombo";
         typeCombo.appendChild(option1);
 
         const url = new URL('/search/typelist', window.location.origin);
@@ -451,12 +452,7 @@ function enterEvent(event, nameInput, codeInput, typeCombo, unitCombo, weightInp
             .then(response => response.json())
             .then(data => {
                 console.log('Success:', data);
-                // 검색 입력 필드의 참조를 가져옵니다.
-                var searchInput = document.getElementById('searchInput');
-                var fakeEvent = {
-                    target: searchInput
-                };
-                searchEvent(fakeEvent);
+                keepSearching(); //검색 유지
 
             })
             .catch((error) => {
@@ -466,15 +462,28 @@ function enterEvent(event, nameInput, codeInput, typeCombo, unitCombo, weightInp
     }
     //esc 키
     else if(event.keyCode === 27){
-        // 검색 입력 필드의 참조를 가져옵니다.
-        var searchInput = document.getElementById('searchInput');
-        var fakeEvent = {
-            target: searchInput
-        };
-        searchEvent(fakeEvent);
-
+        keepSearching(); //검색 유지
         visibleUpBtn();
     }
+}
+
+//키 입력 후 검색 유지
+function keepSearching(){
+    var searchInput = document.getElementById('searchInput');
+    var combo = document.getElementById('typeCombo');
+    var fakeEvent;
+
+    if(combo != null){
+        fakeEvent = {
+            target: combo
+        };
+    }
+    else{
+        fakeEvent = {
+            target: searchInput
+        };
+    }
+    searchEvent(fakeEvent);
 }
 
 // 중복 검사
